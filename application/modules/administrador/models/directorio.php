@@ -12,13 +12,9 @@ class Directorio extends CI_Model {
 	//Realiza el conteo de todas las fuentes del sistema. Es utilizado en el paginador de CodeIgniter del directorio  
 	function contarFuentes($ano_periodo, $mes_periodo){
             $total = 0;
-	    $sql = "SELECT COUNT(EST.nro_establecimiento) AS total
-	            FROM rmmh_admin_control C, rmmh_admin_empresas EMP, rmmh_admin_establecimientos EST
-	            WHERE C.nro_orden = EMP.nro_orden
-	            AND C.nro_orden = EST.nro_orden
-	            AND C.nro_establecimiento = EST.nro_establecimiento
-	            AND C.ano_periodo = $ano_periodo
-	            AND C.mes_periodo = $mes_periodo";
+	    $sql = "SELECT COUNT(EST.id_establecimiento) AS total
+	            FROM txtar_admin_establecimientos EST
+	            ";
 	    $query = $this->db->query($sql);
 	    if ($query->num_rows() > 0){
 	    	foreach($query->result() as $row){
@@ -45,8 +41,8 @@ class Directorio extends CI_Model {
         
         function obtenerUltmoEstablecimiento(){
             $NoEstab = 0;
-	    $sql = "SELECT MAX(nro_establecimiento) AS nro_establecimiento
-	            FROM  rmmh_admin_establecimientos";
+	    $sql = "SELECT MAX(id_establecimiento) AS nro_establecimiento
+	            FROM  txtar_admin_establecimientos";
 	    $query = $this->db->query($sql);
 	    if ($query->num_rows() > 0){
 	    	foreach($query->result() as $row){
@@ -63,44 +59,33 @@ class Directorio extends CI_Model {
 	    $this->load->model("sede");
 	    $this->load->model("subsede");
 	    $fuentes = array();	    	
-	    $sql = "SELECT EM.nro_orden, ES.nro_establecimiento, EM.idproraz, ES.idnomcom, ES.idsigla, ES.iddirecc, ES.idtelno,
-    	               ES.idfaxno, ES.idcorreo, ES.finicial, ES.ffinal, ES.fk_depto, ES.fk_mpio, ES.fk_ciiu, ES.fk_sede, ES.fk_subsede,
-    	               C.fk_novedad, C.fk_estado , ES.tipo_encuesta
-                FROM rmmh_admin_control C, rmmh_admin_empresas EM, rmmh_admin_establecimientos ES
-                WHERE C.nro_orden = EM.nro_orden
-                AND C.nro_orden = ES.nro_orden
-                AND C.nro_establecimiento = ES.nro_establecimiento
-                AND C.ano_periodo = $ano_periodo
-                AND C.mes_periodo = $mes_periodo
-                AND C.nro_orden > 0
-                ORDER BY EM.nro_orden, ES.nro_establecimiento, ES.fk_depto, ES.fk_mpio
+	    $sql = "SELECT ES.id_establecimiento, UPPER(ES.idnomcom) as idnomcom, ES.iddirecc, ES.idtelno,
+    	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, 
+                       CASE WHEN ES.estado_establecimiento = 1 THEN 'Activa'
+            WHEN ES.estado_establecimiento = 0 THEN 'Inactiva'
+            END AS estado_establecimiento	 
+                FROM txtar_admin_establecimientos ES
+                WHERE ES.id_establecimiento > 0
+                ORDER BY ES.id_establecimiento, ES.fk_depto, ES.fk_mpio
                 LIMIT $desde, $hasta";	    
 	    $query = $this->db->query($sql);
 	    if ($query->num_rows() > 0){
 	    	$i = 0;
 	    	foreach($query->result() as $row){
-	    		$fuentes[$i]["nro_orden"] = $row->nro_orden;
-	    		$fuentes[$i]["nro_establecimiento"] = $row->nro_establecimiento;
-	    		$fuentes[$i]["idproraz"] = $row->idproraz;
+	    		$fuentes[$i]["nro_establecimiento"] = $row->id_establecimiento;
 	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
-	    		$fuentes[$i]["idsigla"] = $row->idsigla;
 	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
 	    		$fuentes[$i]["idtelno"] = $row->idtelno;
 	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
 	    		$fuentes[$i]["idcorreo"] = $row->idcorreo;
-	    		$fuentes[$i]["finicial"] = $row->finicial;
-	    		$fuentes[$i]["ffinal"] = $row->ffinal;
+                        $fuentes[$i]["nom_contacto"] = $row->nom_contacto;
 	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
 	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);
-	    		$fuentes[$i]["ciiu"] = $row->fk_ciiu;	    		
-	    		$fuentes[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
-	    		$fuentes[$i]["subsede"] = $this->subsede->nombreSubSede($row->fk_subsede);
-	    		$fuentes[$i]["novedad"] = $row->fk_novedad;
-	    		$fuentes[$i]["estado"] = $row->fk_estado;
-                        $fuentes[$i]["tipo_encuesta"] = $row->tipo_encuesta;
-	    		$i++;    			
+	    		$fuentes[$i]["estado"] = $row->estado_establecimiento	;
+                       $i++;    			
 	    	}
 	    }
+            //echo $sql;
 	    $this->db->close();
 	    return $fuentes;	    	 
 	}

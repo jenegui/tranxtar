@@ -1,13 +1,4 @@
 <form id="frmAgregarFTE" name="frmAgregarFTE" method="post" action="">
-<fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
-<legend><b>Datos Empresa</b></legend>
-	<table>
-	<tr>
-	  <td>Nro. Orden:</td>
-	  <td><input type="text" id="txtNumOrden" name="txtNumOrden" value="" maxlength="11" class="textbox"/></td>
-	</tr>	
-	</table>
-</fieldset>
 <br/>
 <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
 <legend><b>Datos Establecimiento</b></legend>
@@ -23,6 +14,14 @@
 	<tr>
 	  <td>Direcci&oacute;n: </td>
 	  <td><input type="text" id="txtDirEstab" name="txtDirEstab" value="" size="70" class="textbox"/></td>
+	</tr>
+        <tr>
+	  <td>Tel&eacute;fono: </td>
+	  <td><input type="text" id="idtelefono" name="idtelefono" value="" size="70" class="textbox"/></td>
+	</tr>
+        <tr>
+	  <td>Correo electr&oacute;nico: </td>
+	  <td><input type="text" id="idcorreo" name="idcorreo" value="" size="70" class="textbox"/></td>
 	</tr>	
 	<tr>
 	  <td>Departamento: </td>
@@ -45,51 +44,12 @@
 	  </td>    
 	</tr>
 	<tr>
-	  <td>Actividad: </td>
-	  <td><select id="cmbActivEstab" name="cmbActivEstab" class="select" style="width: 570px;">
-	      <option value="-">Seleccione...</option>
-	      <?php for ($i=0; $i<count($actividades); $i++){ ?>
-      	     <option value="<?php echo $actividades[$i]["id"]; ?>"><?php echo $actividades[$i]["id"]; ?>&nbsp;-&nbsp;<?php echo $actividades[$i]["nombre"]; ?></option>
-          <?php } ?>
-	      </select>
-	  </td>    
-	</tr>
-	<tr>
-	  <td>Sede: </td>
-	  <td><select id="cmbSedeEstab" name="cmbSedeEstab" class="select">
-	      <option value="-">Seleccione...</option>
-	      <?php for ($i=0; $i<count($sedes); $i++){ ?>
-      	     <option value="<?php echo $sedes[$i]["id"]; ?>"><?php echo $sedes[$i]["nombre"]; ?></option>
-          <?php } ?>
-	      </select>
-	  </td>    
-	</tr>
-	<tr>
-	  <td>Sub - Sede: </td>
-	  <td><select id="cmbSubSedeEstab" name="cmbSubSedeEstab" class="select">
-	      <option value="-">Seleccione...</option>
-	      <?php for ($i=0; $i<count($subsedes); $i++){ ?>
-      	     <option value="<?php echo $subsedes[$i]["id"]; ?>"><?php echo $subsedes[$i]["nombre"]; ?></option>
-      	  <?php } ?>
-	      </select>
-	  </td>    
-	</tr>
-	<tr>
-	  <td>Inclusi&oacute;n: </td>
-	  <td><select id="cmbInclusion" name="cmbInclusion" class="select">
-	      <option value="-">Seleccione...</option>
-	      <option value="1">Forzosa</option>
-	      <option value="2">Probabil&iacute;stica</option>
-	      </select>
-	  </td>
+	  <td>Nombre del contacto: </td>
+	  <td><input type="text" id="nom_contacto" name="nom_contacto" value="" size="70" class="textbox"/></td>
 	</tr>
         <tr>
-	  <td>Cadena hotelera al  que pertenece: </td>
-	  <td><input type="text" id="nom_cadena" name="nom_cadena" value="" size="70" class="textbox"/></td>
-	</tr>
-        <tr>
-	  <td>Operador hotelero al que pertenece: </td>
-	  <td><input type="text" id="nom_operador" name="nom_operador" value="" size="70" class="textbox"/></td>
+	  <td>Observaciones: </td>
+	  <td><textarea name="observaciones" rows="5" cols="50"></textarea></td>
 	</tr>
 	</table>
 </fieldset>

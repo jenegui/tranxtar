@@ -32,7 +32,7 @@ class Login extends CI_Controller {
                     $this->usuario->redireccionarUsuario();
 		}
 		else{
-                   //redirect('/login', 'location', 301); 
+                   redirect('/login', 'location', 301); 
 		}		
 	}
 	

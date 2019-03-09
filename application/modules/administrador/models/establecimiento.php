@@ -125,64 +125,49 @@ class Establecimiento extends CI_Model {
     	return $establecimiento;
     }
     
-   	function obtenerDatosEstablecimiento($nro_orden, $nro_establecimiento){
+   	function obtenerDatosEstablecimiento($nro_establecimiento){
    		$establecimiento = array();
-   		$sql = "SELECT nro_orden, nro_establecimiento, idnomcom, idsigla, iddirecc, idmpio, iddepto, idtelno, idfaxno, idcorreo, finicial, ffinal, 
-   		               fk_ciiu, fk_depto, fk_mpio, fk_sede, fk_subsede, nom_operador, nom_cadena
-                FROM rmmh_admin_establecimientos
-                WHERE nro_establecimiento = $nro_establecimiento ";
-                if($nro_orden!=0){
-   					$sql.= "AND nro_orden = $nro_orden ";
-   				}
+   		$sql = "SELECT id_establecimiento, idnomcom, iddirecc, nom_contacto, idtelno, idfaxno, idcorreo, nom_contacto, 
+   		               fk_depto, fk_mpio, estado_establecimiento,
+                               CASE WHEN estado_establecimiento = 1 THEN 'Activo'
+                               ELSE 'Inactivo' END AS nom_estado_establecimiento, 
+                               observaciones
+                FROM txtar_admin_establecimientos
+                WHERE id_establecimiento = $nro_establecimiento ";
+                
    	   $query = $this->db->query($sql);
    		if ($query->num_rows()>0){
 			foreach($query->result() as $row){
-				$establecimiento["nro_orden"] = $row->nro_orden;
-				$establecimiento["nro_establecimiento"] = $row->nro_establecimiento;
+				$establecimiento["nro_establecimiento"] = $row->id_establecimiento;
 				$establecimiento["idnomcom"] = $row->idnomcom;
-				$establecimiento["idsigla"] = $row->idsigla;
 				$establecimiento["iddirecc"] = $row->iddirecc;
-				$establecimiento["idmpio"] = $row->idmpio;
-				$establecimiento["iddepto"] = $row->iddepto;
 				$establecimiento["idtelno"] = $row->idtelno;
 				$establecimiento["idfaxno"] = $row->idfaxno;
 				$establecimiento["idcorreo"] = $row->idcorreo;
-				$establecimiento["finicial"] = $row->finicial;
-				$establecimiento["ffinal"] = $row->ffinal;
-				$establecimiento["fk_ciiu"] = $row->fk_ciiu;
-				$establecimiento["fk_depto"] = $row->fk_depto;
+				$establecimiento["nom_contacto"] = $row->nom_contacto;
+                                $establecimiento["fk_depto"] = $row->fk_depto;
 				$establecimiento["fk_mpio"] = $row->fk_mpio;
-				$establecimiento["fk_sede"] = $row->fk_sede;
-				$establecimiento["fk_subsede"] = $row->fk_subsede;
-                                $establecimiento["nom_cadena"] = $row->nom_cadena;
-                                $establecimiento["nom_operador"] = $row->nom_operador;
+				$establecimiento["estado"] = $row->estado_establecimiento;
+                                $establecimiento["nom_estado"] = $row->nom_estado_establecimiento;
+                                $establecimiento["observaciones"] = $row->observaciones;
 			}
 		}
 		$this->db->close();
 		return $establecimiento;
    	}
    	
-   	function insertarEstablecimiento($nro_orden, $nro_establecimiento, $idnomcom, $idsigla, $iddirecc, $idtelno, $idfaxno, $idcorreo, $finicial, $ffinal, $fk_ciiu, $fk_depto, $fk_mpio, $fk_sede, $fk_subsede, $nom_cadena,$nom_operador){
-   		$data = array('nro_orden' => $nro_orden, 
-   		              'nro_establecimiento' => $nro_establecimiento, 
-   		              'idnomcom' => $idnomcom, 
-   		              'idsigla' => $idsigla, 
-   		              'iddirecc' => $iddirecc, 
-   		              'idmpio' => $fk_mpio, 
-   		              'iddepto' => $fk_depto, 
-   		              'idtelno' => $idtelno, 
-   		              'idfaxno' => $idfaxno, 
-   		              'idcorreo' => $idcorreo, 
-   		              'finicial' => $finicial, 
-   		              'ffinal' => $ffinal, 
-   		              'fk_ciiu' => $fk_ciiu, 
-   		              'fk_depto' => $fk_depto, 
-   		              'fk_mpio' => $fk_mpio, 
-   		              'fk_sede' => $fk_sede,
-                              'fk_subsede' => $fk_subsede,
-   		              'nom_cadena' => $nom_cadena,
-                              'nom_operador' => $nom_operador);
-   		$this->db->insert('rmmh_admin_establecimientos', $data); 
+   	function insertarEstablecimiento($txtNumEstab, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones){
+   		$data = array('id_establecimiento' => $txtNumEstab, 
+   		              'idnomcom' => $txtNomEstab, 
+   		              'iddirecc' => $txtDirEstab, 
+   		              'idtelno' => $idtelefono, 
+   		              'idcorreo' => $idcorreo,
+                              'nom_contacto' => $nom_contacto,
+   		              'fk_depto' => $cmbDeptoEstab, 
+   		              'fk_mpio' => $cmbMpioEstab, 
+   		              'estado_establecimiento' => 1,
+                              'observaciones' => $observaciones);
+   		$this->db->insert('txtar_admin_establecimientos', $data); 
    		
    	}
    	
@@ -207,6 +192,23 @@ class Establecimiento extends CI_Model {
 		$this->db->update('rmmh_admin_establecimientos', $data);
    	}
         
+        function actualizarEstablecimiento($hddNroEstablecimiento, $idnomcomest, $iddireccest, $idtelnoest, $idfaxnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones){
+   		$data = array('idnomcom' => $idnomcomest,
+                            'iddirecc' => $iddireccest,
+   		              'idtelno' => $idtelnoest,
+   		              'idfaxno' => $idfaxnoest,
+   		              'idcorreo' => $idcorreoest,
+                              'nom_contacto' => $nom_contacto,
+   		              'fk_depto' => $cmbDeptoEst,
+   		              'fk_mpio' => $cmbMpioEst,
+   		              'estado_establecimiento' => $estado_establecimiento,
+   		              'observaciones' => $observaciones
+                );
+		$this->db->where('id_establecimiento', $hddNroEstablecimiento);
+		$this->db->update('txtar_admin_establecimientos', $data);
+   	}
+        
+        
         function estado_aper_establecimiento($nro_orden, $nro_establecimiento){
    		$data = array('estado_establecimiento' => 1 
                 );
@@ -215,4 +217,10 @@ class Establecimiento extends CI_Model {
 		$this->db->update('rmmh_admin_establecimientos', $data);
    	}
    	
+        function inactivarCliente($nro_establecimiento){
+   		$data = array('estado_establecimiento' => 0 
+                );
+		$this->db->where('id_establecimiento', $nro_establecimiento);
+		$this->db->update('txtar_admin_establecimientos', $data);
+   	}
 }//EOC

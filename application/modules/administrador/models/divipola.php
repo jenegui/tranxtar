@@ -9,7 +9,7 @@ class Divipola extends CI_Model {
     
 	function nombreDepartamento($id){
 		$nombre = "";
-		$sql = "SELECT nom_depto FROM rmmh_param_deptos WHERE id_depto = $id";
+		$sql = "SELECT nom_depto FROM txtar_param_deptos WHERE id_depto = $id";
 		$query = $this->db->query($sql);
 		if ($query->num_rows()>0){
 			foreach($query->result() as $row){
@@ -22,7 +22,7 @@ class Divipola extends CI_Model {
     
 	function obtenerDepartamentos(){
     	$departamentos = array();
-    	$sql = "SELECT id_depto, nom_depto FROM rmmh_param_deptos ORDER BY 2";
+    	$sql = "SELECT id_depto, nom_depto FROM txtar_param_deptos ORDER BY 2";
     	$query = $this->db->query($sql);
     	if ($query->num_rows()>0){
     		$i = 0;
@@ -38,7 +38,7 @@ class Divipola extends CI_Model {
     
 	function nombreMunicipio($id){
     	$nombre = "";
-		$sql = "SELECT nom_mpio FROM rmmh_param_mpios WHERE id_mpio = $id";
+		$sql = "SELECT nom_mpio FROM txtar_param_mpios WHERE id_mpio = $id";
 		$query = $this->db->query($sql);
 		if ($query->num_rows()>0){
 			foreach($query->result() as $row){
@@ -51,7 +51,7 @@ class Divipola extends CI_Model {
     
     function obtenerMunicipios($depto){
     	$municipios = array();
-    	$sql = "SELECT id_mpio, nom_mpio FROM rmmh_param_mpios";    	
+    	$sql = "SELECT id_mpio, nom_mpio FROM txtar_param_mpios";    	
     	if (($depto!=0)&&($depto!="")){
     		$sql.= " WHERE fk_depto = $depto";
     	}		

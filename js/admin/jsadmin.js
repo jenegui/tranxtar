@@ -216,7 +216,7 @@ $(function () {
     $("#btnAgregar").click(function () {
         $("#agregarFuente").dialog({
             width: 780,
-            title: 'Agregar establecimientos',
+            title: 'Agregar clientes',
             modal: true
         });
     });
@@ -2408,16 +2408,16 @@ function obtenerMensaje4(campo) {
 }
 
 
-function removerFuenteDirectorio(numord, numest) {
-    var answer = confirm("Realmente desea eliminar esta fuente del directorio ?");
+function removerFuenteDirectorio(numest) {
+    var answer = confirm("Realmente desea inactivar esta empresa del directorio ?");
     if (answer) {
         $.ajax({
             type: "POST",
             url: base_url + "administrador/eliminarFuente",
-            data: {'numord': numord, 'numest': numest},
+            data: {'numest': numest},
             cache: false,
             success: function (data) {
-                alert("El registro ha sido eliminado");
+                alert("La empresa ha sido inactivada");
                 location.reload();
             }
         });

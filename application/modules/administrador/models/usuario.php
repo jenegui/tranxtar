@@ -464,16 +464,11 @@ class Usuario extends CI_Model {
     }
     
     //Funcion que me indica si un establecimiento ya esta registrado en el directorio de empresas (Para un a�o y periodo).
-    function validaRegistroEstablecimiento($nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo){
+    function validaRegistroEstablecimiento($nro_orden, $nro_establecimiento){
     	$retorno = false;
     	$sql = "SELECT *
-                FROM rmmh_admin_control C, rmmh_admin_establecimientos ES
-                WHERE C.nro_orden = ES.nro_orden
-                AND C.nro_establecimiento = ES.nro_establecimiento
-                AND C.nro_orden = $nro_orden
-                AND C.nro_establecimiento = $nro_establecimiento
-                AND C.ano_periodo = $ano_periodo
-                AND C.mes_periodo = $mes_periodo";    	
+                FROM txtar_admin_establecimientos ES
+                WHERE ES.id_establecimiento = $nro_establecimiento";    	
     	$query = $this->db->query($sql);
     	if ($query->num_rows()>0){
     		$retorno = true;

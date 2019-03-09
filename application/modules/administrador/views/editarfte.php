@@ -31,107 +31,9 @@
 
 </script>
 
-<h1>Editar Fuente</h1>
+<h1>Editar Cliente</h1>
 <form id="frmEditarFuente" name="frmEditarFuente" method="post" action="<?php echo site_url("administrador/actualizarDatosFuente"); ?>">
-<table width="100%">
-<tr>
-  <td width="20%"><b>Nro. Orden:</b></td>
-  <td><?php echo $empresa["nro_orden"]; ?></td>
-</tr>
-<tr>
-  <td><b>Nro. Establecimiento:</b></td>
-  <td><?php echo $establecimiento["nro_establecimiento"]; ?></td>
-</tr>
-<tr>
-  <td><b>Raz&oacute;n Social Empresa:</b></td>
-  <td><?php echo $empresa["idproraz"]; ?></td>
-</tr>
-<!--tr>
-  <td><b>Nombre Comercial Establecimiento:</b></td>
-  <td><?php //echo $establecimiento["idnomcom"]; ?></td>
-</tr-->    
-</table>
-<br/>
-<fieldset style="border: 1px solid #CCCCCC; padding-top:10px; padding-left:10px;">
-<legend><b>Datos de la empresa</b>&nbsp;</legend>
-<!-- Tabla para mostrar los datos de la empresa -->
-<table width="100%">
-<tr>
-  <td width="10%">Nit: </td>
-  <td><input type="text" id="idnit" name="idnit" value="<?php echo $empresa["idnit"]; ?>" size="15" class="textbox"/></td>
-</tr>
-<tr>
-  <td>Raz&oacute;n Social: </td>
-  <td><input type="text" id="idproraz" name="idproraz" value="<?php echo $empresa["idproraz"]; ?>" size="70" class="textbox"/></td>
-</tr>
-<tr>
-  <td>Nombre Comercial: </td>
-  <td><input type="text" id="idnomcom" name="idnomcom" value="<?php echo $empresa["idnomcom"]; ?>" size="70" class="textbox"/></td>
-</tr>
-<!--tr>
-  <td>Sigla: </td>
-  <td><input type="text" id="idsigla" name="idsigla" value="<?php //echo $empresa["idsigla"]; ?>" size="15" class="textbox"/></td>
-</tr-->
-<tr>
-  <td>Direcci&oacute;n: </td>
-  <td><input type="text" id="iddirecc" name="iddirecc" value="<?php echo $empresa["iddirecc"]; ?>" size="70" class="textbox"/></td>
-</tr>
-<tr>
-  <td>Tel&eacute;fono: </td>
-  <td><input type="text" id="idtelno" name="idtelno" value="<?php echo $empresa["idtelno"]; ?>" size="15" class="textbox"/></td>
-</tr>
-<!--tr>
-  <td>Fax: </td>
-  <td><input type="text" id="idfaxno" name="idfaxno" value="<?php //echo $empresa["idfaxno"]; ?>" size="15" class="textbox"/></td>
-</tr-->
-<!--tr>
-  <td>Apartado A&eacute;reo: </td>
-  <td><input type="text" id="idaano" name="idaano" value="<?php //echo $empresa["idaano"]; ?>" size="15" class="textbox"/></td>
-</tr-->
-<tr>
-  <td>P&aacute;gina Web: </td>
-  <td><input type="text" id="idpagweb" name="idpagweb" value="<?php echo $empresa["idpagweb"]; ?>" size="70" class="textbox"/></td>
-</tr>
-<tr>
-  <td>Correo Electr&oacute;nico: </td>
-  <td><input type="text" id="idcorreo" name="idcorreo" value="<?php echo $empresa["idcorreo"]; ?>" size="70" class="textbox"/></td>
-</tr>
-<tr>
-  <td>Departamento: </td>
-  <td><select id="cmbDeptoEmp" name="cmbDeptoEmp" class="select">
-      <option value="-">Seleccione el departamento...</option>
-      <?php for ($i=0; $i<count($departamentos); $i++){
-      	    	if ($empresa["fk_depto"]==$departamentos[$i]["codigo"]){
-      ?>    		<option value="<?php echo $departamentos[$i]["codigo"]; ?>" selected="selected"><?php echo utf8_encode($departamentos[$i]["nombre"]); ?></option>
-      <?php 	} 
-      	    	else{
-      ?>    		<option value="<?php echo $departamentos[$i]["codigo"]; ?>"><?php echo utf8_encode($departamentos[$i]["nombre"]); ?></option>
-      <?php    	}
-      		}
-      ?>
-      </select>
-  </td>
-</tr>
-<tr>
-  <td>Municipio: </td>
-  <td><select id="cmbMpioEmp" name="cmbMpioEmp" class="select">
-      <option value="-">Seleccione el municipio...</option>
-      <?php for ($i=0; $i<count($municipios); $i++){ 
-      			if ($empresa["fk_mpio"]==$municipios[$i]["codigo"]){
-      ?>			<option value="<?php echo $municipios[$i]["codigo"]; ?>" selected="selected"><?php echo $municipios[$i]["nombre"]; ?></option>
-      <?php     }
-      			else{
-      ?>			<option value="<?php echo $municipios[$i]["codigo"]; ?>"><?php echo $municipios[$i]["nombre"]; ?></option>
-      <?php 	}
-      		} 
-      ?>
-      </select>
-  </td>
-</tr>
-</table>
-<!-- Fin tabla -->
-<br/>
-</fieldset>
+
 <br/>
 <fieldset style="border: 1px solid #CCCCCC; padding-top:10px; padding-left:10px;">
 <legend><b>Datos del establecimiento</b>&nbsp;</legend>
@@ -162,19 +64,8 @@
   <td><input type="text" id="idcorreoest" name="idcorreoest" value="<?php echo $establecimiento["idcorreo"]; ?>" size="70" class="textbox"/></td>
 </tr>
 <tr>
-  <td>Actividad Comercial: </td>
-  <td><select id="cmbActEst" name="cmbActEst" class="select" style="width: 98%">
-      <?php for ($i=0; $i<count($actividades); $i++){ 
-      			if ($establecimiento["fk_ciiu"]==$actividades[$i]["id"]){
-      ?>			<option value="<?php echo $actividades[$i]["id"]; ?>" selected="selected"><?php echo "(".$actividades[$i]["id"].") ".$actividades[$i]["nombre"]; ?></option>
-      <?php     }
-      			else{
-      ?>			<option value="<?php echo $actividades[$i]["id"]; ?>"><?php echo "(".$actividades[$i]["id"].") ".$actividades[$i]["nombre"]; ?></option>
-      <?php 	}
-      		} 
-      ?>
-      </select>
-  </td>
+  <td>Nombre del contacto: </td>
+  <td><input type="text" id="nom_contacto" name="nom_contacto" value="<?php echo $establecimiento["nom_contacto"]; ?>" size="70" class="textbox"/></td>
 </tr>
 <tr>
   <td>Departamento: </td>
@@ -208,46 +99,29 @@
       </select>
   </td>
 </tr>
+
 <tr>
-  <td>Sede: </td>
-  <td><select id="cmbSedeEst" name="cmbSedeEst" class="select">
-      <option value="-">Seleccione la sede...</option>
-      <?php for ($i=0; $i<count($sedes); $i++){ 
-      			if ($establecimiento["fk_sede"]==$sedes[$i]["id"]){
-      ?>			<option value="<?php echo $sedes[$i]["id"]; ?>" selected="selected"><?php echo $sedes[$i]["nombre"]; ?></option>
-      <?php     }
-      			else{
-      ?>			<option value="<?php echo $sedes[$i]["id"]; ?>"><?php echo $sedes[$i]["nombre"]; ?></option>
-      <?php 	}
-      		} 
-      ?>
-      </select>
-  </td>
+    <td>Estado: </td>
+    <td><select id="estado_establecimiento" name="estado_establecimiento" class="select">
+    
+    <?php //for ($i=0; $i<count($municipios); $i++){ 
+                      if ($establecimiento["estado"]==1){
+    ?>                  <option value="1" selected="selected">Activa</option>
+                        <option value="0">Inactiva</option>
+    <?php     }
+                      else{
+    ?>			<option value="0" selected="selected">Inactiva</option>
+                        <option value="1">Activa</option>
+    <?php 	}
+            
+    ?>
+    </select>
+    </td> 
 </tr>
 <tr>
-  <td>Subsede: </td>
-  <td><select id="cmbSubSedeEst" name="cmbSubSedeEst" class="select">
-      <option value="-">Seleccione la sede...</option>
-      <?php for ($i=0; $i<count($subsedes); $i++){ 
-      			if ($establecimiento["fk_subsede"]==$subsedes[$i]["id"]){
-      ?>			<option value="<?php echo $subsedes[$i]["id"]; ?>" selected="selected"><?php echo $subsedes[$i]["nombre"]; ?></option>
-      <?php     }
-      			else{
-      ?>			<option value="<?php echo $subsedes[$i]["id"]; ?>"><?php echo $subsedes[$i]["nombre"]; ?></option>
-      <?php 	}
-      		} 
-      ?>
-      </select>
-  </td>
+  <td>Observaciones: </td>
+  <td><input type="text" id="observaciones" name="observaciones" value="<?php echo $establecimiento["observaciones"]; ?>" size="70" class="textbox"/></td>
 </tr>
-<tr>
-	  <td>Cadena hotelera al  que pertenece: </td>
-	  <td><input type="text" id="nom_cadena" name="nom_cadena" value="<?php echo $establecimiento["nom_cadena"]; ?>" size="70" class="textbox"/></td>
-	</tr>
-        <tr>
-	  <td>Operador hotelero al que pertenece: </td>
-	  <td><input type="text" id="nom_operador" name="nom_operador" value="<?php echo $establecimiento["nom_operador"]; ?>" size="70" class="textbox"/></td>
-	</tr>
 </table>
 <br/>
 <!-- Fin Tabla-->
@@ -255,75 +129,5 @@
 <br/>
 <input type="submit" id="btnActualizarFuente" name="btnActualizarFuente" value="Actualizar Datos" class="button"/>
 <br/><br/>
-<fieldset style="border: 1px solid #CCCCCC; padding-top:10px; padding-left:10px;">
-<legend><b>Datos de control del formulario</b></legend>
-
-<table width="100%">
-<tr>
-  <td width="25%">
-     <!-- Tabla para el estado general -->
-     <p><b>Estado General del formulario</b></p>
-	 <table>
-	 <tr>
-  		<td width="160">Novedad Actual: </td>
-  		<td><?php echo $control["novedad"]; ?></td>
-	 </tr>
-	 <tr>
-  		<td>Estado Actual: </td>
-  		<td><?php echo $control["estado"]; ?></td>
-	 </tr>
-	 </table>
-	 <br/>
-	 <p><b>Estado de los m&oacute;dulos del formulario</b></p>
-	 <table width="100%">
-	 <tr>
-  		<td>Estado M&oacute;dulo I:</td>
-  		<td><?php echo $control["modulo1"]; ?></td>
-	 </tr>
-	 <tr>
-  		<td>Estado M&oacute;dulo II:</td>
-  		<td><?php echo $control["modulo2"]; ?></td>
-	 </tr>
-	 <tr>
-  		<td>Estado M&oacute;dulo III:</td>
-  		<td><?php echo $control["modulo3"]; ?></td>
-	 </tr>
-	 <tr>
-  		<td>Estado M&oacute;dulo IV:</td>
-  		<td><?php echo $control["modulo4"]; ?></td>
-	 </tr>
-	 <tr>
-  		<td>Estado Env&iacute;o Formulario:</td>
-  		<td><?php echo $control["envio"]; ?></td>
-	 </tr>
-	 </table>
-     <!-- Fin tabla estado general -->
-  </td>
-  <td valign="top" width="75%" style="padding-right: 10px; padding-left: 75px;">
-  	  <!-- Tabla para el cambio de estados -->
-  	  <p><b>Cambio de estados del formulario</b></p>
-  	  <table>
-  	  <tr>
-  	    <td>Seleccione el estado:</td>
-  	    <td><select id="cmbNovestado" name="cmbNovestado" class="select">
-  	          <option value="5-0">Sin Distribuir</option>
-  	          <option value="5-1">Distribuido</option>
-  	          <option value="5-2">En digitaci&oacute;n</option>
-  	          <option value="5-3">Digitado</option>
-  	          <option value="99-4">An&aacute;lisis - Verificaci&oacute;n</option>
-  	          <option value="99-5">Verificado</option>
-  	        </select>
-  	        &nbsp;&nbsp;
-  	        <input type="button" id="btnPruebas" name="btnPruebas" value="Cambiar Estado" class="button"/>
-  	    </td>
-  	  </tr>  	  
-  	  </table>
-  	  <div id="divCambioEST"></div>  	  
-  	  <!-- Fin tabla cambio de estados -->
-  </td>
-</tr>
-</table>
-</fieldset>
-<input type="hidden" id="hddNroOrden" name="hddNroOrden" value="<?php echo $empresa["nro_orden"]; ?>"/>
 <input type="hidden" id="hddNroEstablecimiento" name="hddNroEstablecimiento" value="<?php echo $establecimiento["nro_establecimiento"]; ?>"/>
 </form>

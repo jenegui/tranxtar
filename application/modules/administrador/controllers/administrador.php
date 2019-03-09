@@ -293,38 +293,29 @@ class Administrador extends MX_Controller {
 	
 	//Ejecuta la funcion del directorio del menu del administrador.
 	public function directorio(){
-		$this->load->model("sede");
-		$this->load->model("subsede");
+		
 		$this->load->model("control");
-		$this->load->model("periodo");
-		$this->load->model("novedad");
 		$this->load->model("divipola");
 		$this->load->model("tipodocs");
 		$this->load->model("actividad");
 		$this->load->model("directorio");
-		$data["periodos"] = $this->periodo->obtenerPeriodosTodosMOD();
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==4){
-			$data['tipo_usuario']="ADMINISTRADOR";
-		}
+               
+		if($tipo_usuario==1){
+			$data['tipo_usuario']=$this->session->userdata("controlador");
+                }
 		$data["nom_usuario"] = $nom_usuario;
-		$data["controller"] = "administrador";
+		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
 		$data["view"] = "directorio";
-		$data["ano_periodo"] = $this->session->userdata("ano_periodo");
-		$data["mes_periodo"] = $this->session->userdata("mes_periodo");
-		$data["reciente"] = $this->periodo->obtenerPeriodoActual(); //Obtengo cual es el periodo mas reciente para bloquear la carga del directorio, y que solo se muestre para el periodo actual.
 		$data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
-		$data["sedes"] = $this->sede->obtenerSedes();
-		$data["subsedes"] = $this->subsede->obtenerSubSedes();
-		$data["actividades"] = $this->actividad->obtenerActividades();
 		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
 		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
 		//Configuracion del paginador
 		$config = array();
 		$config["base_url"] = site_url("administrador/directorio");
-		$config["total_rows"] = $this->directorio->contarFuentes($data["ano_periodo"], $data["mes_periodo"]); //Obtener el numero total de registros que debe procesar el paginador
+		$config["total_rows"] = $this->directorio->contarFuentes(0, 0); //Obtener el numero total de registros que debe procesar el paginador
 		$config["per_page"] = 50;   //Cantidad de registros por pagina que debe mostrar el paginador
 		$config["num_links"] = 5;  //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
@@ -335,8 +326,9 @@ class Administrador extends MX_Controller {
 		//Trabajo de paginacion
 		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
 		$desde = ($pagina - 1) * $config["per_page"];
-		$data["fuentes"] = $this->directorio->obtenerFuentes($data["ano_periodo"], $data["mes_periodo"], $desde, $config["per_page"]);
-                $data["NoOrden"] = $this->directorio->obtenerUltmaEmpresa();
+                
+		$data["fuentes"] = $this->directorio->obtenerFuentes(0, 0, 0, $config["per_page"]);
+                //$data["NoOrden"] = $this->directorio->obtenerUltmaEmpresa();
                 $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
                 $data["links"] = $this->pagination->create_links();
 		$this->load->view("layout",$data);
@@ -1660,35 +1652,21 @@ class Administrador extends MX_Controller {
 		$this->load->model("usuario");
 		$this->load->model("directorio");
 		$this->load->model("establecimiento");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
 		foreach($_POST as $nombre_campo => $valor){
   			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";   			
   			eval($asignacion);
 		}
-		if ($this->empresa->existeEmpresa($txtNumOrden)){
-			//Validar que el establecimiento no estï¿½ registrado ya
-			if (!$this->usuario->validaRegistroEstablecimiento($txtNumOrden, $txtNumEstab, $ano_periodo, $mes_periodo)){
-				$this->establecimiento->insertarEstablecimiento($txtNumOrden, $txtNumEstab, $txtNomEstab, "", $txtDirEstab, 0, 0, "", NULL, NULL, $cmbActivEstab, $cmbDeptoEstab, $cmbMpioEstab, $cmbSedeEstab, $cmbSubSedeEstab,$nom_cadena,$nom_operador);
-                                                                                                                                                                                                                                    
-				//Crea el registro en la tabla de usuarios
-				$login = "F".$txtNumEstab;
-				$password = $this->danecrypt->generarPassword();
-				$nitEmpresa = $this->empresa->obtenerNITEmpresa($txtNumOrden);
-                                $encryptPassw = $this->danecrypt->codificar($password);
-				$this->usuario->insertarUsuario($nitEmpresa, $txtNomEstab, $login, $encryptPassw, '', date("Y-m-d h:i:s"), '0000-00-00 00:00:00', 0, 0, 1, 1, 0, 0); //Agregar con el rol fuente
-				//Agregar registro en la tabla de control
-				$idusuario = $this->usuario->IDUltimoInsertado();
-				$this->control->insertarControl($txtNumOrden, $txtNumEstab, $ano_periodo, $mes_periodo, 1, 0, 0, 0, 0, 0, 0, $cmbInclusion, 'A', 9, 0, $cmbSedeEstab, $cmbSubSedeEstab, 0, 0);
-                                echo "La fuente ha sido registrada.";
-                        }			
-			else{
-				echo "No se puede agregar el establecimiento. El establecimiento ya se encuentra registrado.";
-			}
-		}
-		else{
-			echo "No se puede agregar el establecimiento. La empresa indicada no existe o aun no ha sido registrada.";
-		}
+		
+                //Validar que el establecimiento no estï¿½ registrado ya
+                if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
+                        $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones);
+                        echo "La fuente ha sido registrada.";
+                }			
+                else{
+                        echo "No se puede agregar el establecimiento. El establecimiento ya se encuentra registrado.";
+                }
+		
+		
 	}
 	
 	//Obtiene los datos actuales para una fuente que va a ser eliminada del sistema.
@@ -2148,48 +2126,35 @@ class Administrador extends MX_Controller {
 	
 	
 	//function para editar los datos de la fuente en el directorio de fuentes
-	public function editarFuente($nro_orden, $nro_establecimiento){
-		$this->load->model("periodo");
-		$this->load->model("divipola");
-		$this->load->model("empresa");
-		$this->load->model("actividad");
-		$this->load->model("sede");
-		$this->load->model("subsede");
-		$this->load->model("establecimiento");
-		$this->load->model("control");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
-		$data["controller"] = "administrador";
-		$data["view"] = "editarfte";
-		$nom_usuario = $this->session->userdata("nombre");
-		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==4){
-			$data['tipo_usuario']="ADMINISTRADOR";
-		}
-		$data["nom_usuario"] = $nom_usuario;
-		$data["menu"] = "adminmenu";
-		$data["periodos"] = $this->periodo->obtenerPeriodosTodosMOD();
-		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
-		$data["municipios"] = $this->divipola->obtenerMunicipios("");
-		$data["actividades"] = $this->actividad->obtenerActividades();
-		$data["sedes"] = $this->sede->obtenerSedes();
-		$data["subsedes"] = $this->subsede->obtenerSubSedes();
-		$data["empresa"] = $this->empresa->obtenerDatosEmpresa($nro_orden);
-		$data["establecimiento"] = $this->establecimiento->obtenerDatosEstablecimiento($nro_orden, $nro_establecimiento);
-		$data["control"] = $this->control->obtenerInformacionControl($nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo);
+	public function editarFuente($nro_establecimiento){
+            $this->load->model("divipola");
+            $this->load->model("empresa");
+            $this->load->model("establecimiento");
+            $data["controller"] = "administrador";
+            $data["view"] = "editarfte";
+            $nom_usuario = $this->session->userdata("nombre");
+            $tipo_usuario = $this->session->userdata("tipo_usuario");
+            if($tipo_usuario==1){
+                    $data['tipo_usuario']=$this->session->userdata("controlador");
+            }
+            $data["nom_usuario"] = $nom_usuario;
+            $data["menu"] = "adminmenu";
+            $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+            $data["municipios"] = $this->divipola->obtenerMunicipios("");
+            $data["establecimiento"] = $this->establecimiento->obtenerDatosEstablecimiento($nro_establecimiento);
+            
 		$this->load->view("layout",$data);
 	}
 	
 	
 	//Function para eliminar los datos de una fuente. Elimina todos los datos de una fuente
 	public function eliminarFuente(){
-		$this->load->model("procedure");
+		$this->load->model("establecimiento");
 		$id_usuario = $this->session->userdata("id");
-		$nro_orden = $this->input->post("numord");
 		$nro_establecimiento = $this->input->post("numest");
-		$ano_periodo = $this->session->userdata("ano_periodo");
+                $ano_periodo = $this->session->userdata("ano_periodo");
 		$mes_periodo = $this->session->userdata("mes_periodo");
-		$this->procedure->removerFuenteBackup('DELETE', $id_usuario, $nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo);
+		$this->establecimiento->inactivarCliente($nro_establecimiento);
 	}
 	
 	//funcion para actualizar los datos de una fuente
@@ -2202,13 +2167,10 @@ class Administrador extends MX_Controller {
   			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";  			
   			eval($asignacion);
 		}
-		//Actualizar los datos de la sede y la subsede
-		$this->procedure->trasladarSedeSubsede($hddNroOrden, $hddNroEstablecimiento, $cmbSedeEst, $cmbSubSedeEst);
-		//Actualizar los datos de la empresa
-		$this->empresa->actualizarEmpresa($hddNroOrden, $idnit, $idproraz, $idnomcom, $idsigla, $iddirecc, $idtelno, $idfaxno, $idaano, $idpagweb, $idcorreo, $cmbDeptoEmp, $cmbMpioEmp);
+		
 		//Actualizar los datos del establecimiento
-		$this->establecimiento->actualizarEstablecimiento($hddNroOrden, $hddNroEstablecimiento, $idnomcomest, $idsiglaest, $iddireccest, $cmbMpioEst, $cmbDeptoEst, $idtelnoest, $idfaxnoest, $idcorreoest, $cmbActEst, $cmbDeptoEst, $cmbMpioEst, $cmbSedeEst, $cmbSubSedeEst);
-		redirect("/administrador/editarFuente/$hddNroOrden/$hddNroEstablecimiento", "refresh");
+		$this->establecimiento->actualizarEstablecimiento($hddNroEstablecimiento, $idnomcomest, $iddireccest, $idtelnoest, 0, $idcorreoest,$nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
+		redirect("/administrador/editarFuente/$hddNroEstablecimiento", "refresh");
 	}
 	
 	public function cambiarFuente(){
