@@ -59,7 +59,7 @@ class Directorio extends CI_Model {
 	    $this->load->model("sede");
 	    $this->load->model("subsede");
 	    $fuentes = array();	    	
-	    $sql = "SELECT ES.id_establecimiento, UPPER(ES.idnomcom) as idnomcom, ES.iddirecc, ES.idtelno,
+	    $sql = "SELECT ES.id_establecimiento, UPPER(ES.idnomcom) as idnomcom, nit_establecimiento, ES.iddirecc, ES.idtelno,
     	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, 
                        CASE WHEN ES.estado_establecimiento = 1 THEN 'Activa'
             WHEN ES.estado_establecimiento = 0 THEN 'Inactiva'
@@ -74,6 +74,7 @@ class Directorio extends CI_Model {
 	    	foreach($query->result() as $row){
 	    		$fuentes[$i]["nro_establecimiento"] = $row->id_establecimiento;
 	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
+                        $fuentes[$i]["nit_establecimiento"] = $row->nit_establecimiento;
 	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
 	    		$fuentes[$i]["idtelno"] = $row->idtelno;
 	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
@@ -90,6 +91,41 @@ class Directorio extends CI_Model {
 	    return $fuentes;	    	 
 	}
 	
+        function obtenerFuentesTodas(){
+            $this->load->model("divipola");
+	    
+	    $fuentes = array();	    	
+	    $sql = "SELECT ES.id_establecimiento, UPPER(ES.idnomcom) as idnomcom, nit_establecimiento, ES.iddirecc, ES.idtelno,
+    	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, 
+                       CASE WHEN ES.estado_establecimiento = 1 THEN 'Activa'
+            WHEN ES.estado_establecimiento = 0 THEN 'Inactiva'
+            END AS estado_establecimiento	 
+                FROM txtar_admin_establecimientos ES
+                WHERE ES.id_establecimiento > 0
+                ORDER BY ES.id_establecimiento, ES.fk_depto, ES.fk_mpio ";	    
+	    $query = $this->db->query($sql);
+	    if ($query->num_rows() > 0){
+	    	$i = 0;
+	    	foreach($query->result() as $row){
+	    		$fuentes[$i]["nro_establecimiento"] = $row->id_establecimiento;
+	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
+                        $fuentes[$i]["nit_establecimiento"] = $row->nit_establecimiento;
+	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
+	    		$fuentes[$i]["idtelno"] = $row->idtelno;
+	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
+	    		$fuentes[$i]["idcorreo"] = $row->idcorreo;
+                        $fuentes[$i]["nom_contacto"] = $row->nom_contacto;
+	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
+	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);
+	    		$fuentes[$i]["estado"] = $row->estado_establecimiento	;
+                       $i++;    			
+	    	}
+	    }
+            //echo $sql;
+	    $this->db->close();
+	    return $fuentes;	    	 
+	}
+        
 	function insertarEmpresa($nro_orden, $idnit, $idproraz, $idnomcom, $idsigla, $iddirecc, $idtelno, $idfaxno, $idaano, $idpagweb, $idcorreo, $fk_depto, $fk_mpio){
  		$data = array('nro_orden' => $nro_orden, 
  		              'idnit' => $idnit, 

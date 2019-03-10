@@ -70,10 +70,23 @@ $(function(){
 		},
 		//Mensajes de error
 		errorPlacement: function(error, element) {
-			element.after(error);		        
-			error.css('display','inline');
-			error.css('margin-left','10px');				
-			error.css('color',"#FF0000");
+			element.after(error);
+                        error.css('opacity','0.47');
+                        error.css('z-index','991');
+                        error.css('background','#ee0101');
+                        //error.css('float','right');
+                        error.css('position','absolute');
+                        error.css('margin-top','1px');
+                        error.css('color','#fff');
+                        error.css('font-size','11px');
+                        error.css('border','2px solid #ddd');
+                        error.css('box-shadow','0 0 6px #000');
+                        error.css('-moz-box-shadow','0 0 6px #000');
+                        error.css('-webkit-box-shadow','0 0 6px #000');
+                        error.css('padding','4px 10px 4px 10px');
+                        error.css('border-radius','6px');
+                        error.css('-moz-border-radius','6px');
+                        error.css('-webkit-border-radius','6px');
 		},
 		//Envio del formulario
 		submitHandler: function(form) {

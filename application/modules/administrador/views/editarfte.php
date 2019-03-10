@@ -31,9 +31,9 @@
 
 </script>
 
+<div>
 <h1>Editar Cliente</h1>
 <form id="frmEditarFuente" name="frmEditarFuente" method="post" action="<?php echo site_url("administrador/actualizarDatosFuente"); ?>">
-
 <br/>
 <fieldset style="border: 1px solid #CCCCCC; padding-top:10px; padding-left:10px;">
 <legend><b>Datos del establecimiento</b>&nbsp;</legend>
@@ -43,10 +43,10 @@
   <td width="10%">Nombre Comercial: </td>
   <td><input type="text" id="idnomcomest" name="idnomcomest" value="<?php echo $establecimiento["idnomcom"]; ?>" size="70" class="textbox"/></td>
 </tr>
-<!--tr>
-  <td>Sigla: </td>
-  <td><input type="text" id="idsiglaest" name="idsiglaest" value="<?php //echo $establecimiento["idsigla"]; ?>" size="15" class="textbox"/></td>
-</tr-->
+<tr>
+  <td>NIT: </td>
+  <td><input type="text" id="idsiglaest" name="idsiglaest" value="<?php echo $establecimiento["nit_establecimiento"]; ?>" size="15" class="textbox" readonly="readonly"/></td>
+</tr>
 <tr>
   <td>Direcci&oacute;n: </td>
   <td><input type="text" id="iddireccest" name="iddireccest" value="<?php echo $establecimiento["iddirecc"]; ?>" size="70" class="textbox"/></td>
@@ -131,3 +131,4 @@
 <br/><br/>
 <input type="hidden" id="hddNroEstablecimiento" name="hddNroEstablecimiento" value="<?php echo $establecimiento["nro_establecimiento"]; ?>"/>
 </form>
+</div>

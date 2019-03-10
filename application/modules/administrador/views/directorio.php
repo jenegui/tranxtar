@@ -38,26 +38,27 @@
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
 	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
-	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Agregar Clientes" class="button"/>
-	  			<!--input type="button" id="btnDescarga" name="btnDescarga" value="Descarga Claves" class="button"/-->
+	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Agregar clientes" class="button"/>
+	  			<input type="button" id="btnEditar" name="btnEditar" value="Editar fuentes" class="button"/>
 	  <?php //} ?>
 	</div>
 </div>
 <br/>
 <div id="divDirectorio">
-<table width="100%" class="table" style="font-size: 11px;">
-<thead class="thead">
+<table id="tablaDirectorio" width="100%" style="font-size: 11px;">
+<thead>
 <tr>
   <th>N.Establ</th>
   <th>Nombre Establecimiento</th>
-  <th>Diercci&oacute;n</th>
+  <th>NIT</th>
+  <th>Direcci&oacute;n</th>
   <th>Tel&eacute;fono</th>
   <th>Correo electr&oacute;nico</th>
   <th>Contacto</th>
   <th>Departamento</th>
   <th>Municipio</th>
   <th>Estado</th>
-  <th>Opciones</th>
+  <!--th>Opciones</th-->
 </tr>
 </thead>
 <tbody>
@@ -68,25 +69,27 @@ for ($i=0; $i<count($fuentes); $i++){
     $url=base_url("administrador/mostrarFormulario/".$fuentes[$i]["nro_establecimiento"]);
     
 ?>
-<tr class="<?php echo $class; ?>">
+<tr>
  
-  <td><a href="<?php echo $url; ?>"><?php echo $fuentes[$i]["nro_establecimiento"]; ?></a></td>
-  <td><?php echo $fuentes[$i]["idnomcom"]; ?></td>
+  <!--td><a href="<?php //echo $url; ?>"><?php //echo $fuentes[$i]["nro_establecimiento"]; ?></a></td-->
+    <td><?php //echo $fuentes[$i]["nro_establecimiento"]; ?></td> 
+  <td><?php //echo $fuentes[$i]["idnomcom"]; ?></td>
+  <td><?php echo $fuentes[$i]["nit_establecimiento"]; ?></td>
   <td><?php echo $fuentes[$i]["iddirecc"]; ?></td>
   <td><?php echo $fuentes[$i]["idtelno"]; ?></td>
   <td><?php echo $fuentes[$i]["idcorreo"]; ?></td>
   <td><?php echo $fuentes[$i]["nom_contacto"]; ?></td>
   <td><?php echo $fuentes[$i]["fk_depto"]; ?></td>
   <td><?php echo $fuentes[$i]["fk_mpio"]; ?></td>
-  <td class="redText"><?php echo $fuentes[$i]["estado"]; ?></td>
-  <td align="center">
-     <a href="<?php echo site_url("administrador/editarFuente/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php echo base_url("images/edit.png"); ?>"/></a>
-     <a href="javascript:removerFuenteDirectorio(<?php echo $fuentes[$i]["nro_establecimiento"]; ?>);"><img src="<?php echo base_url("images/delete.png"); ?>"/></a>
+  <td><?php echo $fuentes[$i]["estado"]; ?></td>
+  <!--td align="center">
+     <a href="<?php //echo site_url("administrador/editarFuente/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php //echo base_url("images/edit.png"); ?>"/></a>
+     <a href="javascript:removerFuenteDirectorio(<?php echo $fuentes[$i]["nro_establecimiento"]; ?>);"><img src="<?php //echo base_url("images/delete.png"); ?>"/></a>
      <?php /*
      <a href="<?php echo site_url("administrador/eliminarFuente/".$fuentes[$i]["nro_orden"]."/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php echo base_url("images/delete.png"); ?>"/></a>
      */
      ?>
-  </td>
+  </td-->
   
 </tr>
 <?php } ?>
@@ -107,19 +110,20 @@ for ($i=0; $i<count($fuentes); $i++){
 
 
 <!-- Div para ageragr empresas -->
-<!--div id="agregarEmpresa">
+<div id="editarCliente" style="display: none">
 <?php 
-	/*$data["departamentos"] = $departamentos;
+        $data["tipodocs"] = $tipodocs;
+	$data["departamentos"] = $departamentos;
 	$data["municipios"] = $municipios;
-        $data["ultimoOrden"]=$NoOrden;
-	$this->load->view("empresa_agregar",$data); */
+        $data["ultimoEstab"]=$NoEstab;
+	$this->load->view("consultarfte",$data);
 ?>
 </div>
 
 
 
 <!-- Div para agregar establecimientos -->
-<div id="agregarFuente">
+<div id="agregarFuente" style="display: none">
 <?php 
 	//Preparo array para terminar de enviarlo como parametro a la vista AJAX
 	$data["tipodocs"] = $tipodocs;

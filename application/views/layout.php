@@ -17,6 +17,8 @@ if ($controller == "miniencuesta") {
             <link rel="stylesheet" href="<?php echo base_url("css/1140.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url("css/custom-theme/jquery-ui-1.8.18.custom.css"); ?>" />
             <link rel="stylesheet" href="<?php echo base_url("css/styles.css"); ?>" type="text/css" media="screen" />
+            <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
+            <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables.css"); ?>" type="text/css" media="screen" />
             <!-- General -->
             <script type="text/javascript" src="<?php echo base_url("js/general/css3-mediaqueries.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery-1.7.2.min.js"); ?>"></script>
@@ -25,6 +27,9 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery.qtip-1.0.0-rc3.min.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery.validate.min.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/danevalidator.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.min.js"); ?>"></script>
+             
             <!-- Fuente -->
             <?php if ($controller == "fuente") { ?>
                 <script type="text/javascript" src="<?php echo base_url("js/fuente/jsfuente.js"); ?>"></script>

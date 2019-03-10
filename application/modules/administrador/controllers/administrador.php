@@ -1659,7 +1659,7 @@ class Administrador extends MX_Controller {
 		
                 //Validar que el establecimiento no estï¿½ registrado ya
                 if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
-                        $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones);
+                        $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones);
                         echo "La fuente ha sido registrada.";
                 }			
                 else{
@@ -1756,6 +1756,31 @@ class Administrador extends MX_Controller {
 		
 	}
 	
+        //Procesa el ajaz para mostrar los establecimientos en el datatable
+        public function directorioClientes(){
+            $this->load->model("directorio");
+            $data["fuentes"] = $this->directorio->obtenerFuentesTodas();
+            for($i=0;$i<count($data["fuentes"]);$i++)
+            {
+                $datas[]=array('NumEstabl'=>$data["fuentes"][$i]['nro_establecimiento'],
+                    'NombreEstablecimiento'=>$data["fuentes"][$i]['idnomcom'],
+                    'NIT'=>$data["fuentes"][$i]['nit_establecimiento'],
+                    'Dierccion'=>$data["fuentes"][$i]['iddirecc'],
+                    'telefono'=>$data["fuentes"][$i]['idtelno'],
+                    'email'=>$data["fuentes"][$i]['idcorreo'],
+                    'Contacto'=>$data["fuentes"][$i]['nom_contacto'],
+                    'Departamento'=>$data["fuentes"][$i]['fk_depto'],
+                    'Municipio'=>$data["fuentes"][$i]['fk_mpio'],
+                    'Estado'=>$data["fuentes"][$i]['estado']);
+            }
+            $results = array(
+                    "sEcho" => 1,
+                    "iTotalRecords" => count($data["fuentes"]),
+                    "iTotalDisplayRecords" => count($data["fuentes"]),
+                    "aaData"=>$datas);
+            echo json_encode($results);
+            
+        }
 	
 	//Remueve las fuentes del directorio de fuentes. Operacion DELETE sobre el directorio de fuentes. Se eliminan los datos del periodo actual. 
 	//Si existen datos de periodos anteriores, estos datos se mantienen.
@@ -2131,9 +2156,16 @@ class Administrador extends MX_Controller {
             $this->load->model("empresa");
             $this->load->model("establecimiento");
             $data["controller"] = "administrador";
+            if(isset($_REQUEST['nro_establecimiento'])){
+                $this->session->set_userdata('nro_establecimiento', $_REQUEST['nro_establecimiento']);
+                $nro_establecimiento= $this->session->userdata("nro_establecimiento");
+            }else{
+                $nro_establecimiento=$nro_establecimiento;
+            }
             $data["view"] = "editarfte";
             $nom_usuario = $this->session->userdata("nombre");
             $tipo_usuario = $this->session->userdata("tipo_usuario");
+            
             if($tipo_usuario==1){
                     $data['tipo_usuario']=$this->session->userdata("controlador");
             }

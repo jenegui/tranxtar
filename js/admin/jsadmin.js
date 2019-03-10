@@ -220,6 +220,15 @@ $(function () {
             modal: true
         });
     });
+    
+    //Abre el dialogo para agregar editar fuentes
+    $("#btnEditar").click(function () {
+        $("#editarCliente").dialog({
+            width: 780,
+            title: 'Editar clientes',
+            modal: true
+        });
+    });
 
     $("#btnUsuEstab").click(function () {
         $("#generarUsuarioEstab").dialog({
@@ -400,6 +409,13 @@ $(function () {
                 txtDirEstab: {
                     required: true
                 },
+                idtelefono: {
+                    required: true
+                },
+                 idcorreo: {
+                    required: true,
+                    email: true
+                },
                 cmbDeptoEstab: {
                     required: true,
                     comboBox: '-'
@@ -419,6 +435,9 @@ $(function () {
                 cmbSubSedeEstab: {
                     required: true,
                     comboBox: '-'
+                },
+                nom_contacto: {
+                    required: true
                 },
                 cmbInclusion: {
                     required: true,
@@ -444,6 +463,13 @@ $(function () {
                 txtDirEstab: {
                     required: "Debe ingresar la direcci&oacute;n del establecimiento"
                 },
+                idtelefono: {
+                    required: "Debe ingresar el número de teléfono"
+                },
+                idcorreo: {
+                    required: "Debe ingresar el correo electrónico",
+                    email : "Debe ingresar un correo electrónico válido"
+                },
                 cmbDeptoEstab: {
                     required: "Debe indicar el departamento",
                     comboBox: "Debe indicar el departamento"
@@ -463,6 +489,9 @@ $(function () {
                 cmbSubSedeEstab: {
                     required: "Debe indicar la sub - sede",
                     comboBox: "Debe indicar la sub - sede"
+                },
+                nom_contacto: {
+                    required: "Debe ingrear el nombre del contacto",
                 },
                 cmbInclusion: {
                     required: "Debe indicar el tipo de inclusi&oacute;n",
@@ -2431,4 +2460,37 @@ $(document).ready(function () {
         $("#FormularioExportacion").submit();
     });
 });
+
 //}
+$(document).ready(function(){
+    $('#tablaDirectorio').dataTable( {
+                    "sPaginationType": "full_numbers",
+                    "aaSorting": [[ 2, "asc" ]],
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bJQueryUI": true,
+                    "bAutoWidth": true, 
+                    "processing": true,
+                    "serverSide": true,
+                    "bProcessing": true,
+                    "sAjaxSource": base_url +"administrador/directorioClientes",
+                     "aoColumns": [
+                            { mData: 'NumEstabl' } ,
+                            { mData: 'NombreEstablecimiento' },
+                            { mData: 'NIT' },
+                            { mData: 'Dierccion' },
+                            { mData: 'telefono' },
+                            { mData: 'email' },
+                            { mData: 'Contacto' },
+                            { mData: 'Departamento' },
+                            { mData: 'Municipio' },
+                            { mData: 'Estado' }
+                    ]
+     } );
+     
+     
+ 
+});

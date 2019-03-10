@@ -127,7 +127,7 @@ class Establecimiento extends CI_Model {
     
    	function obtenerDatosEstablecimiento($nro_establecimiento){
    		$establecimiento = array();
-   		$sql = "SELECT id_establecimiento, idnomcom, iddirecc, nom_contacto, idtelno, idfaxno, idcorreo, nom_contacto, 
+   		$sql = "SELECT id_establecimiento, idnomcom, nit_establecimiento, iddirecc, nom_contacto, idtelno, idfaxno, idcorreo, nom_contacto, 
    		               fk_depto, fk_mpio, estado_establecimiento,
                                CASE WHEN estado_establecimiento = 1 THEN 'Activo'
                                ELSE 'Inactivo' END AS nom_estado_establecimiento, 
@@ -140,6 +140,7 @@ class Establecimiento extends CI_Model {
 			foreach($query->result() as $row){
 				$establecimiento["nro_establecimiento"] = $row->id_establecimiento;
 				$establecimiento["idnomcom"] = $row->idnomcom;
+                                $establecimiento["nit_establecimiento"] = $row->nit_establecimiento;
 				$establecimiento["iddirecc"] = $row->iddirecc;
 				$establecimiento["idtelno"] = $row->idtelno;
 				$establecimiento["idfaxno"] = $row->idfaxno;
@@ -152,13 +153,15 @@ class Establecimiento extends CI_Model {
                                 $establecimiento["observaciones"] = $row->observaciones;
 			}
 		}
+                 
 		$this->db->close();
 		return $establecimiento;
    	}
    	
-   	function insertarEstablecimiento($txtNumEstab, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones){
+   	function insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones){
    		$data = array('id_establecimiento' => $txtNumEstab, 
-   		              'idnomcom' => $txtNomEstab, 
+   		              'idnomcom' => $txtNomEstab,
+                               'nit_establecimiento' => $txtNitEmpresa,
    		              'iddirecc' => $txtDirEstab, 
    		              'idtelno' => $idtelefono, 
    		              'idcorreo' => $idcorreo,

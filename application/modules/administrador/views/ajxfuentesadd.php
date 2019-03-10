@@ -11,6 +11,10 @@
 	  <td>Nombre comercial: </td>
 	  <td><input type="text" id="txtNomEstab" name="txtNomEstab" value="" size="70" class="textbox"/></td>
 	</tr>
+        <tr>
+	  <td>NIT empresa: </td>
+	  <td><input type="text" id="txtNitEmpresa" name="txtNitEmpresa" value="" size="70" class="textbox"/></td>
+	</tr>
 	<tr>
 	  <td>Direcci&oacute;n: </td>
 	  <td><input type="text" id="txtDirEstab" name="txtDirEstab" value="" size="70" class="textbox"/></td>
