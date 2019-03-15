@@ -29,6 +29,7 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/general/danevalidator.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.min.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/general/ready.js"); ?>"></script>
              
             <!-- Fuente -->
             <?php if ($controller == "fuente") { ?>

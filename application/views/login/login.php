@@ -1,4 +1,4 @@
-<?php $this->load->helper("url"); ?>
+<?php $this->load->helper("url");?>
 <h1>Bienvenido a la Encuesta Mensual de Alojamiento (EMA)</h1>
 <p>El objetivo de esta investigaci&oacute;n es obtener informaci&oacute;n coyuntural del sector, relacionada con ingresos, empleo y gastos de personal, adem&aacute;s de algunos indicadores espec&iacute;ficos que describen su estado y evoluci&oacute;n en el corto plazo, para guiar la implementaci&oacute;n de medidas o pol&iacute;ticas que beneficien el desarrollo sectorial. Gracias a su valiosa colaboraci&oacute;n, los resultados de esta investigaci&oacute;n son una herramienta importante en la toma de decisiones econ&oacute;micas del pa&iacute;s.</p>
 <br/>
@@ -16,7 +16,16 @@
 		<td><input type="password" id="txtPassword" name="txtPassword" value="" size="15" maxlength="15" class="txtLogin"/></td>
 	</tr>
 	<tr>
-	    <td colspan="2">&nbsp;</td>
+	    <td colspan="2">
+                <?php 
+                if($this->session->userdata("error_login")==1){
+                    echo "<p style = 'font-size:12 px ; color: red'> Login/Password Incorrectos</p>";
+                }else{
+                    echo "&nbsp;";
+                }
+               ?>
+                
+            </td>
 	</tr>
 	<tr>
 	    <td colspan="2" align="center"><input type="submit" id="btnIngresar" name="btnIngresar" value="Ingresar" class="button"/></td>

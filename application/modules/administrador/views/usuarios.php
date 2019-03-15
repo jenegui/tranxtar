@@ -70,7 +70,7 @@
 	     <td><?php echo $usuarios[$i]["rol"]; ?></td>
 	     <td align="center">
 	     	 <?php  //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?> 
-	     	 	<a href="javascript:modificarUsuarioADM(<?php echo $usuarios[$i]["id"]; ?>);"><img src="<?php echo base_url("images/edit.png"); ?>" border="0"/></a>
+                 <a href="javascript:modificarUsuarioADM(<?php echo $usuarios[$i]["id"]; ?>);"><img src="<?php echo base_url("images/edit.png"); ?>" border="0"/></a>
 	     	 <?php //} ?>
 	     </td>
 	     <td align="center">

@@ -21,13 +21,13 @@
 			</li>
 			<li><a href="<?php echo site_url("administrador/directorio"); ?>">Clientes</a></li>			
 			<li><a href="<?php echo site_url("administrador/usuarios"); ?>">Usuarios</a></li>
-			<li><a href="<?php echo site_url("administrador/operativo"); ?>">Operativo</a></li>
-			<li><a href="<?php echo site_url("administrador/generarUsuarios"); ?>">Control directorio</a></li>
-			<li><a href="<?php echo site_url("descargaplanos/descargarPlanos"); ?>">Descarga Planos</a></li>
+			<li><a href="<?php echo site_url("administrador/operativo"); ?>">Control Guias</a></li>
+			<li><a href="<?php echo site_url("administrador/Operarios"); ?>">Operarios Externos</a></li>
+			<!--li><a href="<?php echo site_url("administrador/operarios"); ?>">Descarga Planos</a></li>
 			<li><a href="<?php echo site_url("indicadorcalidad/adminindicador"); ?>">Ind. Calidad</a></li>
 			<li><a href="<?php echo site_url("moduloanalisis/moduloanalisis"); ?>">Mod. An&aacute;lisis</a></li>
 			<li><a href="<?php echo site_url("administrador/cierreperiodo");?>">Cierre de periodo</a></li>
-			<li><a href="<?php echo site_url("administrador/descarga"); ?>">Formulario&nbsp;<img src="<?php echo base_url("images/acrobat.png"); ?>" title="Formulario en Blanco" border="0"/></a></li>
+			<li><a href="<?php echo site_url("administrador/descarga"); ?>">Formulario&nbsp;<img src="<?php echo base_url("images/acrobat.png"); ?>" title="Formulario en Blanco" border="0"/></a></li-->
 			<li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;<img src="<?php echo base_url("images/exit.png"); ?>" title="Salir de la aplicaci&oacute;n" border="0"/></a></li>
 		</ul>
 	</div>	

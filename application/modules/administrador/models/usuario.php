@@ -28,7 +28,7 @@ class Usuario extends CI_Model {
 				$usuario["num_identificacion"] = $row->num_identificacion;
 				$usuario["nombre"] = $row->nom_usuario;
 				$usuario["log_usuario"] = $row->log_usuario;
-				$usuario["pass_usuario"] = $this->danecrypt->decodificar($row->pass_usuario);
+				$usuario["pass_usuario"] = "";
 				$usuario["email"] = $row->mail_usuario;
 				$usuario["fec_creacion"] = $row->fec_creacion;
 				$usuario["fec_vencimiento"] = $row->fec_vencimiento;
@@ -42,6 +42,39 @@ class Usuario extends CI_Model {
 		}
 		$this->db->close();
 		return $usuario;
+    }
+    
+    //Obtiene todos los operarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
+    function obtenerOperarioID($id){
+    	$usuarios = array();
+            $sql = "SELECT id_operario, nombre_operario , telefono_operario , nro_identificacion, fk_tipodoc, c.nom_tipodoc, 
+            CASE a.estado_operario
+            WHEN 1 THEN 'Activo'
+            WHEN 0 THEN 'Inactivo'
+            END as estado_operario,
+            nro_placa
+            FROM txtar_param_operario a, txtar_param_tipodocs c
+            WHERE
+            fk_tipodoc=id_tipodoc
+            AND id_operario = $id
+            ORDER BY id_operario";
+    	$query = $this->db->query($sql);
+		if ($query->num_rows()>0){
+			//$i = 0;
+			foreach($query->result() as $row){
+				$usuarios["id_operario"] = $row->id_operario;
+				$usuarios["nombre_operario"] = $row->nombre_operario;
+				$usuarios["telefono_operario"] = $row->telefono_operario;
+				$usuarios["nro_identificacion"] = $row->nro_identificacion;
+				$usuarios["fk_tipodoc"] = $row->fk_tipodoc;
+				$usuarios["nom_tipodoc"] = $row->nom_tipodoc;
+				$usuarios["estado_operario"] = $row->estado_operario;
+                                $usuarios["nro_placa"] = $row->nro_placa;
+				//$i++;
+			}
+		}
+		$this->db->close();
+		return $usuarios;
     }
     
     //Obtiene el nombre de un usuario del sistema (No fuente)
@@ -196,195 +229,41 @@ class Usuario extends CI_Model {
     	return $fuentes;
     }
     
-	//Obtiene todas las fuentes que ya han sido asignadas a un critico.
-    //Recibe como parametro el id de usuario del critico, para conocer las fuentes que se le han asignado
-    function obtenerFuentesAsignadas($id, $ano_periodo, $mes_periodo){    	
-    	$this->load->model("divipola");
-    	$this->load->model("sede");
-    	$this->load->model("subsede");
-    	$fuentes = array();
-    	$sql = "SELECT C.nro_orden, C.nro_establecimiento, EM.idproraz, ES.idnomcom, ES.idsigla, ES.iddirecc, ES.idtelno, ES.idfaxno, ES.idcorreo,
-                       ES.finicial, ES.ffinal, ES.fk_depto, ES.fk_mpio, ES.fk_sede, ES.fk_subsede
-				FROM rmmh_admin_control C, rmmh_admin_empresas EM, rmmh_admin_establecimientos ES
-				WHERE C.nro_orden = EM.nro_orden
-				AND C.nro_orden = ES.nro_orden
-				AND C.nro_establecimiento = ES.nro_establecimiento
-				AND C.ano_periodo = $ano_periodo
-				AND C.mes_periodo = $mes_periodo
-				AND C.fk_usuariocritica = $id";    	        
-    	$query = $this->db->query($sql);
-    	if ($query->num_rows()>0){
-    		$i=0;
-    		foreach($query->result() as $row){
-    			$fuentes[$i]["nro_orden"] = $row->nro_orden;
-	    		$fuentes[$i]["nro_establecimiento"] = $row->nro_establecimiento;
-	    		$fuentes[$i]["idproraz"] = $row->idproraz;
-	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
-	    		$fuentes[$i]["idsigla"] = $row->idsigla;
-	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
-	    		$fuentes[$i]["idtelno"] = $row->idtelno;
-	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
-	    		$fuentes[$i]["idcorreo"] = $row->idcorreo;
-	    		$fuentes[$i]["finicial"] = $row->finicial;
-	    		$fuentes[$i]["ffinal"] = $row->ffinal;
-	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
-	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);	    		
-	    		$fuentes[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
-	    		$fuentes[$i]["subsede"] = $this->subsede->nombreSubSede($row->fk_subsede);
-    			$i++;
-    		}
-    	}
-    	$this->db->close();    	
-    	return $fuentes;
-    }
-     
-    //Obtiene todas las fuentes que ya han sido asignadas a un usuario logistico.
-    //Recibe como parametro el id de usuario del logistico, para conocer las fuentes que se le han asignado
-    function obtenerFuentesAsignadasLogistica($id, $ano_periodo, $mes_periodo){
-    	$this->load->model("divipola");
-    	$this->load->model("sede");
-    	$this->load->model("subsede");
-    	$asignadas = array();
-    	$sql = "SELECT C.nro_orden, C.nro_establecimiento, EM.idproraz, ES.idnomcom, ES.idsigla, ES.iddirecc, ES.idtelno, ES.idfaxno, ES.idcorreo,
-                       ES.finicial, ES.ffinal, ES.fk_depto, ES.fk_mpio, ES.fk_sede, ES.fk_subsede
-                FROM rmmh_admin_control C, rmmh_admin_empresas EM, rmmh_admin_establecimientos ES
-                WHERE C.nro_orden = EM.nro_orden
-                AND C.nro_orden = ES.nro_orden
-                AND C.nro_establecimiento = ES.nro_establecimiento
-                AND C.ano_periodo = $ano_periodo
-                AND C.mes_periodo = $mes_periodo
-                AND fk_usuariologistica = $id";
-    	$query = $this->db->query($sql);
-    	if ($query->num_rows()>0){
-    		$i=0;
-    		foreach($query->result() as $row){
-    			$asignadas[$i]["nro_orden"] = $row->nro_orden;
-    			$asignadas[$i]["nro_establecimiento"] = $row->nro_establecimiento;
-    			$asignadas[$i]["idproraz"] = $row->idproraz;
-    			$asignadas[$i]["idnomcom"] = $row->idnomcom;
-    			$asignadas[$i]["idsigla"] = $row->idsigla;
-    			$asignadas[$i]["idddirecc"] = $row->iddirecc;
-    			$asignadas[$i]["idtelno"] = $row->idtelno;
-    			$asignadas[$i]["idfaxno"] = $row->idfaxno;
-    			$asignadas[$i]["idcorreo"] = $row->idcorreo;
-    			$asignadas[$i]["finicial"] = $row->finicial;
-    			$asignadas[$i]["ffinal"] = $row->ffinal;
-    			$asignadas[$i]["fk_depto"] = $row->fk_depto;
-    			$asignadas[$i]["fk_mpio"] = $row->fk_mpio;
-    			$asignadas[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
-    			$asignadas[$i]["subsede"] = $this->subsede->nombreSubSede($row->fk_subsede);
-    			$i++;
-    		}
-    	}
-    	$this->db->close();
-    	return $asignadas;
+    //Inserta el registro de un nuevo usuario en la base de datos
+    function insertarUsuario($num_identificacion, $nom_usuario, $log_usuario, $pass_usuario, $mail_usuario, $fec_creacion, $fec_vencimiento, $nro_orden, $nro_establecimiento, $fk_tipodoc, $fk_rol, $fk_sede, $fk_subsede) {
+        //Verificar que el usuario no exista ya en la base de datos
+        $data = array('num_identificacion' => $num_identificacion,
+            'nom_usuario' => $nom_usuario,
+            'log_usuario' => $log_usuario,
+            'pass_usuario' => $pass_usuario,
+            'mail_usuario' => $mail_usuario,
+            'fec_creacion' => $fec_creacion,
+            'fec_vencimiento' => $fec_vencimiento,
+            'nro_orden' => $nro_orden,
+            'nro_establecimiento' => $nro_establecimiento,
+            'fk_tipodoc' => $fk_tipodoc,
+            'fk_rol' => $fk_rol,
+            'fk_sede' => $fk_sede,
+            'fk_subsede' => $fk_subsede
+        );
+        $this->db->insert('txtar_admin_usuarios', $data);
+        $this->db->close();
     }
     
-	//Obtiene todas las fuentes que aun no han sido asignadas a un critico
- 	function obtenerFuentesSinAsignar($ano_periodo, $mes_periodo, $sedeCritico, $subSedeCritico){
-    	$this->load->model("divipola");
-    	$this->load->model("sede");
-    	$this->load->model("subsede");
-    	$fuentes = array();
-    	$sql = "SELECT C.nro_orden, C.nro_establecimiento, EM.idproraz, ES.idnomcom, ES.idsigla, ES.iddirecc, ES.idtelno, ES.idfaxno, ES.idcorreo,
-                       ES.finicial, ES.ffinal, ES.fk_depto, ES.fk_mpio, ES.fk_sede, ES.fk_subsede
-                FROM rmmh_admin_control C, rmmh_admin_empresas EM, rmmh_admin_establecimientos ES
-                WHERE C.nro_orden = EM.nro_orden
-                AND C.nro_orden = ES.nro_orden
-                AND C.nro_establecimiento = ES.nro_establecimiento
-                AND C.fk_sede=$sedeCritico
-                AND C.fk_subsede=$subSedeCritico
-                AND C.ano_periodo = $ano_periodo
-                AND C.mes_periodo = $mes_periodo
-                AND C.fk_usuariocritica = 0";
-		$query = $this->db->query($sql);
-		
-    	if ($query->num_rows()>0){
-    		$i = 0;
-    		foreach($query->result() as $row){
-	    		$fuentes[$i]["nro_orden"] = $row->nro_orden;
-	    		$fuentes[$i]["nro_establecimiento"] = $row->nro_establecimiento;
-	    		$fuentes[$i]["idproraz"] = $row->idproraz;
-	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
-	    		$fuentes[$i]["idsigla"] = $row->idsigla;
-	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
-	    		$fuentes[$i]["idtelno"] = $row->idtelno;
-	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
-	    		$fuentes[$i]["idcorreo"] = $row->idcorreo;
-	    		$fuentes[$i]["finicial"] = $row->finicial;
-	    		$fuentes[$i]["ffinal"] = $row->ffinal;
-	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
-	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);	    		
-	    		$fuentes[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
-	    		$fuentes[$i]["subsede"] = $this->subsede->nombreSubSede($row->fk_subsede);	    		
-	    		$i++;
-    		}
-    	}
-    	$this->db->close();
-    	return $fuentes;
-    }
-    
-	//Obtiene todas las fuentes que aun no han sido asignadas a un logistico
- 	function obtenerFuentesSinAsignarLogistica($ano_periodo, $mes_periodo){
-    	$this->load->model("divipola");
-    	$this->load->model("sede");    	
-    	$this->load->model("subsede");
-    	$fuentes = array();
-    	$sql = "SELECT C.nro_orden, C.nro_establecimiento, EM.idproraz, ES.idnomcom, ES.idsigla, ES.iddirecc, ES.idtelno, ES.idfaxno, ES.idcorreo,
-                       ES.finicial, ES.ffinal, ES.fk_depto, ES.fk_mpio, ES.fk_sede, ES.fk_subsede
-                FROM rmmh_admin_control C, rmmh_admin_empresas EM, rmmh_admin_establecimientos ES
-                WHERE C.nro_orden = EM.nro_orden
-                AND C.nro_orden = ES.nro_orden
-                AND C.nro_establecimiento = ES.nro_establecimiento
-                AND C.ano_periodo = $ano_periodo
-                AND C.mes_periodo = $mes_periodo
-                AND fk_usuariologistica = 0";
-    	$query = $this->db->query($sql);
-    	if ($query->num_rows()>0){
-    		$i = 0;
-    		foreach($query->result() as $row){
-	    		$fuentes[$i]["nro_orden"] = $row->nro_orden;
-	    		$fuentes[$i]["nro_establecimiento"] = $row->nro_establecimiento;
-	    		$fuentes[$i]["idproraz"] = $row->idproraz;
-	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
-	    		$fuentes[$i]["idsigla"] = $row->idsigla;
-	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
-	    		$fuentes[$i]["idtelno"] = $row->idtelno;
-	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
-	    		$fuentes[$i]["idcorreo"] = $row->idcorreo;
-	    		$fuentes[$i]["finicial"] = $row->finicial;
-	    		$fuentes[$i]["ffinal"] = $row->ffinal;
-	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
-	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);	    		
-	    		$fuentes[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
-	    		$fuentes[$i]["subsede"] = $this->subsede->nombreSubSede($row->fk_subsede);
-	    		$i++;
-    		}
-    	}
-    	$this->db->close();
-    	return $fuentes;
-    }
-    
-    
-	//Inserta el registro de un nuevo usuario en la base de datos
-    function insertarUsuario($num_identificacion, $nom_usuario, $log_usuario, $pass_usuario, $mail_usuario, $fec_creacion, $fec_vencimiento, $nro_orden, $nro_establecimiento, $fk_tipodoc, $fk_rol, $fk_sede, $fk_subsede){
-		//Verificar que el usuario no exista ya en la base de datos
-		$data = array('num_identificacion' => $num_identificacion,
-    	              'nom_usuario' => $nom_usuario,
-    	              'log_usuario' => $log_usuario,
-    	              'pass_usuario' => $pass_usuario,
-    	              'mail_usuario' => $mail_usuario,
-    	              'fec_creacion' => $fec_creacion,
-    	              'fec_vencimiento' => $fec_vencimiento,
-    	              'nro_orden' => $nro_orden,
-		              'nro_establecimiento' => $nro_establecimiento,
-		              'fk_tipodoc' => $fk_tipodoc,
-		              'fk_rol' => $fk_rol,
-		              'fk_sede' => $fk_sede,
-		              'fk_subsede' => $fk_subsede		              
-    	);
-		$this->db->insert('txtar_admin_usuarios', $data);
-		$this->db->close();
+    //Inserta el registro de un nuevo operario en la base de datos
+    function insertarOperario($cmbTipoDocumento, $txtNumId, $txtNomUsuario, $teloperario, $numplaca, $fecini, $usuario, $estado) {
+        //Verificar que el usuario no exista ya en la base de datos
+        $data = array('nro_identificacion' => $txtNumId,
+            'nombre_operario' => $txtNomUsuario,
+            'fk_tipodoc' => $cmbTipoDocumento,
+            'telefono_operario' => $teloperario,
+            'nro_placa' => $numplaca,
+            'fecha_registro' => $fecini,
+            'id_usuario' => $usuario,
+            'estado_operario' => 1
+        );
+        $this->db->insert('txtar_param_operario', $data);
+        $this->db->close();
     }
     
     //Obtiene el ID de usuario del ultimo usuario que se inserto en la B.D.
@@ -755,6 +634,43 @@ class Usuario extends CI_Model {
 		return $usuarios;
     }
     
+    //Obtiene todos los operarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
+    function obtenerOperariosPagina($desde, $hasta){
+    	$usuarios = array();
+    	$this->load->model("control");	
+    	$this->load->model("rol");
+    	$this->load->model("sede");
+    	$this->load->model("subsede");
+    	$sql = "SELECT id_operario, nombre_operario , telefono_operario , nro_identificacion, fk_tipodoc, c.nom_tipodoc, 
+            CASE a.estado_operario
+            WHEN 1 THEN 'Activo'
+            WHEN 0 THEN 'Inactivo'
+            END as estado_operario,
+            nro_placa
+            FROM txtar_param_operario a, txtar_param_tipodocs c
+            WHERE
+            fk_tipodoc=id_tipodoc
+            ORDER BY id_operario
+            LIMIT $desde, $hasta";
+    	$query = $this->db->query($sql);
+		if ($query->num_rows()>0){
+			$i = 0;
+			foreach($query->result() as $row){
+				$usuarios[$i]["id_operario"] = $row->id_operario;
+				$usuarios[$i]["nombre_operario"] = $row->nombre_operario;
+				$usuarios[$i]["telefono_operario"] = $row->telefono_operario;
+				$usuarios[$i]["nro_identificacion"] = $row->nro_identificacion;
+				$usuarios[$i]["fk_tipodoc"] = $row->fk_tipodoc;
+				$usuarios[$i]["nom_tipodoc"] = $row->nom_tipodoc;
+				$usuarios[$i]["estado_operario"] = $row->estado_operario;
+                                $usuarios[$i]["nro_placa"] = $row->nro_placa;
+				$i++;
+			}
+		}
+		$this->db->close();
+		return $usuarios;
+    }
+    
     
     /***********
     
@@ -832,6 +748,25 @@ class Usuario extends CI_Model {
     	}
     }
     
+    
+     //Verifica que un numero de identificacion no exista ya dentro de la base de datos. (No pueden haber dos usuarios con el mismo numero de identificacion)
+    function numIdentOperarioExiste($tipo, $numdoc){
+    	$sql = "SELECT fk_tipodoc, nro_identificacion
+                FROM txtar_param_operario
+                WHERE fk_tipodoc = $tipo
+                AND nro_identificacion = $numdoc";
+    	$query = $this->db->query($sql);
+    	if ($query->num_rows() > 0){
+    		$this->db->close();
+    		return true;
+    	}
+    	else{
+    		$this->db->close();
+    		return false;
+    	}
+        
+    }
+    
 	//Elimina el registro de un usuario de la tabla de usuarios
     function eliminarUsuario($index){
     	$data = array('estado' => "P");
@@ -857,7 +792,8 @@ class Usuario extends CI_Model {
                       'estado' =>  'A'
     	);
     	$this->db->where('id_usuario', $id);
-		$this->db->update('txtar_admin_usuarios', $data);
+	$this->db->update('txtar_admin_usuarios', $data);
+        //echo $this->db->last_query();
     }
     
 	function obtenerRolUsuario($id){

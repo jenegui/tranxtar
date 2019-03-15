@@ -78,7 +78,7 @@ $(function(){
 </script>
 <?php $this->load->helper("url"); ?>
 <br/>
-<h1>Modificar Usuario</h1>
+<h1>Modificar Operario</h1>
 <br/>
 <form id="frmUPDusuario" name="frmUPDUsuario" method="post" action="<?php echo site_url("administrador/actualizarUsuario"); ?>">
 <table width="100%">
@@ -88,24 +88,24 @@ $(function(){
         <option value="-">Seleccione el tipo de documento...</option>
         <?php for ($i=0; $i<count($tipodoc); $i++){
      	 		 if ($usuario["fk_tipodoc"]==$tipodoc[$i]["id"])
-         			echo '<option value="'.$tipodoc[$i]["id"].'" selected="selected">'.utf8_encode($tipodoc[$i]["nombre"]).'</option>';
+         			echo '<option value="'.$tipodoc[$i]["id"].'" selected="selected">'.$tipodoc[$i]["nombre"].'</option>';
          		 else	
-         		 	echo '<option value="'.$tipodoc[$i]["id"].'">'.utf8_encode($tipodoc[$i]["nombre"]).'</option>';
+         		 	echo '<option value="'.$tipodoc[$i]["id"].'">'.$tipodoc[$i]["nombre"].'</option>';
      	}?>
         </select>
     </td>
 </tr>
 <tr>
     <td>Num. Identificaci&oacute;n: </td>
-    <td><input type="text" id="txtNumId" name="txtNumId" value="<?php echo $usuario["num_identificacion"]; ?>" class="textbox"/></td>
+    <td><input type="text" id="txtNumId" name="txtNumId" value="<?php echo $operario["nro_identificacion"]; ?>" class="textbox"/></td>
 </tr>
 <tr>
     <td>Nombre Usuario: </td>
-    <td><input type="text" id="txtNomUsuario" name="txtNomUsuario" value="<?php echo utf8_encode($usuario["nombre"]); ?>" size="50" class="textbox"/></td>
+    <td><input type="text" id="txtNomUsuario" name="txtNomUsuario" value="<?php echo $operario["nombre_operario"]; ?>" size="50" class="textbox"/></td>
 </tr>
 <tr>
     <td>Login: </td>
-    <td><input type="text" id="txtLogin" name="txtLogin" value="<?php echo $usuario["log_usuario"]; ?>" class="textbox"/></td>
+    <td><input type="text" id="txtLogin" name="txtLogin" value="<?php echo $operario["log_usuario"]; ?>" class="textbox"/></td>
 </tr>
 <tr>
     <td>Password: </td>

@@ -13,7 +13,7 @@ class Usuario extends CI_Model {
     //Validaci�n de usuarios y contrase�as con mecanismos de encriptacion segun la libreria DaneCrypt. (Libraries/DaneCrypt)
     //Permite encriptar y desencriptar la contrase�a a pedido. Utiliza encriptacion de dos vias
     function validarUsuario($login, $password) {
-        $this->load->library("danecrypt");
+        $this->load->library("daneCrypt");
         $sql = "SELECT *
                 FROM txtar_admin_usuarios
                 WHERE   log_usuario = '$login'";
@@ -27,13 +27,12 @@ class Usuario extends CI_Model {
             if ($query->num_rows() > 0) {
                 //Validar la fuente
                 foreach ($query->result() as $row) {
-                    //echo $password;
-                   $decode = $this->danecrypt->decodificar($row->pass_usuario);
-                   //echo $decode."mmm<br><br>"; 
-                   //echo $password."nnn<br><br>";
-                   
-                    if (strcmp($password, $decode) == 0) {
-                        //echo "Siiii"; exit;
+                    //echo $password."<br>mmm";
+                    $encryptClave = $this->danecrypt->encode($password);
+                    //echo $encryptClave."<br>nnn";
+                    //echo $row->pass_usuario."<br>rrr";
+                    if (strcmp($encryptClave, $row->pass_usuario) == 0) {
+                       //echo "Siiii"; exit;
                         $this->load->library("session");
                         $sessionData = array('auth' => trim('OK'),
                             'id' => trim($row->id_usuario),

@@ -493,6 +493,38 @@ class Administrador extends MX_Controller {
 		$this->load->view("layout",$data);					
 	}
 	
+        //Muestra los operarios generales del aplicativo ()
+	public function operarios(){
+		$this->load->model("usuario");
+		$nom_usuario = $this->session->userdata("nombre");
+		$tipo_usuario = $this->session->userdata("tipo_usuario");
+		if($tipo_usuario==1){
+			$data['tipo_usuario']=$this->session->userdata("controlador");
+		}
+                
+		$data["nom_usuario"] = $nom_usuario;
+		$data["controller"] = $this->session->userdata("controlador");
+		$data["menu"] = "adminmenu";
+		$data["view"] = "operarios";
+		
+		//Configuracion del paginador
+		$config = array();
+		$config["base_url"] = site_url("administrador/usuarios");
+		$config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
+		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
+		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["first_link"] = "Primero";
+		$config["last_link"] = "&Uacute;ltimo";
+		$config["use_page_numbers"] = TRUE;
+		$this->pagination->initialize($config);
+		//Trabajo de paginacion
+		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
+		$desde = ($pagina - 1) * $config["per_page"];
+		$data["usuarios"] = $this->usuario->obtenerOperariosPagina($desde, $config["per_page"]);
+		$data["links"] = $this->pagination->create_links();		
+		$this->load->view("layout",$data);					
+	}
+        
 	//Muestra el formulario para actualizar los datos de un usuario
 	public function UPDUsuario(){
 		$this->load->model("usuario");
@@ -504,6 +536,20 @@ class Administrador extends MX_Controller {
 		$data["roles"] = $this->rol->obtenerRolesUsuario();
 		$data["usuario"] = $this->usuario->obtenerUsuarioID($index);
 		$this->load->view("ajxusuarioupd",$data);			
+	}
+        
+        //Muestra el formulario para actualizar los datos de un operario
+	public function UPDOperario(){
+		$this->load->model("usuario");
+		$this->load->model("tipodocs");
+		//$this->load->model("rol");
+		$index = $this->input->post("index");
+               $data["index"] = $index;
+		$data["tipodoc"] = $this->tipodocs->obtenerTipoDocumentos();
+		//$data["roles"] = $this->rol->obtenerRolesUsuario();
+		$data["operario"] = $this->usuario->obtenerOperarioID($index);
+                var_dump($data["operario"]) ."MMM<br>";
+		$this->load->view("ajxoperarioupd",$data);			
 	}
 	
 	//Elimina el registro de un usuario en Administrador/Usuarios/Eliminar Usuario
@@ -683,7 +729,7 @@ class Administrador extends MX_Controller {
   			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
   			eval($asignacion);
 		}
-		$password = $this->danecrypt->codificar($txtPassword);
+		$password = $this->danecrypt->encode($txtPassword);
 		$this->usuario->actualizarUsuario($hddIndex, $txtNumId, $txtNomUsuario, $txtLogin, $password, $txtEmail, $txtFecCreacion, $txtFecVencimiento, $cmbRol, 0, 0, $cmbTipoDocumento);
 		redirect('/administrador/usuarios','refresh');
 	}
@@ -1114,9 +1160,6 @@ class Administrador extends MX_Controller {
 	//Muestra el reporte operativo desde el modulo de administracion
 	public function operativo(){
 		$this->load->library("session");
-		$this->load->model("periodo");
-		$this->load->model("sede");
-		$this->load->model("subsede");
 		$this->load->model("control");
 		$ano = $this->session->userdata("ano_periodo");
 		$mes = $this->session->userdata("mes_periodo");
@@ -1915,7 +1958,26 @@ class Administrador extends MX_Controller {
 		echo json_encode($arrayError);		
 	}
 		
-	
+	//Busca en la base de datos si el numero de identificacion del operario que se esta creando ya estï¿½ creado en la base de datos
+	public function validaOperario(){
+		$this->load->model("usuario");
+		$tipo = $this->input->post("tipodoc");
+		$numero = $this->input->post("numdoc");
+                
+		$valid1 = $this->usuario->numIdentOperarioExiste($tipo,$numero);
+		//$valid2 = $this->usuario->existeLogin($login);
+		if ($valid1==true){
+			$validar = false;
+			$error = "El operario ya existe.";
+		}
+		else{
+			$validar = true;
+			$error = "&nbsp;";
+		}
+		$arrayError = array('valid' => $validar,
+			                'error' => $error);
+		echo json_encode($arrayError);		
+	}
 	
 	//Agrega el registro de un nuevo usuario creado en el sistema a la B.D.
 	public function insertarUsuario(){
@@ -1938,6 +2000,23 @@ class Administrador extends MX_Controller {
 		redirect('/administrador/usuarios','refresh');
 	}
 	
+              
+	//Agrega el registro de un nuevo operario creado en el sistema a la B.D.
+	public function insertarOperario(){
+		$this->load->helper("url");
+		$this->load->library("danecrypt");
+		$this->load->library("general");
+		$this->load->model("usuario");
+                $usuario=$this->session->userdata("num_identificacion");
+		foreach($_POST as $nombre_campo => $valor){
+  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";   			
+  			eval($asignacion);
+		}
+		$fecini = $this->general->formatoFecha($txtFecCreacion,"/");
+		
+                $this->usuario->insertarOperario($cmbTipoDocumento, $txtNumId, $txtNomUsuario, $teloperario, $numplaca, $fecini, $usuario, 1);
+		redirect('/administrador/operarios','refresh');
+	}
 	
 	//Paginador para la busqueda de resultados de la busqueda de formularios
 	public function pagerBuscadorFuentes(){

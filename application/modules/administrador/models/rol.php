@@ -30,7 +30,7 @@ class Rol extends CI_Model {
 		$roles = array();
 		$sql = "SELECT id_rol, nom_rol
                 FROM txtar_param_roles
-                WHERE id_rol > 1
+                WHERE id_rol >= 1
                 ORDER BY nom_rol";
 		$query = $this->db->query($sql);
 		if ($query->num_rows()>0){

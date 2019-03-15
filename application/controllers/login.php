@@ -30,9 +30,10 @@ class Login extends CI_Controller {
 		$password = $this->input->post("txtPassword"); //Recibir por post con XSS_CLEAN	
                 if ($this->usuario->validarUsuario($login, $password)){
                     $this->usuario->redireccionarUsuario();
-		}
+                }
 		else{
-                   redirect('/login', 'location', 301); 
+                   $this->session->set_userdata('error_login', 1);
+                  // redirect('/login', 'location', 301); 
 		}		
 	}
 	

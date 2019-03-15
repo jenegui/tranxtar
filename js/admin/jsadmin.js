@@ -203,6 +203,15 @@ $(function () {
     });
     
     //Abre el dialogo para agregar una nueva empresa
+    $("#btnAgregarOperario").click(function () {
+        $("#agregarOperario").dialog({
+            width: 780,
+            title: 'Agregar operarios externos',
+            modal: true
+        });
+    });
+    
+    //Abre el dialogo para agregar una nueva empresa
     $("#btnModifUsuario").click(function () {
         $("#modifUsuario").dialog({
             width: 780,
@@ -2234,6 +2243,17 @@ $(document).ready(function () {
 
 function modificarUsuarioADM(index) {
     $.ajax({url: base_url + "administrador/UPDUsuario",
+        type: "post",
+        dataType: "html",
+        data: "index=" + index,
+        success: function (data) {
+            $("#detalle").html(data);
+        }
+    });
+}
+
+function modificarOperarioADM(index) {
+    $.ajax({url: base_url + "administrador/UPDOperario",
         type: "post",
         dataType: "html",
         data: "index=" + index,
