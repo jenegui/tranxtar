@@ -327,8 +327,8 @@ class Administrador extends MX_Controller {
 		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
 		$desde = ($pagina - 1) * $config["per_page"];
                 
-		$data["fuentes"] = $this->directorio->obtenerFuentes(0, 0, 0, $config["per_page"]);
-                //$data["NoOrden"] = $this->directorio->obtenerUltmaEmpresa();
+		$data["fuentes"] = $this->directorio->obtenerClientes();
+               
                 $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
                 $data["links"] = $this->pagination->create_links();
 		$this->load->view("layout",$data);
@@ -336,6 +336,49 @@ class Administrador extends MX_Controller {
 	
 	public function cargaDirectorio(){
 		echo Modules::run('carga_directorio/cargadir/index');
+	}
+	
+        
+        //Ejecuta la funcion del directorio del menu del administrador.
+	public function control(){
+		$this->load->model("control");
+		$this->load->model("divipola");
+		$this->load->model("tipodocs");
+		$this->load->model("actividad");
+		$this->load->model("directorio");
+		$nom_usuario = $this->session->userdata("nombre");
+		$tipo_usuario = $this->session->userdata("tipo_usuario");
+               
+		if($tipo_usuario==1){
+			$data['tipo_usuario']=$this->session->userdata("controlador");
+                }
+		$data["nom_usuario"] = $nom_usuario;
+		$data["controller"] = $this->session->userdata("controlador");
+		$data["menu"] = "adminmenu";
+		$data["view"] = "control";
+		$data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
+		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
+		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
+		//Configuracion del paginador
+		$config = array();
+		$config["base_url"] = site_url("administrador/control");
+		$config["total_rows"] = $this->directorio->contarFuentes(0, 0); //Obtener el numero total de registros que debe procesar el paginador
+		$config["per_page"] = 50;   //Cantidad de registros por pagina que debe mostrar el paginador
+		$config["num_links"] = 5;  //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["first_link"] = "Primero";
+		$config["last_link"] = "&Uacute;ltimo";
+		$config["use_page_numbers"] = TRUE;
+		$this->pagination->initialize($config);
+		
+		//Trabajo de paginacion
+		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
+		$desde = ($pagina - 1) * $config["per_page"];
+                
+		$data["control"] = $this->control->obtenerGuias();
+                
+                $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
+                $data["links"] = $this->pagination->create_links();
+		$this->load->view("layout",$data);
 	}
 	
 	
@@ -510,7 +553,7 @@ class Administrador extends MX_Controller {
 		//Configuracion del paginador
 		$config = array();
 		$config["base_url"] = site_url("administrador/usuarios");
-		$config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
+                $config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
 		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
 		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
@@ -521,6 +564,38 @@ class Administrador extends MX_Controller {
 		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
 		$desde = ($pagina - 1) * $config["per_page"];
 		$data["usuarios"] = $this->usuario->obtenerOperariosPagina($desde, $config["per_page"]);
+		$data["links"] = $this->pagination->create_links();		
+		$this->load->view("layout",$data);					
+	}
+        
+        //Muestra los operarios generales del aplicativo ()
+	public function destinatarios(){
+		$this->load->model("usuario");
+		$nom_usuario = $this->session->userdata("nombre");
+		$tipo_usuario = $this->session->userdata("tipo_usuario");
+		if($tipo_usuario==1){
+			$data['tipo_usuario']=$this->session->userdata("controlador");
+		}
+                
+		$data["nom_usuario"] = $nom_usuario;
+		$data["controller"] = $this->session->userdata("controlador");
+		$data["menu"] = "adminmenu";
+		$data["view"] = "destinatarios";
+		
+		//Configuracion del paginador
+		$config = array();
+		$config["base_url"] = site_url("administrador/destinatarios");
+                $config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
+		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
+		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["first_link"] = "Primero";
+		$config["last_link"] = "&Uacute;ltimo";
+		$config["use_page_numbers"] = TRUE;
+		$this->pagination->initialize($config);
+		//Trabajo de paginacion
+		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
+		$desde = ($pagina - 1) * $config["per_page"];
+		$data["destinatarios"] = $this->usuario->obtenerDestinatariosPagina($desde, $config["per_page"]);
 		$data["links"] = $this->pagination->create_links();		
 		$this->load->view("layout",$data);					
 	}
@@ -548,8 +623,7 @@ class Administrador extends MX_Controller {
 		$data["tipodoc"] = $this->tipodocs->obtenerTipoDocumentos();
 		//$data["roles"] = $this->rol->obtenerRolesUsuario();
 		$data["operario"] = $this->usuario->obtenerOperarioID($index);
-                var_dump($data["operario"]) ."MMM<br>";
-		$this->load->view("ajxoperarioupd",$data);			
+                $this->load->view("ajxoperarioupd",$data);			
 	}
 	
 	//Elimina el registro de un usuario en Administrador/Usuarios/Eliminar Usuario
@@ -734,6 +808,19 @@ class Administrador extends MX_Controller {
 		redirect('/administrador/usuarios','refresh');
 	}
 	
+        //Actualiza los datos de los operarios
+	public function actualizarOperario(){
+		$this->load->library("danecrypt");
+		$this->load->helper("url");
+		$this->load->model("usuario");
+                $usuario=$this->session->userdata("num_identificacion");
+		foreach($_POST as $nombre_campo => $valor){
+                    	$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+  			eval($asignacion);
+		}
+		$this->usuario->actualizarOperario($hddIndex, $cmbTipoDocumento , $txtNumId, $txtNomUsuario, $teloperario, $nro_placa, $estado, $usuario);
+		redirect('/administrador/operarios','refresh');
+	}
 	
 	public function descargaPlanos(){
 		$this->load->model("usuario");
@@ -1799,30 +1886,25 @@ class Administrador extends MX_Controller {
 		
 	}
 	
-        //Procesa el ajaz para mostrar los establecimientos en el datatable
+        //Procesa el ajax para mostrar los establecimientos en datatable
         public function directorioClientes(){
             $this->load->model("directorio");
             $data["fuentes"] = $this->directorio->obtenerFuentesTodas();
-            for($i=0;$i<count($data["fuentes"]);$i++)
-            {
-                $datas[]=array('NumEstabl'=>$data["fuentes"][$i]['nro_establecimiento'],
-                    'NombreEstablecimiento'=>$data["fuentes"][$i]['idnomcom'],
-                    'NIT'=>$data["fuentes"][$i]['nit_establecimiento'],
-                    'Dierccion'=>$data["fuentes"][$i]['iddirecc'],
-                    'telefono'=>$data["fuentes"][$i]['idtelno'],
-                    'email'=>$data["fuentes"][$i]['idcorreo'],
-                    'Contacto'=>$data["fuentes"][$i]['nom_contacto'],
-                    'Departamento'=>$data["fuentes"][$i]['fk_depto'],
-                    'Municipio'=>$data["fuentes"][$i]['fk_mpio'],
-                    'Estado'=>$data["fuentes"][$i]['estado']);
-            }
-            $results = array(
-                    "sEcho" => 1,
-                    "iTotalRecords" => count($data["fuentes"]),
-                    "iTotalDisplayRecords" => count($data["fuentes"]),
-                    "aaData"=>$datas);
-            echo json_encode($results);
-            
+            $this->load->view("ajxdirectorio",$data);
+        }
+        
+        //Procesa el ajax para mostrar las guas en datatable
+         public function directorioControl(){
+            $this->load->model("control");
+            $data["control"] = $this->control->obtenerGuias();
+            $this->load->view("ajxcontrol",$data);
+        }
+        
+        //Procesa el ajax para mostrar los destinatarios en datatable
+         public function directorioDestinatarios(){
+            $this->load->model("usuario");
+            $data["destinatarios"] = $this->usuario->obtenerDestinatariosPagina();
+            $this->load->view("ajxdestinatarios",$data);
         }
 	
 	//Remueve las fuentes del directorio de fuentes. Operacion DELETE sobre el directorio de fuentes. Se eliminan los datos del periodo actual. 

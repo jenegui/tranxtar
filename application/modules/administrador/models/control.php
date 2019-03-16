@@ -8,25 +8,59 @@ class Control extends CI_Model {
         $this->load->library("session");
     }
     
-   	function obtenerNovedadEstado($nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo){
-   		$result = array();
-   		$sql = "SELECT fk_novedad, fk_estado
-                FROM rmmh_admin_control
-                WHERE nro_orden = $nro_orden
-                AND nro_establecimiento = $nro_establecimiento
-                AND ano_periodo = $ano_periodo
-                AND mes_periodo = $mes_periodo";
-   		$query = $this->db->query($sql);
-   		if ($query->num_rows()>0){
-			foreach($query->result() as $row){
-				$result["novedad"] = $row->fk_novedad;
-				$result["estado"] = $row->fk_estado;
-			}
-		}
-		$this->db->close();
-		return $result;
-   	} 
-    
+    function obtenerGuias() {
+        $this->load->model("divipola");
+        $this->load->model("sede");
+        $this->load->model("subsede");
+        $control = array();
+        $sql = "SELECT C.id_control, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, C.fecha_recogida, C.fecha_entrega,
+                        C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
+    	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
+                       C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones,
+                       CASE WHEN C.estado_contable = 1 THEN 'Contabilizado'
+            WHEN C.estado_contable = 0 THEN 'No contabilizado'
+            END AS estado_contable, c.estado_carga	 
+                FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST
+                WHERE C.id_establecimientos=EST.id_establecimiento
+                AND C.id_destinatario=DEST.id_destinatario
+                ORDER BY C.id_control";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $control[$i]["id_control"] = $row->id_control;
+                $control[$i]["id_establecimientos"] = $row->nit_establecimiento;
+                $control[$i]["idnomcom"] = $row->idnomcom;
+                $control[$i]["fecha_recogida"] = $row->fecha_recogida;
+                $control[$i]["fecha_entrega"] = $row->fecha_entrega;
+                $control[$i]["id_destinatario"] = $row->nro_identificacion;
+                $control[$i]["nombre_destinatario"] = $row->nombre_destinatario;
+                $control[$i]["forma_pago"] = $row->forma_pago;
+                $control[$i]["unidades"] = $row->unidades;
+                $control[$i]["peso"] = $row->peso;
+                $control[$i]["peso_vol"] = $row->peso_vol;
+                $control[$i]["peso_cobrar"] = $row->peso_cobrar;
+                $control[$i]["valor_declarado"] = $row->valor_declarado;
+                $control[$i]["flete"] = $row->flete;
+                $control[$i]["costo_manejo"] = $row->costo_manejo;
+                $control[$i]["total_fletes"] = $row->total_fletes;
+                $control[$i]["costo_manejo"] = $row->costo_manejo;
+                $control[$i]["id_usuario_operario"] = $row->id_usuario_operario;
+                $control[$i]["nro_placa"] = $row->nro_placa;
+                $control[$i]["id_operario"] = $row->id_operario;
+                $control[$i]["id_usuario"] = $row->id_usuario;
+                $control[$i]["fecha_registro"] = $row->fecha_registro;
+                $control[$i]["observaciones"] = $row->observaciones;
+                $control[$i]["estado_contable"] = $row->estado_contable;
+                $control[$i]["estado_carga"] = $row->estado_carga;
+                $i++;
+            }
+        }
+        //echo $sql;
+        $this->db->close();
+        return $control;
+    }
+
     function actualizarNovedadEstado($nro_orden, $uni_local, $ano_periodo, $mes_periodo, $novedad, $estado){
     	$data = array('fk_novedad' => $novedad,
 		              'fk_estado' => $estado  
@@ -373,7 +407,7 @@ class Control extends CI_Model {
      
      
 	function validarPazYSalvo($nro_orden, $uni_local, $ano_periodo, $mes_periodo){
-    	//Si el estado está en 99 - 5 ya fue verificado por el critico / asistente tecnico, por lo que ya puede descargar el paz y salvo
+    	//Si el estado estï¿½ en 99 - 5 ya fue verificado por el critico / asistente tecnico, por lo que ya puede descargar el paz y salvo
     	$retorno = false;
     	$sql = "SELECT fk_novedad, fk_estado
                 FROM rmmh_admin_control
@@ -426,7 +460,7 @@ class Control extends CI_Model {
      }
      
 	// dmdiazf - Mayo 15 2012
-    // Realiza las operaciones de asignación de carga de fuentes a los críticos    
+    // Realiza las operaciones de asignaciï¿½n de carga de fuentes a los crï¿½ticos    
     function asignarFuenteCritico($nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo, $usuario){
     	$data = array('fk_usuariocritica' => $usuario);
     	$this->db->where("nro_orden", $nro_orden);
@@ -437,7 +471,7 @@ class Control extends CI_Model {
     }
     
 	// dmdiazf - Julio 31 2012
-    // Realiza las operaciones de asignación de carga de fuentes a los logisticos    
+    // Realiza las operaciones de asignaciï¿½n de carga de fuentes a los logisticos    
     function asignarFuenteLogistico($nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo, $usuario){
     	$data = array('fk_usuariologistica'=>$usuario);
     	$this->db->where("nro_orden", $nro_orden);

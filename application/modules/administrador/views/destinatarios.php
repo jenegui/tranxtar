@@ -34,9 +34,9 @@
 </style>
 <?php //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>   
 <div class="row">
-    <div class="fivecol"><h1>Operarios externos</h1></div>
+    <div class="fivecol"><h1>Directorio destinatarios</h1></div>
     <div style="text-align: right;" class="sixcol">
-        <input type="button" id="btnAgregarOperario" name="btnAgregarOperario" value="Agregar Operarios" class="button"/>
+        <input type="button" id="btnAgregarDestinatario" name="btnAgregarDestinatario" value="Registrar destinatarios" class="button"/>
 
     </div>
 </div>	 
@@ -47,41 +47,38 @@
         <td>
             <div id="divUsuarios">
                 <form id="frmUsuarios" name="frmUsuarios" method="post" action="">
-                    <table width="100%" class="table">
+                    <table width="100%" id="tablaDestinatarios" class="table">
                         <thead class="thead">
                             <tr>
-                                <th width="40%">Nombre operario</th>
+                                <th width="40%">Id Destinatario</th>
+                                <th width="40%">Nombre destinatario</th>
                                 <th>Identificaci&oacute;n</th>
+                                <th>Ciudad</th>
+                                <th>Departamento</th>
                                 <th>Tel&eacute;fono</th>
-                                <th>No. placa veh&iacute;culo</th>
-                                <th align="center" width="10%">Estado</th>
-                                <th align="center" width="10%">Modificar</th>
+                                <th>Direcci&oacute;n</th>
+                                <th>Contacto</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            for ($i = 0; $i < count($usuarios); $i++) {
-                                if ($usuarios[$i]["nombre_operario"] != "") {
+                            for ($i = 0; $i < count($destinatarios); $i++) {
+                                if ($destinatarios[$i]["nombre_destinatario"] != "") {
                                     if (($i % 2) == 0)
                                         $class = "row1";
                                     else
                                         $class = "row2";
                                     ?>
                                     <tr class="<?php echo $class; ?>">
-                                        <td>&nbsp;&nbsp;<?php echo strtoupper($usuarios[$i]["nombre_operario"]); ?></td>
-                                        <td><?php echo $usuarios[$i]["nro_identificacion"]; ?></td>
-                                        <td><?php echo $usuarios[$i]["telefono_operario"]; ?></td>
-                                        <td align="center">
-                                            <?php echo $usuarios[$i]["nro_placa"]; ?> 
-                                        </td>
-                                        <td align="center">
-                                            <?php echo $usuarios[$i]["estado_operario"]; ?> 
-                                        </td>
-                                        <td align="center">
-                                            <?php //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){   ?> 
-                                            <a href="javascript:modificarOperarioADM(<?php echo $usuarios[$i]["id_operario"]; ?>);"><img src="<?php echo base_url("images/edit.png"); ?>" border="0"/></a>
-                                            <?php //}   ?>
-                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <?php
                                 }
@@ -111,7 +108,7 @@
     </tr>
 </table>
 <!-- Div para ageragr empresas -->
-<div id="agregarOperario" style="display: none">
+<div id="agregarDestinatario" style="display: none">
     <?php
     $this->load->model("tipodocs");
     $this->load->model("rol");

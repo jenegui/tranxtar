@@ -10,7 +10,7 @@ $(function(){
 	$("#frmUPDusuario").validate({
 		//Reglas de Validacion
 		rules : {
-			cmbTipoDocumento  : {	required   :   true,				
+			cmbTipoDocumento  : {	required   :   true,
 									comboBox   :   '-'
 			},
 			txtNumId          : {	required   :   true
@@ -64,34 +64,36 @@ $(function(){
 		},
 		//Mensajes de error
 		errorPlacement: function(error, element) {
-			element.after(error);		        
+			element.after(error);
 			error.css('display','inline');
-			error.css('margin-left','10px');				
+			error.css('margin-left','10px');
 			error.css('color',"#FF0000");
 		},
 		submitHandler: function(form) {
 			form.submit();
 		}
 	});
-	
+
 });
 </script>
 <?php $this->load->helper("url"); ?>
 <br/>
 <h1>Modificar Operario</h1>
 <br/>
-<form id="frmUPDusuario" name="frmUPDUsuario" method="post" action="<?php echo site_url("administrador/actualizarUsuario"); ?>">
+<form id="frmUPDusuario" name="frmUPDUsuario" method="post" action="<?php echo site_url("administrador/actualizarOperario"); ?>">
 <table width="100%">
 <tr>
 	<td width="150">Tipo documento: </td>
     <td><select id="cmbTipoDocumento" name="cmbTipoDocumento" class="select">
-        <option value="-">Seleccione el tipo de documento...</option>
-        <?php for ($i=0; $i<count($tipodoc); $i++){
-     	 		 if ($usuario["fk_tipodoc"]==$tipodoc[$i]["id"])
-         			echo '<option value="'.$tipodoc[$i]["id"].'" selected="selected">'.$tipodoc[$i]["nombre"].'</option>';
-         		 else	
-         		 	echo '<option value="'.$tipodoc[$i]["id"].'">'.$tipodoc[$i]["nombre"].'</option>';
-     	}?>
+        <?php
+        for ($i = 0; $i < count($tipodoc); $i++) {
+            if ($usuario["fk_tipodoc"] == $tipodoc[$i]["id"]){
+                echo '<option value="' . $tipodoc[$i]["id"] . '" selected="selected">' . $tipodoc[$i]["nombre"] . '</option>';
+            }else{
+                echo '<option value="' . $tipodoc[$i]["id"] . '">' . $tipodoc[$i]["nombre"] . '</option>';
+            }
+        }
+        ?>
         </select>
     </td>
 </tr>
@@ -104,35 +106,28 @@ $(function(){
     <td><input type="text" id="txtNomUsuario" name="txtNomUsuario" value="<?php echo $operario["nombre_operario"]; ?>" size="50" class="textbox"/></td>
 </tr>
 <tr>
-    <td>Login: </td>
-    <td><input type="text" id="txtLogin" name="txtLogin" value="<?php echo $operario["log_usuario"]; ?>" class="textbox"/></td>
+    <td>Tel&eacute;fono operario: </td>
+    <td><input type="text" id="teloperario" name="teloperario" value="<?php echo $operario["telefono_operario"]; ?>" class="textbox"/></td>
 </tr>
 <tr>
-    <td>Password: </td>
-    <td><input type="text" id="txtPassword" name="txtPassword" value="<?php echo $usuario["pass_usuario"]; ?>" class="textbox"/></td>
+    <td>N&uacute;mero de placa del veh&iacute;culo: </td>
+    <td><input type="text" id="nro_placa" name="nro_placa" value="<?php echo $operario["nro_placa"]; ?>" class="textbox"/></td>
 </tr>
 <tr>
-    <td>Email: </td>
-    <td><input type="text" id="txtEmail" name="txtEmail" value="<?php echo $usuario["email"]; ?>" size="50" class="textbox"/></td>
-</tr>
-<tr>
-    <td>Fecha creaci&oacute;n: </td>
-    <td><input type="text" id="txtFecCreacion" name="txtFecCreacion" value="<?php echo $usuario["fec_creacion"]; ?>" class="textbox"/></td>
-</tr>
-<tr>
-    <td>Fecha vencimiento: </td>
-    <td><input type="text" id="txtFecVencimiento" name="txtFecVencimiento" value="<?php echo $usuario["fec_vencimiento"]; ?>" class="textbox"/></td>
-</tr>
-<tr>
-    <td>Rol: </td>
-    <td><select id="cmbRol" name="cmbRol" class="select">
-        <option value="-">Seleccione el rol...</option>
-        <?php for ($i=0; $i<count($roles); $i++){
-         		  if ($usuario["rol"]==$roles[$i]["id"])
-     	    		 echo '<option value="'.$roles[$i]["id"].'" selected="selected">'.$roles[$i]["nombre"].'</option>';
-     	    	  else	
-     	    	     echo '<option value="'.$roles[$i]["id"].'">'.$roles[$i]["nombre"].'</option>';
-        }?>
+    <td>Estado: </td>
+    <td>
+        <select id="estado" name="estado" class="select">
+            <?php
+            //for ($i = 0; $i < count($roles); $i++) {
+                if ($operario["estado_operario"] == 1){
+                    echo '<option value="1" selected="selected">Activo</option>';
+                    echo '<option value="0">Inactivo</option>';
+                }else{
+                     echo '<option value="0" selected="selected">Inactivo</option>';
+                    echo '<option value="1">Activo</option>';
+                }
+            //}
+            ?>
         </select>
     </td>
 </tr>

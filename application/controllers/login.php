@@ -33,7 +33,7 @@ class Login extends CI_Controller {
                 }
 		else{
                    $this->session->set_userdata('error_login', 1);
-                  // redirect('/login', 'location', 301); 
+                   redirect('/login', 'location', 301); 
 		}		
 	}
 	

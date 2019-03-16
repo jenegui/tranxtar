@@ -34,63 +34,53 @@
 <br/>
 <form id="frmDir" name="frmDir" method="post" action="<?php echo site_url("administrador/descargadirectorio"); ?>"></form>
 <div class="row">
-	<div class="fivecol"><h1>Directorio de Clientes</h1></div>
+	<div class="fivecol"><h1>Control Guias</h1></div>
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
 	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
-	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Agregar clientes" class="button"/>
-	  			<input type="button" id="btnEditar" name="btnEditar" value="Editar clientes" class="button"/>
+	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Registar guia" class="button"/>
+	  			<input type="button" id="btnEditar" name="btnEditar" value="Editar guia" class="button"/>
+                                <input type="button" id="btnEditar" name="btnEditar" value="Imprimir guia" class="button"/>
 	  <?php //} ?>
 	</div>
 </div>
 <br/>
 <div id="divDirectorio">
-<table id="tablaDirectorio" width="100%" style="font-size: 11px;">
+<table id="tablaControl" width="100%" style="font-size: 11px;">
 <thead>
 <tr>
-  <th>N.Establ</th>
-  <th>Nombre Establecimiento</th>
-  <th>NIT</th>
-  <th>Direcci&oacute;n</th>
-  <th>Tel&eacute;fono</th>
-  <th>Correo electr&oacute;nico</th>
-  <th>Contacto</th>
-  <th>Departamento</th>
-  <th>Municipio</th>
-  <th>Estado</th>
-  <!--th>Opciones</th-->
-</tr>
+  <th>N.Guia</th>
+  <th>NIT cliente</th>
+  <th>Nombre cliente</th>
+  <th>Fecha recogida</th>
+  <th>Fecha entrega</th>
+  <th>ID destinatario</th>
+  <th>Nombre destinatario</th>
+  <th>Valor flete</th>
+  <th>Fecha registro</th>
+  <th>Estado de la carga</th>
+  <th>Ver detalle</th>
 </thead>
 <tbody>
 <?php 
-for ($i=0; $i<count($fuentes); $i++){ 
+for ($i=0; $i<count($control); $i++){ 
     $class = (($i%2)==0)?"row1":"row2";
     $tipoEncuesta="Encuesta";
-    $url=base_url("administrador/mostrarFormulario/".$fuentes[$i]["nro_establecimiento"]);
+    //$url=base_url("administrador/mostrarFormulario/".$fuentes[$i]["nro_establecimiento"]);
     
 ?>
 <tr>
- 
-  <!--td><a href="<?php //echo $url; ?>"><?php //echo $fuentes[$i]["nro_establecimiento"]; ?></a></td-->
-    <td><?php //echo $fuentes[$i]["nro_establecimiento"]; ?></td> 
-  <td><?php //echo $fuentes[$i]["idnomcom"]; ?></td>
-  <td><?php echo $fuentes[$i]["nit_establecimiento"]; ?></td>
-  <td><?php echo $fuentes[$i]["iddirecc"]; ?></td>
-  <td><?php echo $fuentes[$i]["idtelno"]; ?></td>
-  <td><?php echo $fuentes[$i]["idcorreo"]; ?></td>
-  <td><?php echo $fuentes[$i]["nom_contacto"]; ?></td>
-  <td><?php echo $fuentes[$i]["fk_depto"]; ?></td>
-  <td><?php echo $fuentes[$i]["fk_mpio"]; ?></td>
-  <td><?php echo $fuentes[$i]["estado"]; ?></td>
-  <!--td align="center">
-     <a href="<?php //echo site_url("administrador/editarFuente/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php //echo base_url("images/edit.png"); ?>"/></a>
-     <a href="javascript:removerFuenteDirectorio(<?php echo $fuentes[$i]["nro_establecimiento"]; ?>);"><img src="<?php //echo base_url("images/delete.png"); ?>"/></a>
-     <?php /*
-     <a href="<?php echo site_url("administrador/eliminarFuente/".$fuentes[$i]["nro_orden"]."/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php echo base_url("images/delete.png"); ?>"/></a>
-     */
-     ?>
-  </td-->
-  
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
 </tr>
 <?php } ?>
 <tr>

@@ -54,7 +54,7 @@ class Directorio extends CI_Model {
 	}
 	
 	//Obtiene todas las fuentes del sistemas. Es utilizado en el paginador de CodeIgniter del directorio
-    function obtenerFuentes($ano_periodo, $mes_periodo, $desde, $hasta){
+    function obtenerClientes(){
             $this->load->model("divipola");
 	    $this->load->model("sede");
 	    $this->load->model("subsede");
@@ -66,8 +66,7 @@ class Directorio extends CI_Model {
             END AS estado_establecimiento	 
                 FROM txtar_admin_establecimientos ES
                 WHERE ES.id_establecimiento > 0
-                ORDER BY ES.id_establecimiento, ES.fk_depto, ES.fk_mpio
-                LIMIT $desde, $hasta";	    
+                ORDER BY ES.id_establecimiento, ES.fk_depto, ES.fk_mpio";	    
 	    $query = $this->db->query($sql);
 	    if ($query->num_rows() > 0){
 	    	$i = 0;

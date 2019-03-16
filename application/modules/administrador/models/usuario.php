@@ -47,11 +47,11 @@ class Usuario extends CI_Model {
     //Obtiene todos los operarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
     function obtenerOperarioID($id){
     	$usuarios = array();
-            $sql = "SELECT id_operario, nombre_operario , telefono_operario , nro_identificacion, fk_tipodoc, c.nom_tipodoc, 
+            $sql = "SELECT id_operario, nombre_operario , telefono_operario , nro_identificacion, fk_tipodoc, c.nom_tipodoc, a.estado_operario,
             CASE a.estado_operario
             WHEN 1 THEN 'Activo'
             WHEN 0 THEN 'Inactivo'
-            END as estado_operario,
+            END as nom_estado_operario,
             nro_placa
             FROM txtar_param_operario a, txtar_param_tipodocs c
             WHERE
@@ -69,6 +69,7 @@ class Usuario extends CI_Model {
 				$usuarios["fk_tipodoc"] = $row->fk_tipodoc;
 				$usuarios["nom_tipodoc"] = $row->nom_tipodoc;
 				$usuarios["estado_operario"] = $row->estado_operario;
+                                $usuarios["nom_estado_operario"] = $row->nom_estado_operario;
                                 $usuarios["nro_placa"] = $row->nro_placa;
 				//$i++;
 			}
@@ -639,8 +640,6 @@ class Usuario extends CI_Model {
     	$usuarios = array();
     	$this->load->model("control");	
     	$this->load->model("rol");
-    	$this->load->model("sede");
-    	$this->load->model("subsede");
     	$sql = "SELECT id_operario, nombre_operario , telefono_operario , nro_identificacion, fk_tipodoc, c.nom_tipodoc, 
             CASE a.estado_operario
             WHEN 1 THEN 'Activo'
@@ -671,7 +670,40 @@ class Usuario extends CI_Model {
 		return $usuarios;
     }
     
-    
+    //Obtiene todos los destinatarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
+    function obtenerDestinatariosPagina() {
+        $destinatarios = array();
+        $this->load->model("control");
+        $this->load->model("rol");
+        $this->load->model("divipola");
+        $sql = "SELECT id_destinatario, nro_identificacion, tipo_identificacion, nom_tipodoc, nombre_destinatario, ciudad_destinatario, 
+            depto_destinatario, direccion_destinatario, telefono_destinatario, contacto_destinatario
+            FROM  txtar_admin_destinatarios a, txtar_param_tipodocs b 
+            WHERE
+            	id_tipodoc=tipo_identificacion
+            ORDER BY id_destinatario";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $destinatarios[$i]["id_destinatario"] = $row->id_destinatario;
+                $destinatarios[$i]["nro_identificacion"] = $row->nro_identificacion;
+                $destinatarios[$i]["tipo_identificacion"] = $row->tipo_identificacion;
+                $destinatarios[$i]["nom_tipodoc"] = $row->nom_tipodoc;
+                $destinatarios[$i]["nombre_destinatario"] = $row->nombre_destinatario;
+                $destinatarios[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
+                $destinatarios[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
+                $destinatarios[$i]["direccion_destinatario"] = $row->direccion_destinatario;
+                $destinatarios[$i]["telefono_destinatario"] = $row->telefono_destinatario;
+                $destinatarios[$i]["contacto_destinatario"] = $row->contacto_destinatario;
+
+                $i++;
+            }
+        }
+        $this->db->close();
+        return $destinatarios;
+    }
+
     /***********
     
 	//Obtiene todos los usuarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
@@ -776,27 +808,42 @@ class Usuario extends CI_Model {
     	$this->db->close();
     }
     
-	//Actualiza los datos de un usuario que se encuentra en la B.D.
-    function actualizarUsuario($id, $numident, $nombre, $login, $password, $email, $feccrea, $fecvence, $rol, $sede, $subsede, $tipodoc){
-    	$data = array('num_identificacion' => $numident, 
-    	              'nom_usuario' => $nombre, 
-    	              'log_usuario' => $login, 
-    	              'pass_usuario' => $password, 
-    	              'mail_usuario' => $email,
-    	              'fec_creacion' => $feccrea, 
-    	              'fec_vencimiento' => $fecvence,
-    	              'fk_rol' => $rol, 
-    	              'fk_sede' => $sede,
-    	              'fk_subsede' => $subsede,
-    	              'fk_tipodoc' => $tipodoc,
-                      'estado' =>  'A'
-    	);
-    	$this->db->where('id_usuario', $id);
-	$this->db->update('txtar_admin_usuarios', $data);
+    //Actualiza los datos de un usuario que se encuentra en la B.D.
+    function actualizarUsuario($id, $numident, $nombre, $login, $password, $email, $feccrea, $fecvence, $rol, $sede, $subsede, $tipodoc) {
+        $data = array('num_identificacion' => $numident,
+            'nom_usuario' => $nombre,
+            'log_usuario' => $login,
+            'pass_usuario' => $password,
+            'mail_usuario' => $email,
+            'fec_creacion' => $feccrea,
+            'fec_vencimiento' => $fecvence,
+            'fk_rol' => $rol,
+            'fk_sede' => $sede,
+            'fk_subsede' => $subsede,
+            'fk_tipodoc' => $tipodoc,
+            'estado' => 'A'
+        );
+        $this->db->where('id_usuario', $id);
+        $this->db->update('txtar_admin_usuarios', $data);
         //echo $this->db->last_query();
     }
     
-	function obtenerRolUsuario($id){
+    //Actualiza los datos de un operario que se encuentra en la B.D.
+    function actualizarOperario($id, $cmbTipoDocumento, $txtNumId, $txtNomUsuario, $teloperario, $nro_placa, $estado, $usuario){
+    	$data = array('fk_tipodoc' => $cmbTipoDocumento, 
+                       'nro_identificacion' => $txtNumId, 
+    	              'nombre_operario' => $txtNomUsuario, 
+    	              'telefono_operario' => $teloperario, 
+    	              'nro_placa' => $nro_placa, 
+    	              'estado_operario' => $estado,
+    	              'id_usuario' => $usuario
+    	);
+    	$this->db->where('id_operario', $id);
+	$this->db->update('txtar_param_operario', $data);
+        //echo $this->db->last_query();
+    }
+
+    function obtenerRolUsuario($id){
       		$rol = 1;
       		$sql = "SELECT fk_rol
                     FROM rmmh_admin_usuarios

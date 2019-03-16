@@ -202,7 +202,7 @@ $(function () {
         });
     });
     
-    //Abre el dialogo para agregar una nueva empresa
+    //Abre el dialogo para agregar un nuevo operario
     $("#btnAgregarOperario").click(function () {
         $("#agregarOperario").dialog({
             width: 780,
@@ -211,7 +211,16 @@ $(function () {
         });
     });
     
-    //Abre el dialogo para agregar una nueva empresa
+     //Abre el dialogo para agregar un nuevo destintario
+    $("#btnAgregarDestinatario").click(function () {
+        $("#agregarDestinatario").dialog({
+            width: 780,
+            title: 'Agregar operarios externos',
+            modal: true
+        });
+    });
+    
+    //Abre el dialogo para agregar un nuevo usuario
     $("#btnModifUsuario").click(function () {
         $("#modifUsuario").dialog({
             width: 780,
@@ -2512,5 +2521,75 @@ $(document).ready(function(){
      } );
      
      
+ 
+});
+$(document).ready(function(){
+    $('#tablaControl').dataTable( {
+                    "sPaginationType": "full_numbers",
+                    "aaSorting": [[ 2, "asc" ]],
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bJQueryUI": true,
+                    "bAutoWidth": true, 
+                    "processing": true,
+                    "serverSide": true,
+                    "bProcessing": true,
+                    "sAjaxSource": base_url +"administrador/directorioControl",
+                     "aoColumns": [
+                            { mData: 'NumGuia' } ,
+                            { mData: 'IdCliente' },
+                            { mData: 'nomCliente' },
+                            { mData: 'fecRecogida' },
+                            { mData: 'fecEntrega' },
+                            { mData: 'IdDestinatario' },
+                            { mData: 'nomDestinatario' },
+                            { mData: 'valorFlete' },
+                            { mData: 'fecRegistro' },
+                            { mData: 'estadoCarga' },
+                            { mData: 'Ver' },
+                            /*{ mRender: function (mData, type, full) {
+                             return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
+                           }*/
+                      //}
+                    ]
+                    
+     } );
+ 
+});
+$(document).ready(function(){
+    $('#tablaDestinatarios').dataTable( {
+                    "sPaginationType": "full_numbers",
+                    "aaSorting": [[ 2, "asc" ]],
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bJQueryUI": true,
+                    "bAutoWidth": true, 
+                    "processing": true,
+                    "serverSide": true,
+                    "bProcessing": true,
+                    "sAjaxSource": base_url +"administrador/directorioDestinatarios",
+                     "aoColumns": [
+                            { mData: 'id_destinatario' } ,
+                            { mData: 'nro_identificacion' },
+                            { mData: 'nombre_destinatario' },
+                            { mData: 'fk_mpio' },
+                            { mData: 'fk_depto' },
+                            { mData: 'direccion_destinatario' },
+                            { mData: 'telefono_destinatario' },
+                            { mData: 'contacto_destinatario' }
+                           
+                            /*{ mRender: function (mData, type, full) {
+                             return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
+                           }*/
+                      //}
+                    ]
+                    
+     } );
  
 });
