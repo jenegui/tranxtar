@@ -171,6 +171,10 @@ $(function () {
     $("#txtNumEstab").numerico().largo(11);
     $("#txtNomEstab").mayusculas().largo(80);
     $("#txtDirEstab").mayusculas().largo(80);
+    $("#idnomdest").mayusculas().largo(80);
+    $("#direccion").mayusculas().largo(80);
+    $("#nom_contacto").mayusculas().largo(80);
+    
     $("#cmbDeptoEstab").cargarCombo("cmbMpioEstab", "administrador/actualizarMunicipios");
     $("#cmbSedeEstab").cargarCombo("cmbSubSedeEstab", "administrador/actualizarSubsedes");
     var i = 0;
@@ -187,6 +191,16 @@ $(function () {
     //Abre el dialogo para agregar una nueva empresa
     $("#btnAgregarEmpresa").click(function () {
         $("#agregarEmpresa").dialog({
+            width: 780,
+            title: 'Agregar empresas',
+            modal: true
+        });
+    });
+    
+    //Abre el dialogo para agregar una nueva empresa
+    $("#editarDestinatario").click(function () {
+        alert("mmm");
+        $("#agregarDestinatario").dialog({
             width: 780,
             title: 'Agregar empresas',
             modal: true
@@ -215,7 +229,7 @@ $(function () {
     $("#btnAgregarDestinatario").click(function () {
         $("#agregarDestinatario").dialog({
             width: 780,
-            title: 'Agregar operarios externos',
+            title: 'Agregar destinatarios',
             modal: true
         });
     });
@@ -1905,6 +1919,56 @@ $(function () {
             }
         });
     });
+   
+    $("#btnActualizarDest").click(function () {
+        $("#frmEditarDestinatario").validate({
+            rules: {
+                identificacion: {required: true},
+                idnomdest: {required: true},
+                iddirecc: {required: true},
+                cmbDeptoEmp: {comboBox: '-'},
+                cmbMpioEmp: {comboBox: '-'},
+                nom_contacto: {required: true},
+                direccion: {required: true},
+                telefono: {required: true},
+                idcorreoest: {email: true
+                },
+                
+            },
+            messages: {
+                identificacion: {required: "Debe ingresar el n&uacute;mero de identificaci&oacute;n."},
+                idnomdest: {required: "Debe ingresar el nombre  del destinatario."},
+                cmbDeptoEmp: {required: "Debe seleccionar el departamento de la empresa."},
+                cmbMpioEmp: {required: "Debe seleccionar el municipio de la empresa."},
+                nom_contacto: {required: "Debe ingresar el nombre del contacto."},
+                direccion: {required: "Debe ingresar la direcci&oacute;n del destinatario."},
+                telefono: {required: "Debe ingresar el n&uacute;mero telef&oacute;nico del destinatario."},
+                idcorreoest: {email: "No es un correo v&aacute;lido."}
+            },
+              errorPlacement: function (error, element) {
+                element.after(error);
+                error.css('opacity', '0.47');
+                error.css('z-index', '991');
+                error.css('background', '#ee0101');
+                //error.css('float','right');
+                error.css('position', 'absolute');
+                error.css('margin-top', '1px');
+                error.css('color', '#fff');
+                error.css('font-size', '11px');
+                error.css('border', '2px solid #ddd');
+                error.css('box-shadow', '0 0 6px #000');
+                error.css('-moz-box-shadow', '0 0 6px #000');
+                error.css('-webkit-box-shadow', '0 0 6px #000');
+                error.css('padding', '4px 10px 4px 10px');
+                error.css('border-radius', '6px');
+                error.css('-moz-border-radius', '6px');
+                error.css('-webkit-border-radius', '6px');
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
 
 
     //Actualizaciones JavaScript para el modulo V (Ciiu 4)
@@ -2102,13 +2166,13 @@ $(function () {
             dataType: "html",
             cache: false,
             success: function (data) {
-                alert('El registro se guard� exitosamente.');
+                alert('El registro se guardo exitosamente.');
                 location.reload();
                 location.href = base_url + "administrador/generarUsuarios";
             }
         });
     });
-
+    
     $('.select').change(function () {
         
         $(this).css({'border': ''});
@@ -2494,7 +2558,7 @@ $(document).ready(function () {
 $(document).ready(function(){
     $('#tablaDirectorio').dataTable( {
                     "sPaginationType": "full_numbers",
-                    "aaSorting": [[ 2, "asc" ]],
+                    "aaSorting": [[0, "asc" ]],
                     "bPaginate": true,
                     "bLengthChange": true,
                     "bFilter": true,
@@ -2526,7 +2590,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('#tablaControl').dataTable( {
                     "sPaginationType": "full_numbers",
-                    "aaSorting": [[ 2, "asc" ]],
+                    "aaSorting": [[0, "asc" ]],
                     "bPaginate": true,
                     "bLengthChange": true,
                     "bFilter": true,
@@ -2561,8 +2625,31 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
     $('#tablaDestinatarios').dataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend:    'copyHtml5',
+                        text:      '<i class="fa fa-files-o"></i>',
+                        titleAttr: 'Copy'
+                    },
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="fa fa-file-excel-o"></i>',
+                        titleAttr: 'Excel'
+                    },
+                    {
+                        extend:    'csvHtml5',
+                        text:      '<i class="fa fa-file-text-o"></i>',
+                        titleAttr: 'CSV'
+                    },
+                    {
+                        extend:    'pdfHtml5',
+                        text:      '<i class="fa fa-file-pdf-o"></i>',
+                        titleAttr: 'PDF'
+                    }
+                ],
                     "sPaginationType": "full_numbers",
-                    "aaSorting": [[ 2, "asc" ]],
+                    "aaSorting": [[0, "asc" ]],
                     "bPaginate": true,
                     "bLengthChange": true,
                     "bFilter": true,
@@ -2572,22 +2659,27 @@ $(document).ready(function(){
                     "bAutoWidth": true, 
                     "processing": true,
                     "serverSide": true,
+                    "responsive": true,
                     "bProcessing": true,
                     "sAjaxSource": base_url +"administrador/directorioDestinatarios",
                      "aoColumns": [
                             { mData: 'id_destinatario' } ,
-                            { mData: 'nro_identificacion' },
                             { mData: 'nombre_destinatario' },
+                            { mData: 'nro_identificacion' },
                             { mData: 'fk_mpio' },
                             { mData: 'fk_depto' },
                             { mData: 'direccion_destinatario' },
                             { mData: 'telefono_destinatario' },
-                            { mData: 'contacto_destinatario' }
-                           
-                            /*{ mRender: function (mData, type, full) {
-                             return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
-                           }*/
-                      //}
+                            { mData: 'contacto_destinatario' },
+                            //{ "defaultContent": "<button type='button' class'editar btn btn-primary'><i class=fa fa-pensil-square-o></i></button>"}
+                           /*{ mDAta : 'editar',
+                                mRender: function (mData, type, row) {
+                                var data_n=mData.split("/");     
+                                //return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
+                                return '<center><img src="'+data_n+'" width="120" heigth="80" /></center>';
+                                }
+                            }*/
+                            { mData: 'editar' }    
                     ]
                     
      } );

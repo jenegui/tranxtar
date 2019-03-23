@@ -64,6 +64,7 @@ class Divipola extends CI_Model {
     			$i++;
     		}
     	}
+       
     	$this->db->close();
     	return $municipios;
     }

@@ -34,7 +34,7 @@
 </style>
 <?php //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>   
 <div class="row">
-    <div class="fivecol"><h1>Directorio destinatarios</h1></div>
+    <div class="fivecol"><h1> &nbsp; &nbsp;  &nbsp;Directorio destinatarios</h1></div>
     <div style="text-align: right;" class="sixcol">
         <input type="button" id="btnAgregarDestinatario" name="btnAgregarDestinatario" value="Registrar destinatarios" class="button"/>
 
@@ -50,14 +50,15 @@
                     <table width="100%" id="tablaDestinatarios" class="table">
                         <thead class="thead">
                             <tr>
-                                <th width="40%">Id Destinatario</th>
-                                <th width="40%">Nombre destinatario</th>
+                                <th>Id Destinatario</th>
+                                <th width="30%">Nombre destinatario</th>
                                 <th>Identificaci&oacute;n</th>
                                 <th>Ciudad</th>
                                 <th>Departamento</th>
                                 <th>Tel&eacute;fono</th>
                                 <th>Direcci&oacute;n</th>
-                                <th>Contacto</th>
+                                <th width="30%">Contacto</th>
+                                <th>Editar</th>
                                 
                             </tr>
                         </thead>
@@ -79,6 +80,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                         <td></td>
                                     </tr>
                                     <?php
                                 }
@@ -112,9 +114,11 @@
     <?php
     $this->load->model("tipodocs");
     $this->load->model("rol");
-
+    $this->load->model("divipola");
+    $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+    $data["municipios"] = $this->divipola->obtenerMunicipios(0);
     $data["tipodoc"] = $this->tipodocs->obtenerTipoDocumentos();
     $data["roles"] = $this->rol->obtenerRoles();
-    $this->load->view("ajxusoperins", $data);
+    $this->load->view("ajxdestinarariosins", $data);
     ?>
 </div>

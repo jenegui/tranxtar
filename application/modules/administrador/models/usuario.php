@@ -267,6 +267,23 @@ class Usuario extends CI_Model {
         $this->db->close();
     }
     
+    //Inserta el registro de un nuevo destinatario en la base de datos
+    function insertarDestinatario($txtNomDest, $txtIdDest, $tipoDocumento, $txtDirDest, $idtelefono, $idcorreo, $iddepto, $idmpio, $nom_contacto) {
+        //Verificar que el usuario no exista ya en la base de datos
+        $data = array('nro_identificacion' => $txtIdDest,
+            'tipo_identificacion' => $tipoDocumento,
+            'nombre_destinatario' => $txtNomDest,
+            'ciudad_destinatario' => $idmpio,
+            'depto_destinatario' => $iddepto,
+            'direccion_destinatario' => $txtDirDest,
+            'telefono_destinatario' => $idtelefono,
+            'correo_destinatario' => $idcorreo,
+            'contacto_destinatario' => $nom_contacto
+        );
+        $this->db->insert('txtar_admin_destinatarios', $data);
+        $this->db->close();
+    }
+    
     //Obtiene el ID de usuario del ultimo usuario que se inserto en la B.D.
     function IDUltimoInsertado(){
     	$id = 0;
@@ -430,6 +447,33 @@ class Usuario extends CI_Model {
     		}
     	}
     	$this->db->close();
+    	return $datos;
+    }
+    //Funcion para consultar los datos deL destinatario
+    function obtenerDatosDestinatario($id_destinatario){
+    	$datos = array();
+    	$sql = "SELECT d.id_destinatario, d.nro_identificacion, d.tipo_identificacion, d.nombre_destinatario,
+                d.ciudad_destinatario, d.depto_destinatario, d.direccion_destinatario, d.telefono_destinatario,
+                d.correo_destinatario, d.contacto_destinatario
+                FROM txtar_admin_destinatarios d
+                WHERE id_destinatario = $id_destinatario
+                ";
+    	$query = $this->db->query($sql);
+    	if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $datos["id_destinatario"] = $row->id_destinatario;
+                $datos["nro_identificacion"] = $row->nro_identificacion;
+                $datos["tipo_identificacion"] = $row->tipo_identificacion;
+                $datos["nombre_destinatario"] = $row->nombre_destinatario;
+                $datos["ciudad_destinatario"] = $row->ciudad_destinatario;
+                $datos["depto_destinatario"] = $row->depto_destinatario;
+                $datos["direccion_destinatario"] = $row->direccion_destinatario;
+                $datos["telefono_destinatario"] = $row->telefono_destinatario;
+                $datos["correo_destinatario"] = $row->correo_destinatario;
+                $datos["contacto_destinatario"] = $row->contacto_destinatario;
+            }
+        }
+        $this->db->close();
     	return $datos;
     }
     
@@ -703,51 +747,26 @@ class Usuario extends CI_Model {
         $this->db->close();
         return $destinatarios;
     }
-
-    /***********
     
-	//Obtiene todos los usuarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
-    function obtenerUsuariosPagina($desde, $ano_periodo, $mes_periodo){
-    	$usuarios = array();
-    	$this->load->model("control");
-    	$this->load->model("rol");
-    	$this->load->model("sede");
-    	$this->load->model("subsede");
-    	$hasta = $this->paginador2->getRegsPagina();
-    	$sql = "SELECT U.id_usuario, U.num_identificacion, U.nom_usuario, U.log_usuario, U.pass_usuario, U.mail_usuario, U.fec_creacion, U.fec_vencimiento, U.nro_orden, U.fk_rol, U.fk_sede, U.fk_subsede, U.fk_tipodoc
-                FROM rmmh_admin_usuarios U
-                WHERE fk_rol NOT IN (1)
-                ORDER BY U.fk_rol
-                LIMIT $desde, $hasta";
-    	$query = $this->db->query($sql);
-		if ($query->num_rows()>0){
-			$i = 0;
-			foreach($query->result() as $row){
-				$usuarios[$i]["id"] = $row->id_usuario;
-				$usuarios[$i]["num_identificacion"] = $row->num_identificacion;
-				$usuarios[$i]["nombre"] = $row->nom_usuario;
-				$usuarios[$i]["log_usuario"] = $row->log_usuario;
-				$usuarios[$i]["pass_usuario"] = $row->pass_usuario;
-				$usuarios[$i]["email"] = $row->mail_usuario;
-				$usuarios[$i]["fec_creacion"] = $row->fec_creacion;
-				$usuarios[$i]["fec_vencimiento"] = $row->fec_vencimiento;
-				$usuarios[$i]["nro_orden"] = $row->nro_orden;
-				$usuarios[$i]["idxrol"] = $row->fk_rol;
-				$usuarios[$i]["rol"] = $this->rol->nombreRol($row->fk_rol);
-				$usuarios[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
-				$usuarios[$i]["subsede"] = $this->subsede->nombreSubSede($row->fk_subsede);
-				$usuarios[$i]["fk_tipodoc"] = $row->fk_tipodoc;
-				$usuarios[$i]["fuentes"] = $this->control->obtenerNumeroFuentesAsignadas($row->fk_rol, $row->id_usuario, $ano_periodo, $mes_periodo);
-				$i++;
-			}
-		}
-		$this->db->close();
-		return $usuarios;
+    //Actualiza los datos de un destinatario que se encuentra en la B.D.
+    function actualizarDestinatario($id_destinatario, $idnomdest, $identificacion, $tipoDocumento, $direccion, $telefono, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst){
+    	$data = array('nro_identificacion' => $identificacion, 
+                       'tipo_identificacion' => $tipoDocumento, 
+    	              'nombre_destinatario' => $idnomdest, 
+    	              'ciudad_destinatario' => $cmbMpioEst, 
+    	              'depto_destinatario' => $cmbDeptoEst, 
+    	              'direccion_destinatario' => $direccion,
+    	              'telefono_destinatario' => $telefono,
+                      'correo_destinatario' => $idcorreoest,
+                      'contacto_destinatario' => $nom_contacto
+    	);
+    	$this->db->where('id_destinatario', $id_destinatario);
+	$this->db->update('txtar_admin_destinatarios', $data);
+        //echo $this->db->last_query();
     }
+
     
-    **************/
-    
-	//Verifica que un usuario no exista ya dentro de la base de datos con el mismo login de usuario (Al momento de crear un nuevo usuario)
+    //Verifica que un usuario no exista ya dentro de la base de datos con el mismo login de usuario (Al momento de crear un nuevo usuario)
     function existeLogin($login){
     	$sql = "SELECT *
                 FROM txtar_admin_usuarios
@@ -781,11 +800,28 @@ class Usuario extends CI_Model {
     }
     
     
-     //Verifica que un numero de identificacion no exista ya dentro de la base de datos. (No pueden haber dos usuarios con el mismo numero de identificacion)
+     //Verifica que un numero de identificacion no exista ya dentro de la base de datos. 
     function numIdentOperarioExiste($tipo, $numdoc){
     	$sql = "SELECT fk_tipodoc, nro_identificacion
                 FROM txtar_param_operario
                 WHERE fk_tipodoc = $tipo
+                AND nro_identificacion = $numdoc";
+    	$query = $this->db->query($sql);
+    	if ($query->num_rows() > 0){
+    		$this->db->close();
+    		return true;
+    	}
+    	else{
+    		$this->db->close();
+    		return false;
+    	}
+        
+    }
+     //Verifica que un numero de identificacion no exista ya dentro de la base de datos. 
+    function numIdentDestinanarioExiste($tipo, $numdoc){
+    	$sql = "SELECT 	tipo_identificacion, nro_identificacion
+                FROM txtar_admin_destinatarios
+                WHERE tipo_identificacion = $tipo
                 AND nro_identificacion = $numdoc";
     	$query = $this->db->query($sql);
     	if ($query->num_rows() > 0){

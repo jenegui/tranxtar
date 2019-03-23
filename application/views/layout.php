@@ -19,7 +19,10 @@ if ($controller == "miniencuesta") {
             <link rel="stylesheet" href="<?php echo base_url("css/styles.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables.css"); ?>" type="text/css" media="screen" />
-            <!-- General -->
+            <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+            <link href="<?php //echo base_url("/css/bootstrap/bootstrap.min.css"); ?>" rel="stylesheet"/>
+            <link href="<?php //echo base_url("/css/bootstrap/sticky-footer-navbar.css"); ?>" rel="stylesheet"/-->
+             
             <script type="text/javascript" src="<?php echo base_url("js/general/css3-mediaqueries.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery-1.7.2.min.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery.easy-confirm-dialog.js"); ?>"></script>
@@ -46,6 +49,10 @@ if ($controller == "miniencuesta") {
                 <!-- Admin -->
                 <?php if ($controller == "administrador" || $controller == "moduloanalisis") { ?>
                     <script type="text/javascript" src="<?php echo base_url("js/admin/jsadmin.js"); ?>"></script>
+                     <!--script src="<?php//echo base_url("/js/bootstrap/bootstrap.min.js"); ?>" rel="stylesheet"></script> 
+                     <script src="<?php //echo //base_url("/js/bootstrap/ie-emulation-modes-warning.js"); ?>" rel="stylesheet"></script>
+                    <script src="<?php //echo base_url("/js/bootstrap/ie10-viewport-bug-workaround.js"); ?>" rel="stylesheet"></script-->
+                    
                 <?php } elseif ($controller == "critico") {
                     ?>
                     <!-- Critico -->
