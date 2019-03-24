@@ -2,7 +2,7 @@
 
 /**
  * Controlador para el modulo de administracion de RMMH
- * @author Daniel Mauricio Dï¿½az Forero - DMDiazF
+ * @author Daniel Mauricio DÃ¯Â¿Â½az Forero - DMDiazF
  * @since  Julio 17 de 2012
  */
 
@@ -317,7 +317,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/directorio");
 		$config["total_rows"] = $this->directorio->contarFuentes(0, 0); //Obtener el numero total de registros que debe procesar el paginador
 		$config["per_page"] = 50;   //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5;  //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5;  //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -364,7 +364,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/control");
 		$config["total_rows"] = $this->directorio->contarFuentes(0, 0); //Obtener el numero total de registros que debe procesar el paginador
 		$config["per_page"] = 50;   //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5;  //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5;  //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -429,7 +429,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/usuarios");
 		$config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
 		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5; //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -461,7 +461,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/usuarios");
                 $config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
 		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5; //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -493,7 +493,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/destinatarios");
                 $config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
 		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5; //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -558,7 +558,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/usuarios");
 		$config["total_rows"] = $this->usuario->contarUsuarios(); //Nro de registros que debe procesar el paginador
 		$config["per_page"] = 50; //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5; //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5; //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -790,7 +790,7 @@ class Administrador extends MX_Controller {
 		$config["base_url"] = site_url("administrador/buscarFuentes");
 		$config["total_rows"] = $this->directorio->contarDirectorio($opcion, $buscar, $data["ano_periodo"], $data["mes_periodo"]);
 		$config["per_page"] = 50;   //Cantidad de registros por pagina que debe mostrar el paginador
-		$config["num_links"] = 5;  //Cantidad de links para cambiar de pï¿½gina que va a mostrar el paginador.
+		$config["num_links"] = 5;  //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
 		$config["first_link"] = "Primero";
 		$config["last_link"] = "&Uacute;ltimo";
 		$config["use_page_numbers"] = TRUE;
@@ -919,7 +919,7 @@ class Administrador extends MX_Controller {
 		// Octubre 03 - 2012
 		// Nota: Se modifica la propiedad del cierre de periodos. 
 		// Descripcion: Al cerrar el periodo y abrir periodos se copian las fuentes y pasan con estado
-		// (5-0) para el nuevo periodo, las fuentes para el periodo que se estï¿½ cerrando se mantienen 
+		// (5-0) para el nuevo periodo, las fuentes para el periodo que se estÃ¯Â¿Â½ cerrando se mantienen 
 		// con el mismo estado y novedad. (No se cambian al estado 99 - 5). Solo se crean registros para 
 		//el nuevo periodo. Se hace apertura y cierre en una sola funcion
 		$this->load->model("periodo");
@@ -1041,18 +1041,18 @@ class Administrador extends MX_Controller {
 		}
 		
 		$validar = $this->usuario->validaRegistroEmpresa($txtNitEmpresa, $txtNroOrden); 
-		if ($validar == 0){  //Validar que la empresa no estï¿½ ya registrada.
-			//La empresa no estï¿½ registrada. Debe agregarse el registro
+		if ($validar == 0){  //Validar que la empresa no estÃ¯Â¿Â½ ya registrada.
+			//La empresa no estÃ¯Â¿Â½ registrada. Debe agregarse el registro
 			$nit = $txtNitEmpresa . $txtNitDigValida;		 
 			$this->directorio->insertarEmpresa($txtNroOrden, $nit, $txtRazonSocial, $txtNomComercial, $txtSigla, $txtDireccion, $txtTelefono, $txtFax, $idaano=0, $txtPagWeb, $txtEmail, $cmbDepartamento, $cmbCiudad);
 			echo "La empresa ha sido registrada.";
 		}
 		else if ($validar == 1){
-			//La empresa ya estï¿½ registrada. Retorno el Nro de orden.
+			//La empresa ya estÃ¯Â¿Â½ registrada. Retorno el Nro de orden.
 			echo "El Nro. de orden de la empresa ya se encuentra registrado. ($txtNroOrden)";
 		}
 		else if ($validar == 2){
-			//El nï¿½mero de nit de la empresa que se intenta registrar ya existe.
+			//El nÃ¯Â¿Â½mero de nit de la empresa que se intenta registrar ya existe.
 			echo "El NIT de la empresa ya se encuentra registrado. ($nit)";
 		}
 	}
@@ -1071,7 +1071,7 @@ class Administrador extends MX_Controller {
   			eval($asignacion);
 		}
 		
-                //Validar que el establecimiento no estï¿½ registrado ya
+                //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
                 if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
                         $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones);
                         echo "La fuente ha sido registrada.";
@@ -1098,7 +1098,23 @@ class Administrador extends MX_Controller {
             $this->load->view("ajxcontrol",$data);
         }
         
-        //Procesa el ajax para mostrar los destinatarios en datatable
+         public function procesaObtenerEstab(){
+             $this->load->model("establecimiento");
+               $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+      
+                for ($i=0; $i<count($data["establecimiento"]); $i++){ 
+                     $datas[] = array('<option value="'.$establecimiento[$i]["id_establecimiento"].'">'.$establecimiento[$i]["establecimiento"].'</option></select>');    
+                }
+                $results = array(
+                    "sEcho" => 1,
+                    "iTotalRecords" => count($control),
+                    "iTotalDisplayRecords" => count($control),
+                    "aaData" => $datas,);
+                echo json_encode($results);
+         }
+
+
+         //Procesa el ajax para mostrar los destinatarios en datatable
          public function directorioDestinatarios(){
             $this->load->model("usuario");
             $data["destinatarios"] = $this->usuario->obtenerDestinatariosPagina();
@@ -1122,7 +1138,7 @@ class Administrador extends MX_Controller {
 		echo $this->db->last_query();		
 	}
 	
-	//Funcion para descargar el directorio. Genera un archivo Excel donde se muestran las contraseï¿½as del directorio sin encriptar
+	//Funcion para descargar el directorio. Genera un archivo Excel donde se muestran las contraseÃ¯Â¿Â½as del directorio sin encriptar
 	public function descargaDirectorio(){
 		$this->load->model("usuario");
 		$data["usuarios"] = $this->usuario->reportePasswords();
@@ -1181,7 +1197,7 @@ class Administrador extends MX_Controller {
 		$this->load->view("ajxusuarioins",$data);		
 	}
 	
-	//Busca en la base de datos si el numero de identificacion del usuario que se esta creando ya estï¿½ creado en la base de datos
+	//Busca en la base de datos si el numero de identificacion del usuario que se esta creando ya estÃ¯Â¿Â½ creado en la base de datos
 	public function validaNitLogin(){
 		$this->load->model("usuario");
 		$tipo = $this->input->post("tipodoc");
@@ -1202,7 +1218,7 @@ class Administrador extends MX_Controller {
 		echo json_encode($arrayError);		
 	}
 		
-	//Busca en la base de datos si el numero de identificacion del operario que se esta creando ya está en la base de datos
+	//Busca en la base de datos si el numero de identificacion del operario que se esta creando ya estÃ¡ en la base de datos
 	public function validaOperario(){
 		$this->load->model("usuario");
 		$tipo = $this->input->post("tipodoc");
@@ -1434,7 +1450,8 @@ class Administrador extends MX_Controller {
 		
 		//Actualizar los datos del destinatario
 		$this->usuario->actualizarDestinatario($id_destinatario, $idnomdest, $identificacion, $tipoDocumento, $direccion, $telefono, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst);
-		redirect("/administrador/editarDestinatario/$id_destinatario", "refresh");
+		
+                redirect("/administrador/editarDestinatario/$id_destinatario", "refresh");
 	}
 	
 	public function cambiarFuente(){
@@ -1457,7 +1474,7 @@ class Administrador extends MX_Controller {
 		echo json_encode($salario);
 	}
 			
-	//Muestra el consolidado de los mï¿½dulos II, III y IV para las empresas.)
+	//Muestra el consolidado de los mÃ¯Â¿Â½dulos II, III y IV para las empresas.)
 	public function mostrarConsolidado($nro_orden){
 		$this->load->model("control");
 		$this->load->model("periodo");

@@ -9,19 +9,22 @@ class Estado extends CI_Model {
         $this->load->helper("url");
     }
     
-    function nombreEstado($estado){
-    	$nombre = "";
-    	$sql = "SELECT CONCAT(id_estado,' - ',nom_estado) AS nombre
-                FROM rmmh_param_estados
-                WHERE id_estado = $estado";
+    function estadoCarga(){
+    	$estado = array();
+    	$sql = "SELECT id_estado, nom_estado
+                FROM txtar_param_estados 
+                ORDER BY id_estado ASC ";
     	$query = $this->db->query($sql);
    		if ($query->num_rows()>0){
-			foreach($query->result() as $row){
-				$nombre = $row->nombre;
-			}
+                    $i = 0;
+                    foreach($query->result() as $row){
+                        $estado[$i]['id_estado'] = $row->id_estado;
+                        $estado[$i]['nom_estado'] = $row->nom_estado;
+                        $i++;
+                    }
 		}
 		$this->db->close();
-		return $nombre;
+		return $estado;
     	
     }
     

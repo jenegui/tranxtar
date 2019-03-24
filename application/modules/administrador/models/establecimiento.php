@@ -15,34 +15,18 @@ class Establecimiento extends CI_Model {
      */
     function obtenerEstablecimientos(){
     	$establecimiento = array();
-    	$sql = "SELECT EST.nro_orden, EST.nro_establecimiento, idnomcom, idsigla, iddirecc, idmpio, iddepto, idtelno, idfaxno, idcorreo, finicial, ffinal, 
-   		               fk_ciiu, fk_depto, fk_mpio, fk_sede, fk_subsede
-   		FROM rmmh_admin_establecimientos EST WHERE EST.nro_establecimiento NOT IN (select US.nro_establecimiento FROM rmmh_admin_usuarios US) AND estado_establecimiento = 1
-   		ORDER BY nro_establecimiento ASC ";
+    	$sql = "SELECT id_establecimiento, concat_ws(' - ', nit_establecimiento, idnomcom) as establecimiento
+   		FROM txtar_admin_establecimientos
+   		ORDER BY establecimiento ASC ";
     	 
     	$query = $this->db->query($sql);
     	
     	if ($query->num_rows()>0){
     		$i=0;
     		foreach($query->result() as $row){
-    			$establecimiento[$i]["nro_orden"] = $row->nro_orden;
-				$establecimiento[$i]["nro_establecimiento"] = $row->nro_establecimiento;
-				$establecimiento[$i]["idnomcom"] = $row->idnomcom;
-				$establecimiento[$i]["idsigla"] = $row->idsigla;
-				$establecimiento[$i]["iddirecc"] = $row->iddirecc;
-				$establecimiento[$i]["idmpio"] = $row->idmpio;
-				$establecimiento[$i]["iddepto"] = $row->iddepto;
-				$establecimiento[$i]["idtelno"] = $row->idtelno;
-				$establecimiento[$i]["idfaxno"] = $row->idfaxno;
-				$establecimiento[$i]["idcorreo"] = $row->idcorreo;
-				$establecimiento[$i]["finicial"] = $row->finicial;
-				$establecimiento[$i]["ffinal"] = $row->ffinal;
-				$establecimiento[$i]["fk_ciiu"] = $row->fk_ciiu;
-				$establecimiento[$i]["fk_depto"] = $row->fk_depto;
-				$establecimiento[$i]["fk_mpio"] = $row->fk_mpio;
-				$establecimiento[$i]["fk_sede"] = $row->fk_sede;
-				$establecimiento[$i]["fk_subsede"] = $row->fk_subsede;
-    			$i++;
+    			$establecimiento[$i]["id_establecimiento"] = $row->id_establecimiento;
+                        $establecimiento[$i]["establecimiento"] = $row->establecimiento;
+                       $i++;
     		}
     	}
     	$this->db->close();

@@ -714,7 +714,7 @@ class Usuario extends CI_Model {
 		return $usuarios;
     }
     
-    //Obtiene todos los destinatarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
+    //Obtiene todos los destinatarios del sistema 
     function obtenerDestinatariosPagina() {
         $destinatarios = array();
         $this->load->model("control");
@@ -746,6 +746,62 @@ class Usuario extends CI_Model {
         }
         $this->db->close();
         return $destinatarios;
+    }
+    //Obtiene todos los destinatarios del sistema 
+    function obtenerDestinatarios() {
+        $destinatarios = array();
+        $sql = "SELECT id_destinatario,  concat_ws(' - ', nro_identificacion, nombre_destinatario) as destinatario      
+            FROM  txtar_admin_destinatarios 
+            ORDER BY id_destinatario";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $destinatarios[$i]["id_destinatario"] = $row->id_destinatario;
+                $destinatarios[$i]["destinatario"] = $row->destinatario;
+                $i++;
+            }
+        }
+        $this->db->close();
+        return $destinatarios;
+    }
+    
+    //Obtiene todos los operarios internos del sistema 
+    function obtenerOperariosInternos() {
+        $operarios = array();
+        $sql = "SELECT 	num_identificacion, nom_usuario      
+            FROM  txtar_admin_usuarios
+            WHERE fk_rol=5
+            ORDER BY num_identificacion";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $operarios[$i]["num_identificacion"] = $row->num_identificacion;
+                $operarios[$i]["nom_usuario"] = $row->nom_usuario;
+                $i++;
+            }
+        }
+        $this->db->close();
+        return $operarios;
+    }
+    //Obtiene todos los operarios externos del sistema 
+    function obtenerOperariosExternos() {
+        $operarios = array();
+        $sql = "SELECT 	nro_identificacion, nombre_operario      
+            FROM  txtar_param_operario
+            ORDER BY nro_identificacion";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $operarios[$i]["nro_identificacion"] = $row->nro_identificacion;
+                $operarios[$i]["nombre_operario"] = $row->nombre_operario;
+                $i++;
+            }
+        }
+        $this->db->close();
+        return $operarios;
     }
     
     //Actualiza los datos de un destinatario que se encuentra en la B.D.

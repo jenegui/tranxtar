@@ -50,7 +50,7 @@ $(function () {
 
 
 
-$("#medio").select2();
+$("#idestablecimiento").select2();
 $("#evento").select2();
 $("#anio").select2();
 

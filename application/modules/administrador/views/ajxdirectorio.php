@@ -1,9 +1,10 @@
 <?php
 $this->load->library("session");
 $this->load->helper("url");
-$url = site_url("images/edit.png");
+$url = site_url();
 //if (count($fuentes) > 0) {
     for ($i = 0; $i < count($fuentes); $i++) {
+        $editar = '<a href=administrador/editarFuente/'.$fuentes[$i]['nro_establecimiento'].' onclick=\"editarDestinatario('.$fuentes[$i]['nro_establecimiento'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
         $datas[] = array('NumEstabl' => $fuentes[$i]['nro_establecimiento'],
             'NombreEstablecimiento' => $fuentes[$i]['idnomcom'],
             'NIT' => $fuentes[$i]['nit_establecimiento'],
@@ -13,7 +14,8 @@ $url = site_url("images/edit.png");
             'Contacto' => $fuentes[$i]['nom_contacto'],
             'Departamento' => $fuentes[$i]['fk_depto'],
             'Municipio' => $fuentes[$i]['fk_mpio'],
-            'Estado' => $fuentes[$i]['estado']);
+            'Estado' => $fuentes[$i]['estado'],
+            'editar' => $editar);
     }
     $results = array(
         "sEcho" => 1,

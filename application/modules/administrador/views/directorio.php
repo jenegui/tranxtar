@@ -39,7 +39,7 @@
 	  <?php 
 	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
 	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Agregar clientes" class="button"/>
-	  			<input type="button" id="btnEditar" name="btnEditar" value="Editar clientes" class="button"/>
+	  			
 	  <?php //} ?>
 	</div>
 </div>
@@ -58,7 +58,7 @@
   <th>Departamento</th>
   <th>Municipio</th>
   <th>Estado</th>
-  <!--th>Opciones</th-->
+  <th>Editar</th>
 </tr>
 </thead>
 <tbody>
@@ -82,6 +82,7 @@ for ($i=0; $i<count($fuentes); $i++){
   <td><?php echo $fuentes[$i]["fk_depto"]; ?></td>
   <td><?php echo $fuentes[$i]["fk_mpio"]; ?></td>
   <td><?php echo $fuentes[$i]["estado"]; ?></td>
+  <td></td>
   <!--td align="center">
      <a href="<?php //echo site_url("administrador/editarFuente/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php //echo base_url("images/edit.png"); ?>"/></a>
      <a href="javascript:removerFuenteDirectorio(<?php echo $fuentes[$i]["nro_establecimiento"]; ?>);"><img src="<?php //echo base_url("images/delete.png"); ?>"/></a>

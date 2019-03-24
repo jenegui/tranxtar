@@ -38,9 +38,8 @@
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
 	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
-	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Registar guia" class="button"/>
-	  			<input type="button" id="btnEditar" name="btnEditar" value="Editar guia" class="button"/>
-                                <input type="button" id="btnEditar" name="btnEditar" value="Imprimir guia" class="button"/>
+	  			<input type="button" id="btnAgregaGuiar" name="btnAgregarGuia" value="Registar guia" class="button"/>
+	  			<input type="button" id="btnEditar" name="btnEditar" value="Imprimir guia" class="button"/>
 	  <?php //} ?>
 	</div>
 </div>
@@ -113,14 +112,22 @@ for ($i=0; $i<count($control); $i++){
 
 
 <!-- Div para agregar establecimientos -->
-<div id="agregarFuente" style="display: none">
+<div id="agregarGuia" style="display: none">
 <?php 
 	//Preparo array para terminar de enviarlo como parametro a la vista AJAX
-	$data["tipodocs"] = $tipodocs;
+        $this->load->model("establecimiento");
+        $this->load->model("usuario");
+        $this->load->model("estado");
+        $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+        $data["destinatario"] = $this->usuario->obtenerDestinatarios();
+        $data["operarios"] = $this->usuario->obtenerOperariosInternos();
+        $data["operariosExt"] = $this->usuario->obtenerOperariosExternos();
+        $data["estadocarga"] = $this->estado->estadoCarga();
+        $data["tipodocs"] = $tipodocs;
 	$data["departamentos"] = $departamentos;
 	$data["municipios"] = $municipios;
         $data["ultimoEstab"]=$NoEstab;
-	$this->load->view("ajxfuentesadd",$data);
+	$this->load->view("ajxguiaadd",$data);
 ?>
 </div>
 <!-- Div para remover fuentes -->

@@ -38,14 +38,14 @@ $(function () {
     $("#ihoa").hint("Suma de a + b (ocupadas por venta directa + ocupadas por tiempo compartido).");
     //$("#camdia").hint("Disponibles promedio d&iacute;a. Infraestructura. Capacidad de alojamiento. No se incluyen las camas supletorias.");
     $("#icda").hint("Hace referencia a las camas fijas realmente ofrecidas en el mes. No se cuentan camas supletorias.");
-    $("#icva").hint("Se obtiene de acuerdo con los registros de hu&eacute;spedes, sumando d�a a d�a el n&uacute;mero de veces que cada cama ha estado cedida (vendida) a un cliente; por ejemplo, si la totalidad de hoteles tiene f&iacute;sicamente 200 camas, de las cuales 160 permanecen ocupadas todo el mes, el n&uacute;mero de camas vendidas es de 4 800 (160 camas x 30 d&iacute;as.");
+    $("#icva").hint("Se obtiene de acuerdo con los registros de hu&eacute;spedes, sumando dï¿½a a dï¿½a el n&uacute;mero de veces que cada cama ha estado cedida (vendida) a un cliente; por ejemplo, si la totalidad de hoteles tiene f&iacute;sicamente 200 camas, de las cuales 160 permanecen ocupadas todo el mes, el n&uacute;mero de camas vendidas es de 4 800 (160 camas x 30 d&iacute;as.");
     $("#texto6").hint("Persona que se aloja en un establecimiento, mediante contrato de hospedaje. S&oacute;lo se registran las personas que llegan sin tener en cuenta el tiempo de pernoctaci&oacute;n (Ej. Una persona se registra en un hotel, pernocta seis (6) noches seguidas, se reportar&aacute; como un solo hu&eacute;sped)");
     $("#huetot").hint("Suma de residentes m&aacute;s no residentes");
     //$("#texto1").hint("Motivo sin el cual el viaje no se hubiera efectuado.");
     $("#texto2").hint("Ingresos totales por habitaci&oacute;n. Incluye ingresos por alojamiento y otros cobros.");
     $("#texto3").hint("Triple, cu&aacute;druple");
     $("#texto4").hint("Caba&ntilde;a, Apartamento, camping, etc.");
-    //$("#textoMICE").hint("MICE�( Meeting, incentives, congresses, exhibitions), es aquel que abarca las actividades basadas en la organizaci&oacute;n, promoci&oacute;n, venta y distribuci&oacute;n de reuniones y eventos; productos y servicios que incluyen reuniones gubernamentales, de empresas y de asociaciones; viajes de incentivos de empresas, seminarios, congresos, conferencias, convenciones, exposiciones y ferias.");
+    //$("#textoMICE").hint("MICEï¿½( Meeting, incentives, congresses, exhibitions), es aquel que abarca las actividades basadas en la organizaci&oacute;n, promoci&oacute;n, venta y distribuci&oacute;n de reuniones y eventos; productos y servicios que incluyen reuniones gubernamentales, de empresas y de asociaciones; viajes de incentivos de empresas, seminarios, congresos, conferencias, convenciones, exposiciones y ferias.");
     $("#nota").hint("Infraestructura -capacidad de alojamiento- no incluye supletorias o adicionales.");
     $("#textoMICE").hint("MICE( Meeting, incentives, congresses, exhibitions), es aquel que abarca las actividades basadas en la organizaci&oacute;n, promoci&oacute;n, venta y distribuci&oacute;n de reuniones y eventos; productos y servicios que incluyen reuniones gubernamentales, de empresas y de asociaciones; viajes de incentivos de empresas, seminarios, congresos, conferencias, convenciones, exposiciones y ferias.");
     $("#texto1").hint("(Motivo sin el cual el viaje no se hubiera efectuado).");
@@ -83,7 +83,7 @@ $(function () {
 
     if ((typeof (numord) != "undefined") && (typeof (numest) != "undefined")) {
 
-        //Lanzo funci�n ajax para saber si la fuente ha diligenciado justificaciones para este capitulo y mostrarlas en el recuadro. (Modulo 2)
+        //Lanzo funciï¿½n ajax para saber si la fuente ha diligenciado justificaciones para este capitulo y mostrarlas en el recuadro. (Modulo 2)
         $.ajax({
             type: "POST",
             url: base_url + "administrador/obtenerObservaciones/" + numord + "/" + numest,
@@ -109,7 +109,7 @@ $(function () {
             }
         });
 
-        //Lanzo funci�n ajax para saber si la fuente ha diligenciado justificaciones para este capitulo y mostrarlas en el recuadro. (Modulo 3)
+        //Lanzo funciï¿½n ajax para saber si la fuente ha diligenciado justificaciones para este capitulo y mostrarlas en el recuadro. (Modulo 3)
         $.ajax({
             type: "POST",
             url: base_url + "administrador/obtenerObservaciones/" + numord + "/" + numest,
@@ -135,7 +135,7 @@ $(function () {
             }
         });
 
-        //Lanzo funci�n ajax para saber si la fuente ha diligenciado justificaciones para este capitulo y mostrarlas en el recuadro. (Modulo 4)
+        //Lanzo funciï¿½n ajax para saber si la fuente ha diligenciado justificaciones para este capitulo y mostrarlas en el recuadro. (Modulo 4)
         $.ajax({
             type: "POST",
             url: base_url + "administrador/obtenerObservaciones/" + numord + "/" + numest,
@@ -198,11 +198,10 @@ $(function () {
     });
     
     //Abre el dialogo para agregar una nueva empresa
-    $("#editarDestinatario").click(function () {
-        alert("mmm");
-        $("#agregarDestinatario").dialog({
+    $("#btnAgregaGuiar").click(function () {
+        $("#agregarGuia").dialog({
             width: 780,
-            title: 'Agregar empresas',
+            title: 'Registro de Guia',
             modal: true
         });
     });
@@ -286,7 +285,7 @@ $(function () {
         });
     });
 
-    //Valida el env�o del formulario de agregar empresas
+    //Valida el envï¿½o del formulario de agregar empresas
     $("#btnAgregarEmpresaInt").click(function () {
         $("#frmEmpresaInsert").validate({
             rules: {
@@ -353,7 +352,7 @@ $(function () {
 
 
 
-    //Valida el env�o del formulario de agregar empresas
+    //Valida el envï¿½o del formulario de agregar empresas
     $("#btnSalarioMin").click(function () {
         $("#frmSalarioMin").validate({
             rules: {
@@ -362,7 +361,7 @@ $(function () {
             },
             messages: {
                 salario: {required: "Debe ingresar el salario minimo.",
-                          number:"El campo debe ser num�rico"  }
+                          number:"El campo debe ser numï¿½rico"  }
             },
             errorPlacement: function (error, element) {
                 element.after(error);
@@ -409,7 +408,7 @@ $(function () {
                         $("#mensaje").css('border-radius', '6px');
                         $("#mensaje").css('-moz-border-radius', '6px');
                         $("#mensaje").css('-webkit-border-radius', '6px');
-                       $("#mensaje").html("El salario se actualiz� correctamente");
+                       $("#mensaje").html("El salario se actualizï¿½ correctamente");
                     }
                 });
             }
@@ -418,7 +417,7 @@ $(function () {
 
 
 
-    //Valida el env�o del formulario de agregar establecimientos
+    //Valida el envï¿½o del formulario de agregar establecimientos
     $("#btnAgregarFuenteInt").click(function () {
 
         $("#frmAgregarFTE").validate({
@@ -496,11 +495,160 @@ $(function () {
                     required: "Debe ingresar la direcci&oacute;n del establecimiento"
                 },
                 idtelefono: {
-                    required: "Debe ingresar el número de teléfono"
+                    required: "Debe ingresar el nÃºmero de telÃ©fono"
                 },
                 idcorreo: {
-                    required: "Debe ingresar el correo electrónico",
-                    email : "Debe ingresar un correo electrónico válido"
+                    required: "Debe ingresar el correo electrÃ³nico",
+                    email : "Debe ingresar un correo electrÃ³nico vÃ¡lido"
+                },
+                cmbDeptoEstab: {
+                    required: "Debe indicar el departamento",
+                    comboBox: "Debe indicar el departamento"
+                },
+                cmbMpioEstab: {
+                    required: "Debe indicar el municipio",
+                    comboBox: "Debe indicar el municipio"
+                },
+                cmbActivEstab: {
+                    required: "Debe indicar la actividad",
+                    comboBox: "Debe indicar la actividad"
+                },
+                cmbSedeEstab: {
+                    required: "Debe indicar la sede",
+                    comboBox: "Debe indicar la sede"
+                },
+                cmbSubSedeEstab: {
+                    required: "Debe indicar la sub - sede",
+                    comboBox: "Debe indicar la sub - sede"
+                },
+                nom_contacto: {
+                    required: "Debe ingrear el nombre del contacto",
+                },
+                cmbInclusion: {
+                    required: "Debe indicar el tipo de inclusi&oacute;n",
+                    comboBox: "Debe indicar el tipo de inclusi&oacute;n"
+                }
+            },
+            errorPlacement: function (error, element) {
+                element.after(error);
+                error.css('opacity','0.47');
+                error.css('z-index','991');
+                error.css('background','#ee0101');
+                //error.css('float','right');
+                error.css('position','absolute');
+                error.css('margin-top','1px');
+                error.css('color','#fff');
+                error.css('font-size','11px');
+                error.css('border','2px solid #ddd');
+                error.css('box-shadow','0 0 6px #000');
+                error.css('-moz-box-shadow','0 0 6px #000');
+                error.css('-webkit-box-shadow','0 0 6px #000');
+                error.css('padding','4px 10px 4px 10px');
+                error.css('border-radius','6px');
+                error.css('-moz-border-radius','6px');
+                error.css('-webkit-border-radius','6px');
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "administrador/insertarFuente",
+                    data: $("#frmAgregarFTE").serialize(),
+                    dataType: "html",
+                    cache: false,
+                    success: function (data) {
+                        if (data != "") {
+                            alert(data);
+                        }
+                        form.submit();
+                        //$("#agregarEmpresa").dialog('close');
+                    }
+                });
+            }
+        });
+    });
+    //Valida el envï¿½o del formulario de agregar establecimientos
+    $("#btnAgregarGuia").click(function () {
+
+        $("#frmAgregarGuia").validate({
+            rules: {
+                txtNumOrden: {
+                    required: true
+                },
+                txtNitEmpresa: {
+                    required: true
+                },
+                txtNomEmpresa: {
+                    required: true
+                },
+                txtNumEstab: {
+                    required: true
+                },
+                txtNomEstab: {
+                    required: true
+                },
+                txtDirEstab: {
+                    required: true
+                },
+                idtelefono: {
+                    required: true
+                },
+                 idcorreo: {
+                    required: true,
+                    email: true
+                },
+                cmbDeptoEstab: {
+                    required: true,
+                    comboBox: '-'
+                },
+                cmbMpioEstab: {
+                    required: true,
+                    comboBox: '-'
+                },
+                cmbActivEstab: {
+                    required: true,
+                    comboBox: '-'
+                },
+                cmbSedeEstab: {
+                    required: true,
+                    comboBox: '-'
+                },
+                cmbSubSedeEstab: {
+                    required: true,
+                    comboBox: '-'
+                },
+                nom_contacto: {
+                    required: true
+                },
+                cmbInclusion: {
+                    required: true,
+                    comboBox: '-'
+                }
+            },
+            messages: {
+                txtNumOrden: {
+                    required: "Debe ingresar el n&uacute;mero de orden de la empresa"
+                },
+                txtNitEmpresa: {
+                    required: "Debe ingresar el nit de la empresa"
+                },
+                txtNomEmpresa: {
+                    required: "Debe ingresar el nombre de la empresa"
+                },
+                txtNumEstab: {
+                    required: "Debe ingresar el n&uacute;mero de establecimiento"
+                },
+                txtNomEstab: {
+                    required: "Debe ingresar el nombre del establecimiento"
+                },
+                txtDirEstab: {
+                    required: "Debe ingresar la direcci&oacute;n del establecimiento"
+                },
+                idtelefono: {
+                    required: "Debe ingresar el nÃºmero de telÃ©fono"
+                },
+                idcorreo: {
+                    required: "Debe ingresar el correo electrÃ³nico",
+                    email : "Debe ingresar un correo electrÃ³nico vÃ¡lido"
                 },
                 cmbDeptoEstab: {
                     required: "Debe indicar el departamento",
@@ -568,7 +716,8 @@ $(function () {
         });
     });
 
-
+    
+    
 
     //Abre el dialogo para eliminar una fuente.
     $("#btnEliminar").click(function () {
@@ -713,7 +862,7 @@ $(function () {
     $("#btnOBSAdminII").click(function () {
         if ($("#frmModuloII").valid()) {
             if (parseInt($("#potpsfr").val()) == 0) {
-                del = confirm('�Est� seguro que desea registrar el valor de personal propietarios, socios y familiares en 0?');
+                del = confirm('ï¿½Estï¿½ seguro que desea registrar el valor de personal propietarios, socios y familiares en 0?');
                 if (del) {
                     cierto = 1;
                 } else {
@@ -762,11 +911,11 @@ $(function () {
                 return false;
             } else if ($("#ihpn").val() == 0 && $("#mvott").val() != 0)
             {
-                alert('El n�mero de residentes de en Colombia es 0, por lo tanto el porcentaje del motivo de viaje residentes debe ser igual a 0!!!');
+                alert('El nï¿½mero de residentes de en Colombia es 0, por lo tanto el porcentaje del motivo de viaje residentes debe ser igual a 0!!!');
                 return false;
             } else if ($("#ihpnr").val() == 0 && $("#mvottnr").val() != 0)
             {
-                alert('El n�mero de NO residentes es 0, por lo tanto el porcentaje del motivo de viaje  de NO residentes debe ser igual a 0!!!');
+                alert('El nï¿½mero de NO residentes es 0, por lo tanto el porcentaje del motivo de viaje  de NO residentes debe ser igual a 0!!!');
                 return false;
             } else
             {
@@ -1973,7 +2122,7 @@ $(function () {
 
     //Actualizaciones JavaScript para el modulo V (Ciiu 4)
     //Funciones para bloquear categorias del modulo 5
-    //Solo se puede se�alar una de las seis categorias
+    //Solo se puede seï¿½alar una de las seis categorias
     //Pregunta si hay alguna categoria checkeada para bloquear los demas
     $("#chkCategoria1").click(function () {
         if ($("#chkCategoria1").attr("checked")) {
@@ -2135,7 +2284,7 @@ $(function () {
             dataType: "html",
             cache: false,
             success: function (data) {
-                alert('El registro se guard� exitosamente.');
+                alert('El registro se guardï¿½ exitosamente.');
                 location.reload();
                 location.href = base_url + "administrador/generarUsuarios";
             }
@@ -2150,7 +2299,7 @@ $(function () {
             dataType: "html",
             cache: false,
             success: function (data) {
-                alert('El registro se guard� exitosamente.');
+                alert('El registro se guardï¿½ exitosamente.');
                 location.reload();
                 location.href = base_url + "administrador/generarUsuarios";
             }
@@ -2211,7 +2360,7 @@ $(function () {
                 dataType: "html",
                 cache: false,
                 success: function (data) {
-                    alert('El registro se guard� exitosamente.');
+                    alert('El registro se guardï¿½ exitosamente.');
                     location.reload();
                     location.href = base_url + "administrador/generarUsuarios";
                 }
@@ -2241,7 +2390,7 @@ $(function () {
                 dataType: "html",
                 cache: false,
                 success: function (data) {
-                    alert('El registro se guard� exitosamente.');
+                    alert('El registro se guardï¿½ exitosamente.');
                     location.reload();
                     location.href = base_url + "administrador/generarUsuarios";
                 }
@@ -2580,7 +2729,8 @@ $(document).ready(function(){
                             { mData: 'Contacto' },
                             { mData: 'Departamento' },
                             { mData: 'Municipio' },
-                            { mData: 'Estado' }
+                            { mData: 'Estado' },
+                            { mData: 'editar' } 
                     ]
      } );
      
@@ -2671,14 +2821,6 @@ $(document).ready(function(){
                             { mData: 'direccion_destinatario' },
                             { mData: 'telefono_destinatario' },
                             { mData: 'contacto_destinatario' },
-                            //{ "defaultContent": "<button type='button' class'editar btn btn-primary'><i class=fa fa-pensil-square-o></i></button>"}
-                           /*{ mDAta : 'editar',
-                                mRender: function (mData, type, row) {
-                                var data_n=mData.split("/");     
-                                //return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
-                                return '<center><img src="'+data_n+'" width="120" heigth="80" /></center>';
-                                }
-                            }*/
                             { mData: 'editar' }    
                     ]
                     

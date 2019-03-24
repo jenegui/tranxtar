@@ -17,11 +17,13 @@ if ($controller == "miniencuesta") {
             <link rel="stylesheet" href="<?php echo base_url("css/1140.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url("css/custom-theme/jquery-ui-1.8.18.custom.css"); ?>" />
             <link rel="stylesheet" href="<?php echo base_url("css/styles.css"); ?>" type="text/css" media="screen" />
+            <link rel="stylesheet" href="<?php echo base_url("css/select2.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables.css"); ?>" type="text/css" media="screen" />
             <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
             <link href="<?php //echo base_url("/css/bootstrap/bootstrap.min.css"); ?>" rel="stylesheet"/>
             <link href="<?php //echo base_url("/css/bootstrap/sticky-footer-navbar.css"); ?>" rel="stylesheet"/-->
+            
              
             <script type="text/javascript" src="<?php echo base_url("js/general/css3-mediaqueries.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery-1.7.2.min.js"); ?>"></script>
@@ -33,6 +35,10 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.min.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/ready.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/general/select2.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/general/select2_locale_es.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/general/jqueryui.js"); ?>"></script>
+            
              
             <!-- Fuente -->
             <?php if ($controller == "fuente") { ?>
