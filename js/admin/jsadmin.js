@@ -571,111 +571,119 @@ $(function () {
 
         $("#frmAgregarGuia").validate({
             rules: {
-                txtNumOrden: {
-                    required: true
-                },
-                txtNitEmpresa: {
-                    required: true
-                },
-                txtNomEmpresa: {
-                    required: true
-                },
-                txtNumEstab: {
-                    required: true
-                },
-                txtNomEstab: {
-                    required: true
-                },
-                txtDirEstab: {
-                    required: true
-                },
-                idtelefono: {
-                    required: true
-                },
-                 idcorreo: {
-                    required: true,
-                    email: true
-                },
-                cmbDeptoEstab: {
+                idestablecimiento: {
                     required: true,
                     comboBox: '-'
                 },
-                cmbMpioEstab: {
+                iddestinatario: {
                     required: true,
                     comboBox: '-'
                 },
-                cmbActivEstab: {
+                formaPago: {
                     required: true,
                     comboBox: '-'
                 },
-                cmbSedeEstab: {
-                    required: true,
-                    comboBox: '-'
-                },
-                cmbSubSedeEstab: {
-                    required: true,
-                    comboBox: '-'
-                },
-                nom_contacto: {
+                txtFecRecogida: {
                     required: true
                 },
-                cmbInclusion: {
+                txtFecEntrega: {
+                    required: true
+                },
+                unidades: {
+                    required: true
+                },
+                pesocobrar: {
+                    required: true
+                },
+                valorDeclarado: {
+                    required: true
+                },
+                flete: {
+                    required: true
+                },
+                costomanejo: {
+                    required: true,
+                    comboBox: '-'
+                },
+                totalflete: {
+                    required: true
+                },
+                idoperario: {
+                    required: true,
+                    comboBox: '-'
+                },
+                 numplaca: {
+                    required: true
+                },
+                
+                estadocarga: {
+                    required: true,
+                    comboBox: '-'
+                },
+               
+                estadoRecogida: {
                     required: true,
                     comboBox: '-'
                 }
             },
             messages: {
-                txtNumOrden: {
-                    required: "Debe ingresar el n&uacute;mero de orden de la empresa"
+                idestablecimiento: {
+                    required: "Debe seleccionar un cliente",
+                    comboBox: "Debe seleccionar un cliente"
                 },
-                txtNitEmpresa: {
-                    required: "Debe ingresar el nit de la empresa"
+                iddestinatario: {
+                    required: "Debe seleccionar un destinatario",
+                    comboBox: "Debe seleccionar un destinatario"
                 },
-                txtNomEmpresa: {
-                    required: "Debe ingresar el nombre de la empresa"
+                formaPago: {
+                    required: "Debe seleccionar una forma de pago",
+                    comboBox: "Debe seleccionar una forma de pago"
                 },
-                txtNumEstab: {
-                    required: "Debe ingresar el n&uacute;mero de establecimiento"
+                txtFecRecogida: {
+                    required: "Debe registrar la fecha de recogida"
                 },
-                txtNomEstab: {
-                    required: "Debe ingresar el nombre del establecimiento"
+                txtFecEntrega: {
+                    required: "Debe registrar la fecha de entrega"
                 },
-                txtDirEstab: {
-                    required: "Debe ingresar la direcci&oacute;n del establecimiento"
+                unidades: {
+                    required: "Debe ingresar el No. de unidades"
                 },
-                idtelefono: {
-                    required: "Debe ingresar el nÃºmero de telÃ©fono"
+                pesocobrar: {
+                    required: "Debe registrar el peso a cobrar"
                 },
-                idcorreo: {
-                    required: "Debe ingresar el correo electrÃ³nico",
-                    email : "Debe ingresar un correo electrÃ³nico vÃ¡lido"
+                valorDeclarado: {
+                    required: "Debe registrar el valor declarado"
                 },
-                cmbDeptoEstab: {
-                    required: "Debe indicar el departamento",
-                    comboBox: "Debe indicar el departamento"
+                flete: {
+                    required: "Debe regisrar el valor del flete"
                 },
-                cmbMpioEstab: {
-                    required: "Debe indicar el municipio",
-                    comboBox: "Debe indicar el municipio"
+                costomanejo: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
                 },
-                cmbActivEstab: {
-                    required: "Debe indicar la actividad",
-                    comboBox: "Debe indicar la actividad"
+                totalflete: {
+                    required: "Debe registrar el valor total del flete"
                 },
+                idoperario: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                },
+                 numplaca: {
+                    required: "Debe registrar el número de placa del veh&iacute;culo",
+                },
+                
                 cmbSedeEstab: {
                     required: "Debe indicar la sede",
                     comboBox: "Debe indicar la sede"
                 },
-                cmbSubSedeEstab: {
-                    required: "Debe indicar la sub - sede",
-                    comboBox: "Debe indicar la sub - sede"
+                estadocarga: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
                 },
-                nom_contacto: {
-                    required: "Debe ingrear el nombre del contacto",
-                },
-                cmbInclusion: {
-                    required: "Debe indicar el tipo de inclusi&oacute;n",
-                    comboBox: "Debe indicar el tipo de inclusi&oacute;n"
+               
+                estadoRecogida: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
                 }
             },
             errorPlacement: function (error, element) {
@@ -698,27 +706,42 @@ $(function () {
                 error.css('-webkit-border-radius','6px');
             },
             submitHandler: function (form) {
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "administrador/insertarFuente",
-                    data: $("#frmAgregarFTE").serialize(),
-                    dataType: "html",
-                    cache: false,
-                    success: function (data) {
-                        if (data != "") {
-                            alert(data);
+                $("#pesokg").on("change",function(){
+			if($(this).prop('checked')){
+			$("#pesokg").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#pesovol").on("change",function(){
+			if($(this).prop('checked')){
+			$("#pesokg").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+                if(!$("#pesokg").prop('checked') && !$("#pesovol").prop('checked')){
+			$("#pesokg").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Por favor, seleccione una opción para continuar.</span></div>');
+		}else{
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "administrador/insertarGuia",
+                        data: $("#frmAgregarGuia").serialize(),
+                        dataType: "html",
+                        cache: false,
+                        success: function (data) {
+                            if (data != "") {
+                                alert(data);
+                            }
+                            form.submit();
+                            //$("#agregarEmpresa").dialog('close');
                         }
-                        form.submit();
-                        //$("#agregarEmpresa").dialog('close');
-                    }
-                });
+                    });
+                }
             }
         });
     });
-
     
     
-
     //Abre el dialogo para eliminar una fuente.
     $("#btnEliminar").click(function () {
         $("#removerFuente").dialog({
@@ -2703,7 +2726,86 @@ $(document).ready(function () {
     });
 });
 
-//}
+
+$(document).ready(function(){
+    $("#pesokg").change(function () {
+        opcion=$(this).val();
+        if($(this).prop('checked')){
+             $("#pesovol").prop("disabled",true);
+             $("#pesovol").prop("checked",false);
+              $("#unidades").blur(function(){
+                var result;
+                var res;
+                var cobrar;
+                var pesocobrar;
+                var totalflete;
+                result=$('#iddestinatario').val().split(',');
+                    res=result[1]*$('#unidades').val(); 
+                    if(res<result[1]*30){
+                        cobrar=(result[1]*30)*$('#unidades').val();
+                        pesocobrar=30;
+                    }else{
+                        cobrar=result[1]*$('#unidades').val();
+                        pesocobrar=30*$('#unidades').val();
+                    }
+                    $("#pesocobrar").val(pesocobrar);
+                    $("#flete").val(cobrar);
+                    $('.calculatotflet').change(function(){
+                        totalflete=($('#valorDeclarado').val()*$('#costomanejo').val())+parseInt($('#flete').val());
+                        $("#totalflete").val(totalflete);
+                    });
+            });
+        }else{
+            $("#pesovol").prop("disabled",false);
+            $("#pesovol").prop("checked",false);
+            $("#flete").val('');
+            $("#pesocobrar").val('');
+            $("#unidades").val('');
+            $("#totalflete").val('');
+        }
+        //$('#iddestinatario').change(function(){
+           
+    	//});
+    })
+    $("#pesovol").change(function () {
+        opcion=$(this).val();
+        if($(this).prop('checked')){
+             $("#pesokg").prop("disabled",true);
+             $("#pesokg").prop("checked",false);
+                $("#unidades").blur(function(){
+                var result;
+                var res;
+                var cobrar;
+                var pesocobrar;
+                result=$('#iddestinatario').val().split(',');
+                    res=result[1]*$('#unidades').val(); 
+                    if(res<result[1]*1){
+                        cobrar=(result[1]*1)*$('#unidades').val();
+                        pesocobrar=1;
+                    }else{
+                        cobrar=result[1]*$('#unidades').val();
+                        pesocobrar=1*$('#unidades').val();
+                    }
+                    $("#pesocobrar").val(pesocobrar);
+                    $("#flete").val(cobrar);
+                   $('.calculatotflet').change(function(){
+                        totalflete=($('#valorDeclarado').val()*$('#costomanejo').val())+parseInt($('#flete').val());
+                        $("#totalflete").val(totalflete);
+                    });
+                    
+            });
+        }else{
+            $("#pesokg").prop("disabled",false);
+            $("#pesokg").prop("checked",false);
+            $("#flete").val('');
+            $("#pesocobrar").val('');
+            $("#unidades").val('');
+            $("#totalflete").val('');
+        }
+    })
+});
+
+  
 $(document).ready(function(){
     $('#tablaDirectorio').dataTable( {
                     "sPaginationType": "full_numbers",

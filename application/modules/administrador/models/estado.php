@@ -28,6 +28,6 @@ class Estado extends CI_Model {
     	
     }
     
-   	 
+   	
     
 } //EOC   	

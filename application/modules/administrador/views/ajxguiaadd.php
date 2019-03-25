@@ -25,9 +25,9 @@ $(function(){
 <legend><b>Registrar Guia</b></legend>
 	<table>
 	<tr>
-	  <td>Cliente </td>
+	  <td>Cliente: </td>
             <td><select id="idestablecimiento" name="idestablecimiento" class="select">
-                
+                <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($establecimiento); $i++){ ?>
                 <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
                 <?php } ?>
@@ -44,9 +44,10 @@ $(function(){
 	</tr>
         <tr>
 	  <td>Destinatario: </td>
-	  <td><select id="iddestinatario" name="iddestinatario" class="select">
+	  <td><select id="iddestinatario" name="iddestinatario" class="select selectDest">
+                 <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($destinatario); $i++){ ?>
-                <option value="<?php echo $destinatario[$i]["id_destinatario"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
+                <option value="<?php echo $destinatario[$i]["id_destinatario"].','.$destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
                 <?php } ?>
 	      </select>
 	  </td>   
@@ -54,26 +55,29 @@ $(function(){
         <tr>
 	  <td>Forma de pago</td>
 	  <td>
-            <select id="cmbDeptoEstab" name="cmbDeptoEstab" class="select">
-	      <option value="-">Seleccione...</option>
-              <option value="1">Contado</option>
+            <select id="formaPago" name="formaPago" class="select">
+              <option value="-">Seleccione...</option>  
+	      <option value="1">Contado</option>
               <option value="2">Contraentrega</option>
               <option value="3">Cr&eacute;ito</option>
             </select>
           </td>    
-	</tr>	
+	</tr>
+        <tr>
+           <td colspan="2">
+           <div class="form-group">
+             Peso (Kgs): &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <input type="checkbox" name="pesokg" id="pesokg" value="1"><br>
+            Peso Volumen: &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 
+            <input type="checkbox" name="pesovol" id="pesovol" value="2"></div>
+            <div id="mensaje"></div>
+        </td>
+	</tr>
 	<tr>
 	  <td>Unidades: </td>
 	  <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox"/></td>
 	</tr>
-	<tr>
-	  <td>Peso (Kgs): </td>
-	  <td><input type="text" id="peso" name="peso" value="" size="15" class="textbox"/></td>
-	</tr>
-	<tr>
-	  <td>Peso volumen: </td>
-	  <td><input type="text" id="pesovolumen" name="pesovolumen" value="" size="15" class="textbox"/></td>
-	</tr>
+	
 	<tr>
 	  <td>Peso a cobrar: </td>
 	  <td><input type="text" id="pesocobrar" name="pesocobrar" value="" size="15" class="textbox"/></td>
@@ -84,16 +88,16 @@ $(function(){
 	</tr>
 	<tr>
 	  <td>Flete: </td>
-	  <td><input type="text" id="flete" name="flete" value="" size="15" class="textbox"/></td>
+	  <td><input type="text" id="flete" name="flete" value="" size="15" class="textbox calculatotflet"/></td>
 	</tr>
         <tr>
 	  <td>Costo manejo</td>
 	  <td>
-            <select id="costomanejo" name="costomanejo" class="select">
+            <select id="costomanejo" name="costomanejo" class="select calculatotflet">
 	      <option value="-">Seleccione...</option>
-              <option value="1">1%</option>
-              <option value="3">3%</option>
-              <option value="5">5%</option>
+              <option value="0.01">1%</option>
+              <option value="0.03">3%</option>
+              <option value="0.05">5%</option>
             </select>
           </td>    
 	</tr>
@@ -104,7 +108,7 @@ $(function(){
         <tr>
 	  <td>Operario interno </td>
             <td><select id="idoperario" name="idoperario" class="select">
-                
+                <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($operarios); $i++){ ?>
                 <option value="<?php echo $operarios[$i]["num_identificacion"]; ?>"><?php echo $operarios[$i]["nom_usuario"]; ?></option> 
                 <?php } ?>
@@ -118,7 +122,7 @@ $(function(){
         <tr>
 	  <td>Operario externo</td>
             <td><select id="idoperarioext" name="idoperarioext" class="select">
-                
+                <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($operariosExt); $i++){ ?>
                 <option value="<?php echo $operariosExt[$i]["nro_identificacion"]; ?>"><?php echo $operariosExt[$i]["nombre_operario"]; ?></option> 
                 <?php } ?>
@@ -128,7 +132,7 @@ $(function(){
         <tr>
 	  <td>Estado de la carga: </td>
 	  <td><select id="estadocarga" name="estadocarga" class="select">
-                
+                <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($estadocarga); $i++){ ?>
                 <option value="<?php echo $estadocarga[$i]["id_estado"]; ?>"><?php echo $estadocarga[$i]["id_estado"] .'-'. $estadocarga[$i]["nom_estado"]; ?></option> 
                 <?php } ?>
@@ -139,7 +143,7 @@ $(function(){
 	  <td>Estado del control de recogida</td>
 	  <td>
             <select id="estadoRecogida" name="estadoRecogida" class="select">
-	      <option value="-">Seleccione...</option>
+              <option value="-">Seleccione...</option>
               <option value="0">No aprobada</option>
               <option value="1">Aprobada</option>
             </select>
@@ -151,6 +155,7 @@ $(function(){
 	</tr>
 	</table>
 </fieldset>
+
 <br/>
-<input type="submit" id="btnAgregarGuia" name="btnAgregarGuia" value="Agregar Fuente" class="button"/>
+<input type="submit" id="btnAgregarGuia" name="btnAgregarGuia" value="Registrar Guia" class="button"/>
 </form>

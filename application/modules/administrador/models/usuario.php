@@ -750,8 +750,10 @@ class Usuario extends CI_Model {
     //Obtiene todos los destinatarios del sistema 
     function obtenerDestinatarios() {
         $destinatarios = array();
-        $sql = "SELECT id_destinatario,  concat_ws(' - ', nro_identificacion, nombre_destinatario) as destinatario      
-            FROM  txtar_admin_destinatarios 
+        $sql = "SELECT id_destinatario,  concat_ws(' - ', nro_identificacion, nombre_destinatario) as destinatario,
+            valor_kilo
+            FROM  txtar_admin_destinatarios, txtar_param_mpios
+            WHERE ciudad_destinatario=id_mpio
             ORDER BY id_destinatario";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -759,6 +761,7 @@ class Usuario extends CI_Model {
             foreach ($query->result() as $row) {
                 $destinatarios[$i]["id_destinatario"] = $row->id_destinatario;
                 $destinatarios[$i]["destinatario"] = $row->destinatario;
+                $destinatarios[$i]["valor_kilo"] = $row->valor_kilo;
                 $i++;
             }
         }

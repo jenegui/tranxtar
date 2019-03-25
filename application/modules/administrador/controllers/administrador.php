@@ -1082,6 +1082,51 @@ class Administrador extends MX_Controller {
 		
 		
 	}
+	//Insertar / Agregar una nueva fuente desde el directorio de fuentes del administrador
+	public function insertarGuia(){
+		$this->load->model("control");
+		$this->load->model("empresa");
+		$this->load->model("usuario");
+		$this->load->model("directorio");
+		$this->load->model("establecimiento");
+		foreach($_POST as $nombre_campo => $valor){
+                    $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";   			
+                    eval($asignacion);
+		}
+                $idusaurio=$this->session->userdata('id');
+                $fechaRegistro= date("Y-m-d H:i:s"); 
+                echo $fechaRegistro;
+		if(!isset($pesokg)){
+                    $pesokg1=0;
+                }else{
+                    $pesokg1=$pesokg;
+                }
+                if(!isset($pesovol)){
+                    $pesovol1=0;
+                }else{
+                    $pesovol1=$pesovol;
+                }
+                if($idoperarioext=='-'){
+                    $idoperarioext1=0;
+                }else{
+                    $idoperarioext1=$idoperarioext;
+                }
+                $fecharec= explode("/", $txtFecRecogida);
+                $fecharecog=$fecharec[2].'-'.$fecharec[1].'-'.$fecharec[0];
+                $fechaent= explode("/", $txtFecEntrega);
+                $fechaentr=$fechaent[2].'-'.$fechaent[1].'-'.$fechaent[0];
+                
+                //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
+                //if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
+                        $this->control->insertarControlGuia($idestablecimiento, $fecharecog, $fechaentr,$iddestinatario,$formaPago,$pesokg1,$pesovol1,$unidades,$pesocobrar,$valorDeclarado,$flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext1,$estadocarga,$estadoRecogida,$observaciones, $idusaurio,$fechaRegistro);
+                        echo "La fuente ha sido registrada.";
+                //}			
+               /* else{
+                        echo "No se puede agregar el establecimiento. El establecimiento ya se encuentra registrado.";
+                }*/
+		
+	    redirect('/administrador/control','refresh');	
+	}
 	
 	
         //Procesa el ajax para mostrar los establecimientos en datatable

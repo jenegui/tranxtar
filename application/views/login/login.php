@@ -1,8 +1,8 @@
 <?php $this->load->helper("url");?>
-<h1>Bienvenido a la Encuesta Mensual de Alojamiento (EMA)</h1>
-<p>El objetivo de esta investigaci&oacute;n es obtener informaci&oacute;n coyuntural del sector, relacionada con ingresos, empleo y gastos de personal, adem&aacute;s de algunos indicadores espec&iacute;ficos que describen su estado y evoluci&oacute;n en el corto plazo, para guiar la implementaci&oacute;n de medidas o pol&iacute;ticas que beneficien el desarrollo sectorial. Gracias a su valiosa colaboraci&oacute;n, los resultados de esta investigaci&oacute;n son una herramienta importante en la toma de decisiones econ&oacute;micas del pa&iacute;s.</p>
+<h1>Bienvenido a la aplicacion web de TRANSXTAR</h1>
+<p>El objetivo de esta aplicaci&oacute;n llevar el registro en l&iacute;nea de las operaciones log&iacute;sticas de la empresa mediante el registro y control de las guias, de los clientes y destinatarios, tambi&eacute;n permite la generaci&oacute;n  de indicadores de gesti&oacute;n los cuales permiten guiar la implementaci&oacute;n de medidas o pol&iacute;ticas que beneficien la empresa. </p>
 <br/>
-<p><b>Importante:&nbsp;</b>Los datos que el DANE solicita en este formulario son estrictamente confidenciales y en ning&uacute;n caso tienen fines fiscales ni pueden utilizarse como prueba judicial (Art. 5&deg; Ley 79/93).</p>
+
 <br/><br/>
 <div id="login">
 	<form id="frmIngresar" name="frmIngresar" method="post" action="<?php echo site_url("login/validar"); ?>" accept-charset="utf-8">				
