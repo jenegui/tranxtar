@@ -24,9 +24,7 @@ class Administrador extends MX_Controller {
 		$data["controller"] = $this->session->userdata("controlador");
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==1){
-			$data['tipo_usuario']="ADMINISTRADOR";
-		}
+		$data['tipo_usuario']="ADMINISTRADOR";
 		$data["nom_usuario"] = $nom_usuario;
 		$data["view"] = "administrador";
 		$data["menu"] = "adminmenu";
@@ -293,7 +291,6 @@ class Administrador extends MX_Controller {
 	
 	//Ejecuta la funcion del directorio del menu del administrador.
 	public function directorio(){
-		
 		$this->load->model("control");
 		$this->load->model("divipola");
 		$this->load->model("tipodocs");
@@ -301,11 +298,8 @@ class Administrador extends MX_Controller {
 		$this->load->model("directorio");
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-               
-		if($tipo_usuario==1){
-			$data['tipo_usuario']=$this->session->userdata("controlador");
-                }
-		$data["nom_usuario"] = $nom_usuario;
+                $data['tipo_usuario']=$this->session->userdata("controlador");
+                $data["nom_usuario"] = $nom_usuario;
 		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
 		$data["view"] = "directorio";
@@ -346,13 +340,10 @@ class Administrador extends MX_Controller {
 		$this->load->model("tipodocs");
 		$this->load->model("actividad");
 		$this->load->model("directorio");
-		$nom_usuario = $this->session->userdata("nombre");
+                $nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-               
-		if($tipo_usuario==1){
-			$data['tipo_usuario']=$this->session->userdata("controlador");
-                }
-		$data["nom_usuario"] = $nom_usuario;
+                $data['tipo_usuario']=$this->session->userdata("controlador");
+                $data["nom_usuario"] = $nom_usuario;
 		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
 		$data["view"] = "control";
@@ -373,14 +364,95 @@ class Administrador extends MX_Controller {
 		//Trabajo de paginacion
 		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
 		$desde = ($pagina - 1) * $config["per_page"];
-                
-		$data["control"] = $this->control->obtenerGuias();
-                
+                if($tipo_usuario==5){
+                    $id_operario=$this->session->userdata('num_identificacion');
+                }else{
+                    $id_operario=0;
+                }
+		$data["control"] = $this->control->obtenerGuias($id_operario);
+                //var_dump($data["control"])."-----";
                 $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
                 $data["links"] = $this->pagination->create_links();
 		$this->load->view("layout",$data);
 	}
 	
+        //funcion para editar el control de guias
+	public function editarControl($id_control){
+	    $this->load->model("divipola");
+            $this->load->model("empresa");
+            $this->load->model("establecimiento");
+            $this->load->model("control");
+            $this->load->model("usuario");
+            $this->load->model("estado");
+            
+            $data["controller"] = $this->session->userdata("controlador");
+            if(isset($_REQUEST['$id_control'])){
+                $id_control= $_REQUEST['$id_control'];
+            }else{
+                $id_control=$id_control;
+            }
+            $nom_usuario = $this->session->userdata("nombre");
+            $data['tipo_usuario']=$this->session->userdata("controlador");
+            $data['usuario']=$this->session->userdata("tipo_usuario");
+            $data["view"] = "controlEditar";
+            $nom_usuario = $this->session->userdata("nombre");
+            $data["menu"] = "adminmenu";
+            $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+            $data["destinatario"] = $this->usuario->obtenerDestinatarios();
+            $data["operarios"] = $this->usuario->obtenerOperariosInternos();
+            $data["operariosExt"] = $this->usuario->obtenerOperariosExternos();
+            $data["estadocarga"] = $this->estado->estadoCarga();
+            
+            $data["nom_usuario"] = $nom_usuario;
+            $data['usuario']=$this->session->userdata('tipo_usuario');
+            $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+            $data["municipios"] = $this->divipola->obtenerMunicipios("");
+            $data["control"] = $this->control->obtenerGuiasId($id_control);
+            
+            $this->load->view("layout",$data);
+	}
+	
+        //funcion para editar el control de guias
+	public function actualizarDatosControl(){
+	    $this->load->model("empresa");
+            $this->load->model("usuario");
+            $this->load->model("control");
+            //Recibir todas las variables que vengan enviadas por POST
+            foreach($_POST as $nombre_campo => $valor){
+                    
+                    $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";  			
+                    eval($asignacion);
+            }
+            $idusaurio=$this->session->userdata('id');
+            $fechaRegistro= date("Y-m-d H:i:s"); 
+
+            if(!isset($pesokg)){
+                $pesokg1=0;
+            }else{
+                $pesokg1=$pesokg;
+            }
+            if(!isset($pesovol)){
+                $pesovol1=0;
+            }else{
+                $pesovol1=$pesovol;
+            }
+            if($idoperarioext=='-'){
+                $idoperarioext1=0;
+            }else{
+                $idoperarioext1=$idoperarioext;
+            }
+           
+            $fecharec= explode("/",$txtFecRecogida);
+            $fecharecog=$fecharec[2].'-'.$fecharec[1].'-'.$fecharec[0];
+            $fechaent= explode("/",$txtFecEntrega);
+            $fechaentr=$fechaent[2].'-'.$fechaent[1].'-'.$fechaent[0];
+            $observ=$observaciones." Se modificaron los datos con el usuario  ".$idusaurio.", el ".$fechaRegistro;
+            //Actualizar los datos del destinatario
+            $this->control->actualizarDatosControl($id_control, $idestablecimiento, $fecharecog, $fechaentr, $iddestinatario, $formaPago, $pesokg1, $pesovol1, $unidades, $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observ);
+                                                   
+
+            redirect("/administrador/editarControl/$id_control", "refresh");
+	}
 	
 	//Descarga el manual para la carga del directorio con archivo CSV
 	public function descargaManualCSV(){		
@@ -415,10 +487,7 @@ class Administrador extends MX_Controller {
 		$this->load->model("usuario");
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==1){
-			$data['tipo_usuario']=$this->session->userdata("controlador");
-		}
-                
+		$data['tipo_usuario']=$this->session->userdata("controlador");
 		$data["nom_usuario"] = $nom_usuario;
 		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
@@ -447,10 +516,7 @@ class Administrador extends MX_Controller {
 		$this->load->model("usuario");
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==1){
-			$data['tipo_usuario']=$this->session->userdata("controlador");
-		}
-                
+		$data['tipo_usuario']=$this->session->userdata("controlador");
 		$data["nom_usuario"] = $nom_usuario;
 		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
@@ -479,10 +545,7 @@ class Administrador extends MX_Controller {
 		$this->load->model("usuario");
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==1){
-			$data['tipo_usuario']=$this->session->userdata("controlador");
-		}
-                
+		$data['tipo_usuario']=$this->session->userdata("controlador");
 		$data["nom_usuario"] = $nom_usuario;
 		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
@@ -1095,7 +1158,7 @@ class Administrador extends MX_Controller {
 		}
                 $idusaurio=$this->session->userdata('id');
                 $fechaRegistro= date("Y-m-d H:i:s"); 
-                echo $fechaRegistro;
+                
 		if(!isset($pesokg)){
                     $pesokg1=0;
                 }else{
@@ -1111,6 +1174,11 @@ class Administrador extends MX_Controller {
                 }else{
                     $idoperarioext1=$idoperarioext;
                 }
+                if(!isset($estadoRecogida)){
+                    $estadoRecogida1=0;
+                }else{
+                    $estadoRecogida1=$estadoRecogida;
+                }
                 $fecharec= explode("/", $txtFecRecogida);
                 $fecharecog=$fecharec[2].'-'.$fecharec[1].'-'.$fecharec[0];
                 $fechaent= explode("/", $txtFecEntrega);
@@ -1118,7 +1186,7 @@ class Administrador extends MX_Controller {
                 
                 //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
                 //if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
-                        $this->control->insertarControlGuia($idestablecimiento, $fecharecog, $fechaentr,$iddestinatario,$formaPago,$pesokg1,$pesovol1,$unidades,$pesocobrar,$valorDeclarado,$flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext1,$estadocarga,$estadoRecogida,$observaciones, $idusaurio,$fechaRegistro);
+                        $this->control->insertarControlGuia($idestablecimiento, $fecharecog, $fechaentr,$iddestinatario,$formaPago,$pesokg1,$pesovol1,$unidades,$pesocobrar,$valorDeclarado,$flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext1,$estadocarga,$estadoRecogida1,$observaciones, $idusaurio,$fechaRegistro);
                         echo "La fuente ha sido registrada.";
                 //}			
                /* else{
@@ -1139,7 +1207,15 @@ class Administrador extends MX_Controller {
         //Procesa el ajax para mostrar las guas en datatable
          public function directorioControl(){
             $this->load->model("control");
-            $data["control"] = $this->control->obtenerGuias();
+            $tipo_usuario = $this->session->userdata("tipo_usuario");
+            if($tipo_usuario==5){
+                $id_operario=$this->session->userdata('num_identificacion');
+            }else{
+                $id_operario=0;
+            }
+            
+            $data["control"] = $this->control->obtenerGuias($id_operario);
+            
             $this->load->view("ajxcontrol",$data);
         }
         
@@ -1318,7 +1394,7 @@ class Administrador extends MX_Controller {
 		$nro_establecimiento = 0; //No se asigna un numero de establecimiento
 		$fecini = $this->general->formatoFecha($txtFecCreacion,"/");
 		$fecfin = $this->general->formatofecha($txtFecVencimiento,"/");
-		$password = $this->danecrypt->codificar($txtPassword);
+		$password = $this->danecrypt->encode($txtPassword);
 		//$this->usuario->insertarUsuario($txtNumId, $txtNomUsuario, $txtLogin, $password, $txtEmail, $fecini, $fecfin, $nro_orden, $cmbRol, $cmbsede, $cmbSubsede, $cmbTipoDocumento);
 		//$encryptpass = $this->danecrypt->codificar($password);
                 $this->usuario->insertarUsuario($txtNumId, $txtNomUsuario, $txtLogin, $password, $txtEmail, $fecini, $fecfin, 0, 0, $cmbTipoDocumento, $cmbRol, 0, 0);
@@ -1373,10 +1449,7 @@ class Administrador extends MX_Controller {
             $data["view"] = "editarDestinatario";
             $nom_usuario = $this->session->userdata("nombre");
             $tipo_usuario = $this->session->userdata("tipo_usuario");
-            
-            if($tipo_usuario==1){
-                    $data['tipo_usuario']=$this->session->userdata("controlador");
-            }
+            $data['tipo_usuario']=$this->session->userdata("controlador");
             $data["nom_usuario"] = $nom_usuario;
             $data["menu"] = "adminmenu";
             $data["departamentos"] = $this->divipola->obtenerDepartamentos();
@@ -1441,10 +1514,7 @@ class Administrador extends MX_Controller {
             $data["view"] = "editarfte";
             $nom_usuario = $this->session->userdata("nombre");
             $tipo_usuario = $this->session->userdata("tipo_usuario");
-            
-            if($tipo_usuario==1){
-                    $data['tipo_usuario']=$this->session->userdata("controlador");
-            }
+            $data['tipo_usuario']=$this->session->userdata("controlador");
             $data["nom_usuario"] = $nom_usuario;
             $data["menu"] = "adminmenu";
             $data["departamentos"] = $this->divipola->obtenerDepartamentos();

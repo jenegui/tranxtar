@@ -566,6 +566,7 @@ $(function () {
             }
         });
     });
+    
     //Valida el envï¿½o del formulario de agregar establecimientos
     $("#btnAgregarGuia").click(function () {
 
@@ -731,6 +732,180 @@ $(function () {
                         success: function (data) {
                             if (data != "") {
                                 alert(data);
+                            }
+                            form.submit();
+                            //$("#agregarEmpresa").dialog('close');
+                        }
+                    });
+                }
+            }
+        });
+    });
+    //Valida el envï¿½o del formulario de agregar establecimientos
+    $("#btnEditarGuia").click(function () {
+
+        $("#frmEditarGuia").validate({
+            rules: {
+                idestablecimiento: {
+                    required: true,
+                    comboBox: '-'
+                },
+                iddestinatario: {
+                    required: true,
+                    comboBox: '-'
+                },
+                formaPago: {
+                    required: true,
+                    comboBox: '-'
+                },
+                txtFecRecogida: {
+                    required: true
+                },
+                txtFecEntrega: {
+                    required: true
+                },
+                unidades: {
+                    required: true
+                },
+                pesocobrar: {
+                    required: true
+                },
+                valorDeclarado: {
+                    required: true
+                },
+                flete: {
+                    required: true
+                },
+                costomanejo: {
+                    required: true,
+                    comboBox: '-'
+                },
+                totalflete: {
+                    required: true
+                },
+                idoperario: {
+                    required: true,
+                    comboBox: '-'
+                },
+                 numplaca: {
+                    required: true
+                },
+                
+                estadocarga: {
+                    required: true,
+                    comboBox: '-'
+                },
+               
+                estadoRecogida: {
+                    required: true,
+                    comboBox: '-'
+                }
+            },
+            messages: {
+                idestablecimiento: {
+                    required: "Debe seleccionar un cliente",
+                    comboBox: "Debe seleccionar un cliente"
+                },
+                iddestinatario: {
+                    required: "Debe seleccionar un destinatario",
+                    comboBox: "Debe seleccionar un destinatario"
+                },
+                formaPago: {
+                    required: "Debe seleccionar una forma de pago",
+                    comboBox: "Debe seleccionar una forma de pago"
+                },
+                txtFecRecogida: {
+                    required: "Debe registrar la fecha de recogida"
+                },
+                txtFecEntrega: {
+                    required: "Debe registrar la fecha de entrega"
+                },
+                unidades: {
+                    required: "Debe ingresar el No. de unidades"
+                },
+                pesocobrar: {
+                    required: "Debe registrar el peso a cobrar"
+                },
+                valorDeclarado: {
+                    required: "Debe registrar el valor declarado"
+                },
+                flete: {
+                    required: "Debe regisrar el valor del flete"
+                },
+                costomanejo: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                },
+                totalflete: {
+                    required: "Debe registrar el valor total del flete"
+                },
+                idoperario: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                },
+                 numplaca: {
+                    required: "Debe registrar el número de placa del veh&iacute;culo",
+                },
+                
+                cmbSedeEstab: {
+                    required: "Debe indicar la sede",
+                    comboBox: "Debe indicar la sede"
+                },
+                estadocarga: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                },
+               
+                estadoRecogida: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                }
+            },
+            errorPlacement: function (error, element) {
+                element.after(error);
+                error.css('opacity','0.47');
+                error.css('z-index','991');
+                error.css('background','#ee0101');
+                //error.css('float','right');
+                error.css('position','absolute');
+                error.css('margin-top','1px');
+                error.css('color','#fff');
+                error.css('font-size','11px');
+                error.css('border','2px solid #ddd');
+                error.css('box-shadow','0 0 6px #000');
+                error.css('-moz-box-shadow','0 0 6px #000');
+                error.css('-webkit-box-shadow','0 0 6px #000');
+                error.css('padding','4px 10px 4px 10px');
+                error.css('border-radius','6px');
+                error.css('-moz-border-radius','6px');
+                error.css('-webkit-border-radius','6px');
+            },
+            submitHandler: function (form) {
+                $("#pesokg").on("change",function(){
+			if($(this).prop('checked')){
+			$("#pesokg").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#pesovol").on("change",function(){
+			if($(this).prop('checked')){
+			$("#pesokg").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+                if(!$("#pesokg").prop('checked') && !$("#pesovol").prop('checked')){
+			$("#pesokg").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Por favor, seleccione una opción para continuar.</span></div>');
+		}else{
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "administrador/actualizarDatosControl",
+                        data: $("#frmEditarGuia").serialize(),
+                        dataType: "html",
+                        cache: false,
+                        success: function (data) {
+                            if (data != "") {
+                                //alert(data);
                             }
                             form.submit();
                             //$("#agregarEmpresa").dialog('close');
@@ -2865,7 +3040,8 @@ $(document).ready(function(){
                             { mData: 'valorFlete' },
                             { mData: 'fecRegistro' },
                             { mData: 'estadoCarga' },
-                            { mData: 'Ver' },
+                            { mData: 'Editar' },
+                            { mData: 'Imprimir' }
                             /*{ mRender: function (mData, type, full) {
                              return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
                            }*/

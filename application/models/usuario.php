@@ -61,32 +61,23 @@ class Usuario extends CI_Model {
         $tipoUsuario = $this->session->userdata('tipo_usuario');
         $controller = "login";
         switch ($tipoUsuario) {
-            case 1: //Fuentes
+            case 1: 
                 $controller = "administrador";
                 break;
-            case 2: //Criticos
+            case 2: 
                 $controller = "supervisor";
                 break;
-            case 3: //Asistentes T�cnicos
+            case 3: 
                 $controller = "comercial";
                 break;
-            case 4: //Administradores
+            case 4: 
                 $controller = "traficoseguridad";
                 break;
-            case 5: //Logisticos
-                $controller = "operativo";
+            case 5: 
+                $controller = "operario";
                 break;
-            case 6: //Tematicos										
-                $controller = "tematica";
-                break;
-            case 7: //Directivos
-                $controller = "directivos";
-                break;
-            case 8: //Genrentes empresas
-                $controller = "empresa";
-                break;
-            case 9: // Establecimientos miniencuesta
-                $controller = "miniencuesta";
+            case 6: 										
+                $controller = "contabilidad";
                 break;
         }
 
@@ -101,32 +92,23 @@ class Usuario extends CI_Model {
     public function asignarControlador($rol) {
         $controller = null;
         switch ($rol) {
-            case 1: //Fuentes
-                $controller = "administrador";
+            case 1: 
+                $controller = "Administrador";
                 break;
-            case 2: //Criticos
-                $controller = "supervisor";
+            case 2: 
+                $controller = "Supervisor";
                 break;
-            case 3: //Asistentes T�cnicos
-                $controller = "comercial";
+            case 3: 
+                $controller = "Comercial";
                 break;
-            case 4: //Administradores
-                $controller = "traficoseguridad";
+            case 4: 
+                $controller = "Traficoseguridad";
                 break;
-            case 5: //Logisticos
-                $controller = "operativo";
+            case 5: 
+                $controller = "Operario";
                 break;
-            case 6: //Tematicos
-                $controller = "tematica";
-                break;
-            case 7: //Directivos
-                $controller = "directivos";
-                break;
-            case 8: //Genrentes empresas
-                $controller = "empresa";
-                break;
-            case 9: // Establecimientos miniencuesta
-                $controller = "miniencuesta";
+            case 6:
+                $controller = "Contabilidad";
                 break;
         }
         return $controller;

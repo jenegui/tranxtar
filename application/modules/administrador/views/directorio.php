@@ -34,7 +34,7 @@
 <br/>
 <form id="frmDir" name="frmDir" method="post" action="<?php echo site_url("administrador/descargadirectorio"); ?>"></form>
 <div class="row">
-	<div class="fivecol"><h1>Directorio de Clientes</h1></div>
+	<div class="fivecol"><h1>&nbsp; &nbsp;  &nbsp;Directorio de Clientes</h1></div>
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
 	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>

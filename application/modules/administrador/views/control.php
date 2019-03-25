@@ -39,7 +39,7 @@
 	  <?php 
 	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
 	  			<input type="button" id="btnAgregaGuiar" name="btnAgregarGuia" value="Registar guia" class="button"/>
-	  			<input type="button" id="btnEditar" name="btnEditar" value="Imprimir guia" class="button"/>
+	  			
 	  <?php //} ?>
 	</div>
 </div>
@@ -58,7 +58,8 @@
   <th>Valor flete</th>
   <th>Fecha registro</th>
   <th>Estado de la carga</th>
-  <th>Ver detalle</th>
+  <th>Editar</th>
+  <th>Imprimir</th>
 </thead>
 <tbody>
 <?php 
@@ -69,6 +70,7 @@ for ($i=0; $i<count($control); $i++){
     
 ?>
 <tr>
+    <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 
@@ -127,6 +129,7 @@ for ($i=0; $i<count($control); $i++){
 	$data["departamentos"] = $departamentos;
 	$data["municipios"] = $municipios;
         $data["ultimoEstab"]=$NoEstab;
+        $data["usuario"]=$this->session->userdata("tipo_usuario");
 	$this->load->view("ajxguiaadd",$data);
 ?>
 </div>

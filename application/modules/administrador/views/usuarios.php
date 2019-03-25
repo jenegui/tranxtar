@@ -34,7 +34,7 @@
 </style>
 <?php  //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>   
 		  <div class="row">
-	         <div class="fivecol"><h1>Usuarios</h1></div>
+	         <div class="fivecol"><h1>&nbsp; &nbsp;  &nbsp;Usuarios</h1></div>
 	         <div style="text-align: right;" class="sixcol">
 	            <input type="button" id="btnAgregarUsuario" name="btnAgregarUsuario" value="Agregar Usuario" class="button"/>
                     

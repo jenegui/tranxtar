@@ -17,12 +17,11 @@ $(function(){
 	$("#cmbsede").cargarCombo("cmbSubsede","administrador/actualizarSubsedes");
         //$("#idestablecimiento").select2();
  });
-
 </script>
 <form id="frmAgregarGuia" name="frmAgregarGuia" method="post" action="">
 <br/>
 <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
-<legend><b>Registrar Guia</b></legend>
+<legend><b>Registrar Guiaa</b></legend>
 	<table>
 	<tr>
 	  <td>Cliente: </td>
@@ -140,9 +139,16 @@ $(function(){
 	  </td>  
 	</tr>
         <tr>
-	  <td>Estado del control de recogida</td>
+	  <td>Estado del control:</td>
 	  <td>
-            <select id="estadoRecogida" name="estadoRecogida" class="select">
+            <?php
+            if($usuario==1 || $usuario==2){
+                $disabled="";
+            }else{
+                $disabled='disabled="disabled"';
+            }
+            ?>
+            <select id="estadoRecogida" name="estadoRecogida" class="select" <?php echo $disabled; ?>>
               <option value="-">Seleccione...</option>
               <option value="0">No aprobada</option>
               <option value="1">Aprobada</option>
