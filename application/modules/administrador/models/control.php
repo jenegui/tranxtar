@@ -180,6 +180,22 @@ class Control extends CI_Model {
 		$this->db->where("id_control", $id_control);
 		$this->db->update("txtar_admin_control",$data);
     }     
+    
+    //Actualiza oa información del estado del control de las guias     
+    function actualizarDatosControlTS($id_control, $estadocarga, $observaciones){
+    	$data = array('observaciones' => $observaciones,
+		     'estado_carga' => $estadocarga,
+                );
+		$this->db->where("id_control", $id_control);
+		$this->db->update("txtar_admin_control",$data);
+    }     
+    //Actualiza oa información del estado contable de las guias     
+    function actualizarDatosControlCon($id_control, $estadocont){
+    	$data = array('estado_contable' => $estadocont,
+                );
+		$this->db->where("id_control", $id_control);
+		$this->db->update("txtar_admin_control",$data);
+    }     
      
    //Funcion que me entrega el nombre del estado de un modulo
    function estadoModulo($estado){

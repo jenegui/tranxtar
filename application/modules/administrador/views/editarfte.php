@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
 	$(function(){
+            $("#idnomcomest").mayusculas().largo(80);
 		$("#btnPruebas").click(function(){				
 			$("#divCambioEST").html("<br/>&iquest; Realmente desea cambiar el estado de este formulario ?");
 			$("#divCambioEST").append('<br/><input type="button" id="btnCambiarYES" name="btnCambiarYES" value="Aceptar" class="button"/>'); 
@@ -40,12 +41,12 @@
 <!-- Tabla para mostrar los datos del establecimiento -->
 <table width="100%">
 <tr>
-  <td width="10%">Nombre Comercial: </td>
+  <td width="10%">Nombre: </td>
   <td><input type="text" id="idnomcomest" name="idnomcomest" value="<?php echo $establecimiento["idnomcom"]; ?>" size="70" class="textbox"/></td>
 </tr>
 <tr>
   <td>NIT: </td>
-  <td><input type="text" id="idsiglaest" name="idsiglaest" value="<?php echo $establecimiento["nit_establecimiento"]; ?>" size="15" class="textbox" readonly="readonly"/></td>
+  <td><input type="text" id="idnitest" name="idnitest" value="<?php echo $establecimiento["nit_establecimiento"]; ?>" size="15" class="textbox"/></td>
 </tr>
 <tr>
   <td>Direcci&oacute;n: </td>
@@ -129,6 +130,6 @@
 <br/>
 <input type="submit" id="btnActualizarFuente" name="btnActualizarFuente" value="Actualizar Datos" class="button"/>
 <br/><br/>
-<input type="hidden" id="hddNroEstablecimiento" name="hddNroEstablecimiento" value="<?php echo $establecimiento["nro_establecimiento"]; ?>"/>
+<input type="hidden" id="IdEstablecimiento" name="IdEstablecimiento" value="<?php echo $establecimiento["nro_establecimiento"]; ?>"/>
 </form>
 </div>

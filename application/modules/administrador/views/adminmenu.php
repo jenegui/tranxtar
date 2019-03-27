@@ -38,6 +38,14 @@
                             <li><a href="<?php echo site_url("administrador/destinatarios"); ?>">Destinatarios</a></li>
                             <li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;<img src="<?php echo base_url("images/exit.png"); ?>" title="Salir de la aplicaci&oacute;n" border="0"/></a></li>
                         <?php } ?>
+                         <?php if($this->session->userdata('tipo_usuario')==4){ ?>
+                            <li><a href="<?php echo site_url("administrador/control"); ?>">Control Guias</a></li>
+                            <li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;<img src="<?php echo base_url("images/exit.png"); ?>" title="Salir de la aplicaci&oacute;n" border="0"/></a></li>
+                        <?php } ?> 
+                         <?php if($this->session->userdata('tipo_usuario')==6){ ?>
+                            <li><a href="<?php echo site_url("administrador/control"); ?>">Control Guias</a></li>
+                            <li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;<img src="<?php echo base_url("images/exit.png"); ?>" title="Salir de la aplicaci&oacute;n" border="0"/></a></li>
+                        <?php } ?>     
                 </ul>
 	</div>	
 </div>

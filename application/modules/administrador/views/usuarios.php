@@ -67,7 +67,7 @@
    ?>
 	   <tr class="<?php echo $class; ?>">
 	     <td>&nbsp;&nbsp;<?php echo strtoupper($usuarios[$i]["nombre"]); ?></td>
-	     <td><?php echo $usuarios[$i]["rol"]; ?></td>
+             <td><?php echo utf8_encode($usuarios[$i]["rol"]); ?></td>
 	     <td align="center">
 	     	 <?php  //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?> 
                  <a href="javascript:modificarUsuarioADM(<?php echo $usuarios[$i]["id"]; ?>);"><img src="<?php echo base_url("images/edit.png"); ?>" border="0"/></a>
@@ -75,9 +75,9 @@
 	     </td>
 	     <td align="center">
 	     	 <?php  //if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ 
-	     				if ($usuarios[$i]["idxrol"]!=4){ ?>
-	     				<a href="javascript:eliminarUsuarioADM(<?php echo $usuarios[$i]["idxrol"]; ?>,<?php echo $usuarios[$i]["id"]; ?>);"><img src="<?php echo base_url("images/delete.png"); ?>" border="0"/></a>
-	     				<?php } ?>
+                        if ($usuarios[$i]["idxrol"]!=1){ ?>
+                        <a href="javascript:eliminarUsuarioADM(<?php echo $usuarios[$i]["idxrol"]; ?>,<?php echo $usuarios[$i]["id"]; ?>);"><img src="<?php echo base_url("images/delete.png"); ?>" border="0"/></a>
+                        <?php } ?>
 	     	  <?php //} ?>	
 	     </td>
              <td align="center">

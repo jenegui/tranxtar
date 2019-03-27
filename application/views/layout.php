@@ -53,7 +53,7 @@ if ($controller == "miniencuesta") {
 
             <?php if (($controller != "fuente") && ($controller != "login") && ($controller != "indicadorcalidad")) { ?>
                 <!-- Admin -->
-                <?php if ($controller == "Administrador" || $controller == "Supervisor" ||$controller == "Comercial" ||$controller == "Operario") { ?>
+                <?php if ($controller == "Administrador" || $controller == "Supervisor" ||$controller == "Comercial" ||$controller == "Operario" || $controller == "Traficoseguridad" || $controller == "Contabilidad") { ?>
                     <script type="text/javascript" src="<?php echo base_url("js/admin/jsadmin.js"); ?>"></script>
                      <!--script src="<?php//echo base_url("/js/bootstrap/bootstrap.min.js"); ?>" rel="stylesheet"></script> 
                      <script src="<?php //echo //base_url("/js/bootstrap/ie-emulation-modes-warning.js"); ?>" rel="stylesheet"></script>

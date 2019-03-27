@@ -179,11 +179,11 @@ class Establecimiento extends CI_Model {
 		$this->db->update('rmmh_admin_establecimientos', $data);
    	}
         
-        function actualizarEstablecimiento($hddNroEstablecimiento, $idnomcomest, $iddireccest, $idtelnoest, $idfaxnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones){
-   		$data = array('idnomcom' => $idnomcomest,
-                            'iddirecc' => $iddireccest,
+        function actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones){
+   		$data = array('nit_establecimiento' => $idnitest,
+                            'idnomcom' => $idnomcomest,
+   		              'iddirecc' => $iddireccest,
    		              'idtelno' => $idtelnoest,
-   		              'idfaxno' => $idfaxnoest,
    		              'idcorreo' => $idcorreoest,
                               'nom_contacto' => $nom_contacto,
    		              'fk_depto' => $cmbDeptoEst,
@@ -191,7 +191,7 @@ class Establecimiento extends CI_Model {
    		              'estado_establecimiento' => $estado_establecimiento,
    		              'observaciones' => $observaciones
                 );
-		$this->db->where('id_establecimiento', $hddNroEstablecimiento);
+		$this->db->where('id_establecimiento', $IdEstablecimiento);
 		$this->db->update('txtar_admin_establecimientos', $data);
    	}
         

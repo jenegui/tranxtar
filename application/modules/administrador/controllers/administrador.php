@@ -350,6 +350,7 @@ class Administrador extends MX_Controller {
 		$data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
 		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
 		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
+                $data["usuario"]=$tipo_usuario;
 		//Configuracion del paginador
 		$config = array();
 		$config["base_url"] = site_url("administrador/control");
@@ -411,6 +412,78 @@ class Administrador extends MX_Controller {
             
             $this->load->view("layout",$data);
 	}
+        
+        //funcion para cambiar el estado de la carga para tráfico y seguridad
+	public function editarControlTraficoySeg($id_control){
+	    $this->load->model("divipola");
+            $this->load->model("empresa");
+            $this->load->model("establecimiento");
+            $this->load->model("control");
+            $this->load->model("usuario");
+            $this->load->model("estado");
+            
+            $data["controller"] = $this->session->userdata("controlador");
+            if(isset($_REQUEST['$id_control'])){
+                $id_control= $_REQUEST['$id_control'];
+            }else{
+                $id_control=$id_control;
+            }
+            $nom_usuario = $this->session->userdata("nombre");
+            $data['tipo_usuario']=$this->session->userdata("controlador");
+            $data['usuario']=$this->session->userdata("tipo_usuario");
+            $data["view"] = "controlEditarTraficoSeg";
+            $nom_usuario = $this->session->userdata("nombre");
+            $data["menu"] = "adminmenu";
+            $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+            $data["destinatario"] = $this->usuario->obtenerDestinatarios();
+            $data["operarios"] = $this->usuario->obtenerOperariosInternos();
+            $data["operariosExt"] = $this->usuario->obtenerOperariosExternos();
+            $data["estadocarga"] = $this->estado->estadoCarga();
+            
+            $data["nom_usuario"] = $nom_usuario;
+            $data['usuario']=$this->session->userdata('tipo_usuario');
+            $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+            $data["municipios"] = $this->divipola->obtenerMunicipios("");
+            $data["control"] = $this->control->obtenerGuiasId($id_control);
+            
+            $this->load->view("layout",$data);
+	}
+        
+        //funcion para cambiar el estado contable
+	public function editarControlContable($id_control){
+	    $this->load->model("divipola");
+            $this->load->model("empresa");
+            $this->load->model("establecimiento");
+            $this->load->model("control");
+            $this->load->model("usuario");
+            $this->load->model("estado");
+            
+            $data["controller"] = $this->session->userdata("controlador");
+            if(isset($_REQUEST['$id_control'])){
+                $id_control= $_REQUEST['$id_control'];
+            }else{
+                $id_control=$id_control;
+            }
+            $nom_usuario = $this->session->userdata("nombre");
+            $data['tipo_usuario']=$this->session->userdata("controlador");
+            $data['usuario']=$this->session->userdata("tipo_usuario");
+            $data["view"] = "controlEditarContable";
+            $nom_usuario = $this->session->userdata("nombre");
+            $data["menu"] = "adminmenu";
+            $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+            $data["destinatario"] = $this->usuario->obtenerDestinatarios();
+            $data["operarios"] = $this->usuario->obtenerOperariosInternos();
+            $data["operariosExt"] = $this->usuario->obtenerOperariosExternos();
+            $data["estadocarga"] = $this->estado->estadoCarga();
+            
+            $data["nom_usuario"] = $nom_usuario;
+            $data['usuario']=$this->session->userdata('tipo_usuario');
+            $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+            $data["municipios"] = $this->divipola->obtenerMunicipios("");
+            $data["control"] = $this->control->obtenerGuiasId($id_control);
+            
+            $this->load->view("layout",$data);
+	}
 	
         //funcion para editar el control de guias
 	public function actualizarDatosControl(){
@@ -452,6 +525,95 @@ class Administrador extends MX_Controller {
                                                    
 
             redirect("/administrador/editarControl/$id_control", "refresh");
+	}
+        
+        //funcion para editar el estado de las Guias
+	public function actualizarDatosControlTS(){
+	    $this->load->model("empresa");
+            $this->load->model("usuario");
+            $this->load->model("control");
+            //Recibir todas las variables que vengan enviadas por POST
+            foreach($_POST as $nombre_campo => $valor){
+                    
+                    $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";  			
+                    eval($asignacion);
+            }
+            $idusaurio=$this->session->userdata('id');
+            $fechaRegistro= date("Y-m-d H:i:s"); 
+
+            if(!isset($pesokg)){
+                $pesokg1=0;
+            }else{
+                $pesokg1=$pesokg;
+            }
+            if(!isset($pesovol)){
+                $pesovol1=0;
+            }else{
+                $pesovol1=$pesovol;
+            }
+            if($idoperarioext=='-'){
+                $idoperarioext1=0;
+            }else{
+                $idoperarioext1=$idoperarioext;
+            }
+           
+            $fecharec= explode("/",$txtFecRecogida);
+            $fecharecog=$fecharec[2].'-'.$fecharec[1].'-'.$fecharec[0];
+            $fechaent= explode("/",$txtFecEntrega);
+            $fechaentr=$fechaent[2].'-'.$fechaent[1].'-'.$fechaent[0];
+            $observ=$observaciones." Se modificaron los datos con el usuario  ".$idusaurio.", el ".$fechaRegistro;
+            //Actualizar los datos del destinatario
+            $this->control->actualizarDatosControlTS($id_control, $estadocarga, $observ);
+                                                   
+            if($this->control->actualizarDatosControlTS){
+                redirect("/administrador/control", "refresh");
+            }else{
+                echo "No";
+            }
+	}
+        //funcion para editar el estado contable de las Guias
+	public function actualizarDatosControlCon(){
+	    $this->load->model("empresa");
+            $this->load->model("usuario");
+            $this->load->model("control");
+            //Recibir todas las variables que vengan enviadas por POST
+            foreach($_POST as $nombre_campo => $valor){
+                    
+                    $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";  			
+                    eval($asignacion);
+            }
+            $idusaurio=$this->session->userdata('id');
+            $fechaRegistro= date("Y-m-d H:i:s"); 
+
+            if(!isset($pesokg)){
+                $pesokg1=0;
+            }else{
+                $pesokg1=$pesokg;
+            }
+            if(!isset($pesovol)){
+                $pesovol1=0;
+            }else{
+                $pesovol1=$pesovol;
+            }
+            if($idoperarioext=='-'){
+                $idoperarioext1=0;
+            }else{
+                $idoperarioext1=$idoperarioext;
+            }
+           
+            $fecharec= explode("/",$txtFecRecogida);
+            $fecharecog=$fecharec[2].'-'.$fecharec[1].'-'.$fecharec[0];
+            $fechaent= explode("/",$txtFecEntrega);
+            $fechaentr=$fechaent[2].'-'.$fechaent[1].'-'.$fechaent[0];
+            $observ=$observaciones." Se modificaron los datos con el usuario  ".$idusaurio.", el ".$fechaRegistro;
+            //Actualizar los datos del destinatario
+            $this->control->actualizarDatosControlCon($id_control, $estadocont);
+                                                   
+            if($this->control->actualizarDatosControlCon){
+                redirect("/administrador/control", "refresh");
+            }else{
+                echo "No";
+            }
 	}
 	
 	//Descarga el manual para la carga del directorio con archivo CSV
@@ -1208,6 +1370,7 @@ class Administrador extends MX_Controller {
          public function directorioControl(){
             $this->load->model("control");
             $tipo_usuario = $this->session->userdata("tipo_usuario");
+            $data["usuario"]=$tipo_usuario;
             if($tipo_usuario==5){
                 $id_operario=$this->session->userdata('num_identificacion');
             }else{
@@ -1215,7 +1378,7 @@ class Administrador extends MX_Controller {
             }
             
             $data["control"] = $this->control->obtenerGuias($id_operario);
-            
+           // var_dump($data["control"]);
             $this->load->view("ajxcontrol",$data);
         }
         
@@ -1541,13 +1704,14 @@ class Administrador extends MX_Controller {
 		$this->load->model("establecimiento");
 		//Recibir todas las variables que vengan enviadas por POST
 		foreach($_POST as $nombre_campo => $valor){
-  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";  			
-  			eval($asignacion);
+                   
+                    $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";  			
+                    eval($asignacion);
 		}
 		
 		//Actualizar los datos del establecimiento
-		$this->establecimiento->actualizarEstablecimiento($hddNroEstablecimiento, $idnomcomest, $iddireccest, $idtelnoest, 0, $idcorreoest,$nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
-		redirect("/administrador/editarFuente/$hddNroEstablecimiento", "refresh");
+		$this->establecimiento->actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
+		redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
 	}
         
 	//funcion para actualizar los datos de un destintatario

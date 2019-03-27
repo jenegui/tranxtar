@@ -37,10 +37,17 @@
 	<div class="fivecol"><h1>&nbsp; &nbsp;  &nbsp;Control Guias</h1></div>
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
-	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
-	  			<input type="button" id="btnAgregaGuiar" name="btnAgregarGuia" value="Registar guia" class="button"/>
-	  			
-	  <?php //} ?>
+                if($usuario==6){
+                    $imprimir="Estado contable";
+                }else{
+                    $imprimir="Imprimir";
+                }
+                if($usuario==4 || $usuario==6){ 
+                    echo "";
+                }else{ ?>
+              <input type="button" id="btnAgregaGuiar" name="btnAgregarGuia" value="Registar guia" class="button"/>
+          <?php } 
+          ?>
 	</div>
 </div>
 <br/>
@@ -59,7 +66,7 @@
   <th>Fecha registro</th>
   <th>Estado de la carga</th>
   <th>Editar</th>
-  <th>Imprimir</th>
+  <th><?php echo $imprimir; ?> </th>
 </thead>
 <tbody>
 <?php 

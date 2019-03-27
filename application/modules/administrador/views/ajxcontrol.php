@@ -4,10 +4,22 @@ $this->load->helper("url");
 $url = site_url();
 //echo '<img scr="'.$url.'("images/edit.png")">';
 if (count($control) > 0) {
-    for ($i = 0; $i < count($control); $i++) {
-        $editar = '<a href=administrador/editarControl/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
-        $imprimir = '<a href=administrador/imprimirGuia/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/impresora.png" alt=\"Editar\"/></a>';
-        $datas[] = array('NumGuia' => $control[$i]['id_control'],
+    for ($i = 0; $i < count($control); $i++){
+        if($usuario==4){
+            $editar = '<a href=administrador/editarControlTraficoySeg/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
+        }elseif($usuario==6){
+            $editar = '<a href=administrador/editarControlContable/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
+        }else{
+            $editar = '<a href=administrador/editarControl/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
+        }
+        if($usuario==6){
+            $imprimir=$control[$i]['estado_contable'];
+            
+        }else{
+            $imprimir = '<a href=administrador/imprimirGuia/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/impresora.png" alt=\"Editar\"/></a>';
+            
+        }
+        $datas[] = array('NumGuia' => "G-".$control[$i]['id_control'],
             'IdCliente' => $control[$i]['id_establecimientos'],
             'nomCliente' => $control[$i]['idnomcom'],
             'fecRecogida' => $control[$i]['fecha_recogida'],

@@ -106,11 +106,23 @@ $(function(){
 	</tr>
         <tr>
 	  <td>Operario interno </td>
-            <td><select id="idoperario" name="idoperario" class="select">
+            <td>
+                
+                <select id="idoperario" name="idoperario" class="select">
                 <option value="-">Seleccione...</option>
-                <?php for ($i=0; $i<count($operarios); $i++){ ?>
-                <option value="<?php echo $operarios[$i]["num_identificacion"]; ?>"><?php echo $operarios[$i]["nom_usuario"]; ?></option> 
-                <?php } ?>
+                <?php 
+                for ($i=0; $i<count($operarios); $i++){
+                    if($usuario==5){
+                        if($this->session->userdata('num_identificacion')==$operarios[$i]["num_identificacion"]){
+                            echo '<option value="'.$operarios[$i]["num_identificacion"].'">'.$operarios[$i]["nom_usuario"].'</option>';
+                        }
+                    }else{
+                 ?>
+                    <option value="<?php echo $operarios[$i]["num_identificacion"]; ?>"><?php echo $operarios[$i]["nom_usuario"]; ?></option> 
+                <?php
+                    }
+                } 
+                ?>
 	      </select>
 	  </td>   
 	</tr>
@@ -142,10 +154,11 @@ $(function(){
 	  <td>Estado del control:</td>
 	  <td>
             <?php
-            if($usuario==1 || $usuario==2){
-                $disabled="";
-            }else{
+            if($usuario==5){
                 $disabled='disabled="disabled"';
+                
+            }else{
+                $disabled="";
             }
             ?>
             <select id="estadoRecogida" name="estadoRecogida" class="select" <?php echo $disabled; ?>>

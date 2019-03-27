@@ -174,6 +174,7 @@ $(function () {
     $("#idnomdest").mayusculas().largo(80);
     $("#direccion").mayusculas().largo(80);
     $("#nom_contacto").mayusculas().largo(80);
+    $("#idnomcomest").mayusculas().largo(80);
     
     $("#cmbDeptoEstab").cargarCombo("cmbMpioEstab", "administrador/actualizarMunicipios");
     $("#cmbSedeEstab").cargarCombo("cmbSubSedeEstab", "administrador/actualizarSubsedes");
@@ -912,6 +913,115 @@ $(function () {
                         }
                     });
                 }
+            }
+        });
+    });
+    
+    
+    //Valida el envï¿½o del formulario de agregar establecimientos
+    $("#btnEditarGuiaTS").click(function () {
+
+        $("#frmEditarGuiaTS").validate({
+            rules: {
+                estadocarga: {
+                    required: true,
+                    comboBox: '-'
+                }
+            },
+            messages: {
+                estadocarga: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                }
+            },
+            errorPlacement: function (error, element) {
+                element.after(error);
+                error.css('opacity','0.47');
+                error.css('z-index','991');
+                error.css('background','#ee0101');
+                //error.css('float','right');
+                error.css('position','absolute');
+                error.css('margin-top','1px');
+                error.css('color','#fff');
+                error.css('font-size','11px');
+                error.css('border','2px solid #ddd');
+                error.css('box-shadow','0 0 6px #000');
+                error.css('-moz-box-shadow','0 0 6px #000');
+                error.css('-webkit-box-shadow','0 0 6px #000');
+                error.css('padding','4px 10px 4px 10px');
+                error.css('border-radius','6px');
+                error.css('-moz-border-radius','6px');
+                error.css('-webkit-border-radius','6px');
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "administrador/actualizarDatosControlTS",
+                    data: $("#frmEditarGuiaTS").serialize(),
+                    dataType: "html",
+                    cache: false,
+                    success: function (data) {
+                        if (data != "") {
+                            //alert(data);
+                        }
+                        form.submit();
+                        //$("#agregarEmpresa").dialog('close');
+                    }
+                });
+            }
+        });
+    });
+    
+    //Valida el envï¿½o del formulario de agregar establecimientos
+    $("#btnEditarGuiaCon").click(function () {
+
+        $("#frmEditarGuiaCon").validate({
+            rules: {
+                estadocont: {
+                    required: true,
+                    comboBox: '-'
+                }
+            },
+            messages: {
+                estadocont: {
+                    required: "Debe seleccionar una opción",
+                    comboBox: "Debe seleccionar una opción"
+                }
+            },
+            errorPlacement: function (error, element) {
+                element.after(error);
+                error.css('opacity','0.47');
+                error.css('z-index','991');
+                error.css('background','#ee0101');
+                //error.css('float','right');
+                error.css('position','absolute');
+                error.css('margin-top','1px');
+                error.css('color','#fff');
+                error.css('font-size','11px');
+                error.css('border','2px solid #ddd');
+                error.css('box-shadow','0 0 6px #000');
+                error.css('-moz-box-shadow','0 0 6px #000');
+                error.css('-webkit-box-shadow','0 0 6px #000');
+                error.css('padding','4px 10px 4px 10px');
+                error.css('border-radius','6px');
+                error.css('-moz-border-radius','6px');
+                error.css('-webkit-border-radius','6px');
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "administrador/actualizarDatosControlCon",
+                    data: $("#frmEditarGuiaCon").serialize(),
+                    dataType: "html",
+                    cache: false,
+                    success: function (data) {
+                        if (data != "") {
+                            //alert(data);
+                        }
+                        form.submit();
+                        //$("#agregarEmpresa").dialog('close');
+                    }
+                });
             }
         });
     });
@@ -2211,45 +2321,45 @@ $(function () {
     $("#btnActualizarFuente").click(function () {
         $("#frmEditarFuente").validate({
             rules: {
-                idnit: {required: true},
-                idproraz: {required: true},
-                idnomcom: {required: true},
-                iddirecc: {required: true},
+                idnomcomest: {required: true},
+                idnitest: {required: true},
+                iddireccest: {required: true},
+                idtelnoest: {required: true},
                 idtelno: {required: true},
-                idcorreo: {required: true,
+                idcorreoest: {required: true,
                     email: true
                 },
-                cmbDeptoEmp: {comboBox: '-'},
-                cmbMpioEmp: {comboBox: '-'},
-                idnomcomest: {required: true},
+                cmbDeptoEst: {comboBox: '-'},
+                cmbMpioEmp: {cmbMpioEst: '-'},
+                nom_contacto: {required: true},
                 iddireccest: {required: true},
                 idtelnoest: {required: true},
                 idcorreoest: {required: true,
                     email: true
                 },
-                cmbActEst: {comboBox: '-'},
+                estado_establecimiento: {comboBox: '-'},
                 cmbDeptoEst: {comboBox: '-'},
                 cmbMpioEst: {comboBox: '-'},
                 cmbSedeEst: {comboBox: '-'},
                 cmbSubSedeEst: {comboBox: '-'}
             },
             messages: {
-                idnit: {required: "Debe ingresar el nit de la empresa."},
-                idproraz: {required: "Debe ingresar la raz&oacute;n social de la empresa."},
-                idnomcom: {required: "Debe ingresar el nombre comercial de la empresa."},
-                iddirecc: {required: "Debe ingresar la direcci&oacute;n de la empresa."},
+                idnomcomest: {required: "Debe ingresar nombre de la empresa."},
+                idnitest: {required: "Debe ingresar el n&uacute;mero de identidicacion."},
+                iddireccest: {required: "Debe ingresar la direcci&oacute;n."},
+                idtelnoest: {required: "Debe ingresar el n&uacute;mero telef&oacute;nico."},
                 idtelno: {required: "Debe ingresar el n&uacute;mero telef&oacute;nico de la empresa."},
-                idcorreo: {required: "Debe ingresar el correo electr&oacute;nico de la empresa.",
+                idcorreoest: {required: "Debe ingresar el correo electr&oacute;nico de la empresa.",
                     email: "No es un correo v&aacute;lido."},
-                cmbDeptoEmp: {required: "Debe seleccionar el departamento de la empresa."},
-                cmbMpioEmp: {required: "Debe seleccionar el municipio de la empresa."},
-                idnomcomest: {required: "Debe ingresar el nombre comercial del establecimiento."},
+                cmbDeptoEst: {required: "Debe seleccionar el departamento de la empresa."},
+                cmbMpioEst: {required: "Debe seleccionar el municipio de la empresa."},
+                nom_contacto: {required: "Debe ingresar el nombre del contacto."},
                 iddireccest: {required: "Debe ingresar la direcci&oacute;n del establecimiento."},
                 idtelnoest: {required: "Debe ingresar el n&uacute;mero telef&oacute;nico del establecimiento."},
                 idcorreoest: {required: "Debe ingresar el correo electr&oacute;nico del establecimiento.",
                     email: "No es un correo v&aacute;lido."
                 },
-                cmbActEst: {required: "Debe seleccionar la actividad econ&oacute;mica del establecimiento."},
+                estado_establecimiento: {required: "Debe seleccionar el estado."},
                 cmbDeptoEst: {required: "Debe seleccionar el departamento del establecimiento."},
                 cmbMpioEst: {required: "Debe seleccionar el municipio del establecimiento."},
                 cmbSedeEst: {required: "Debe seleccionar la sede del establecimiento."},
