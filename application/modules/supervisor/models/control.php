@@ -7,19 +7,15 @@ class Control extends CI_Model {
         $this->load->database();		
     }
     
-	function obtenerNovedadEstado($nro_orden, $nro_establecimiento, $ano_periodo, $mes_periodo){
+	function obtenerGuiasNoAprobadas(){
    		$result = array();
-   		$sql = "SELECT fk_novedad, fk_estado
-                FROM rmmh_admin_control
-                WHERE nro_orden = $nro_orden
-                AND nro_establecimiento = $nro_establecimiento
-                AND ano_periodo = $ano_periodo
-                AND mes_periodo = $mes_periodo";
+   		$sql = "SELECT count(estado_control) estado
+                FROM txtar_admin_control
+                WHERE estado_control = 0";
    		$query = $this->db->query($sql);
    		if ($query->num_rows()>0){
 			foreach($query->result() as $row){
-				$result["novedad"] = $row->fk_novedad;
-				$result["estado"] = $row->fk_estado;
+				$result["estado"] = $row->estado;
 			}
 		}
 		$this->db->close();

@@ -106,9 +106,9 @@ $(function(){
                 ?>    
            <div class="form-group">
              Peso (Kgs): &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-             <input type="checkbox" name="pesokg" id="pesokg" value="1"><br>
+             <input type="checkbox" name="pesokg" id="pesokg" value="1" <?php echo $checked1; ?>><br>
             Peso Volumen: &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 
-            <input type="checkbox" name="pesovol" id="pesovol" value="2"></div>
+            <input type="checkbox" name="pesovol" id="pesovol" value="2" <?php echo $checked2; ?>></div>
             <div id="mensaje"></div>
         </td>
 	</tr>
