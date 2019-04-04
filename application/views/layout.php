@@ -55,9 +55,7 @@ if ($controller == "miniencuesta") {
                 <!-- Admin -->
                 <?php if ($controller == "Administrador" || $controller == "Supervisor" ||$controller == "Comercial" ||$controller == "Operario" || $controller == "Traficoseguridad" || $controller == "Contabilidad") { ?>
                     <script type="text/javascript" src="<?php echo base_url("js/admin/jsadmin.js"); ?>"></script>
-                     <!--script src="<?php//echo base_url("/js/bootstrap/bootstrap.min.js"); ?>" rel="stylesheet"></script> 
-                     <script src="<?php //echo //base_url("/js/bootstrap/ie-emulation-modes-warning.js"); ?>" rel="stylesheet"></script>
-                    <script src="<?php //echo base_url("/js/bootstrap/ie10-viewport-bug-workaround.js"); ?>" rel="stylesheet"></script-->
+                    
                     
                 <?php } elseif ($controller == "critico") {
                     ?>
@@ -106,24 +104,35 @@ if ($controller == "miniencuesta") {
     </head>
     <body>
         <div class="container">
+			<div class="row">
             <?php $this->load->view("template/headernlog"); ?>
-            <div class="row">
-                <img src="<?php echo base_url("images/linea.png"); ?>">
-            </div>
+		
             <?php
             if (isset($menu) && ($menu != ''))
                 $this->load->view($menu);
             else
                 $this->load->view("template/menu");
             ?>
-            <div class="row">
-                <div id="container2" class="twelvecol last">
+				
+            </div>
+		</div>
+        <div class="container">
+			<div class="row">		
+                <div id="container2" class="last">
                     <div id="contenido">
                         <?php $this->load->view($view); ?>
                     </div>
                 </div>
             </div>
+		</div>            
+			
+        <div class="container">
+			<div class="row">			
             <?php $this->load->view("template/footer"); ?>
-        </div>
+            </div>
+		</div>			
+				
+			</div>
+			</div>
     </body>
 </html>

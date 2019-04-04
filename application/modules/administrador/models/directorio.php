@@ -116,11 +116,11 @@ class Directorio extends CI_Model {
                         $fuentes[$i]["nom_contacto"] = $row->nom_contacto;
 	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
 	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);
-	    		$fuentes[$i]["estado"] = $row->estado_establecimiento	;
+	    		$fuentes[$i]["estado"] = $row->estado_establecimiento;
                        $i++;    			
 	    	}
 	    }
-            //echo $sql;
+           //echo $sql;
 	    $this->db->close();
 	    return $fuentes;	    	 
 	}

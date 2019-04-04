@@ -65,33 +65,19 @@
 <?php 
 for ($i=0; $i<count($fuentes); $i++){ 
     $class = (($i%2)==0)?"row1":"row2";
-    $tipoEncuesta="Encuesta";
-    $url=base_url("administrador/mostrarFormulario/".$fuentes[$i]["nro_establecimiento"]);
-    
 ?>
 <tr>
- 
-  <!--td><a href="<?php //echo $url; ?>"><?php //echo $fuentes[$i]["nro_establecimiento"]; ?></a></td-->
-    <td><?php //echo $fuentes[$i]["nro_establecimiento"]; ?></td> 
-  <td><?php //echo $fuentes[$i]["idnomcom"]; ?></td>
-  <td><?php echo $fuentes[$i]["nit_establecimiento"]; ?></td>
-  <td><?php echo $fuentes[$i]["iddirecc"]; ?></td>
-  <td><?php echo $fuentes[$i]["idtelno"]; ?></td>
-  <td><?php echo $fuentes[$i]["idcorreo"]; ?></td>
-  <td><?php echo $fuentes[$i]["nom_contacto"]; ?></td>
-  <td><?php echo $fuentes[$i]["fk_depto"]; ?></td>
-  <td><?php echo $fuentes[$i]["fk_mpio"]; ?></td>
-  <td><?php echo $fuentes[$i]["estado"]; ?></td>
-  <td></td>
-  <!--td align="center">
-     <a href="<?php //echo site_url("administrador/editarFuente/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php //echo base_url("images/edit.png"); ?>"/></a>
-     <a href="javascript:removerFuenteDirectorio(<?php echo $fuentes[$i]["nro_establecimiento"]; ?>);"><img src="<?php //echo base_url("images/delete.png"); ?>"/></a>
-     <?php /*
-     <a href="<?php echo site_url("administrador/eliminarFuente/".$fuentes[$i]["nro_orden"]."/".$fuentes[$i]["nro_establecimiento"].""); ?>"><img src="<?php echo base_url("images/delete.png"); ?>"/></a>
-     */
-     ?>
-  </td-->
-  
+  <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
+    <td>&nbsp;</td> 
 </tr>
 <?php } ?>
 <tr>
@@ -131,6 +117,8 @@ for ($i=0; $i<count($fuentes); $i++){
 	$data["departamentos"] = $departamentos;
 	$data["municipios"] = $municipios;
         $data["ultimoEstab"]=$NoEstab;
+        $data["comerciales"]=$comerciales;
+        $data["id_usuario"]=$id_usuario;
 	$this->load->view("ajxfuentesadd",$data);
 ?>
 </div>

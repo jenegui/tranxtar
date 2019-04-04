@@ -476,6 +476,25 @@ class Usuario extends CI_Model {
         $this->db->close();
     	return $datos;
     }
+    //Funcion para consultar los datos de los comerciales
+    function obtenerComerciales(){
+    	$datos = array();
+    	$sql = "SELECT num_identificacion, nom_usuario
+                FROM txtar_admin_usuarios 
+                WHERE fk_rol = 3
+                ";
+    	$query = $this->db->query($sql);
+    	if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $datos[$i]["num_identificacion"] = $row->num_identificacion;
+                $datos[$i]["nom_usuario"] = $row->nom_usuario;
+                $i++;
+            }
+        }
+        $this->db->close();
+    	return $datos;
+    }
     
 	/************************************************************
      * ELIMINA LOS DATOS DE UNA FUENTE PARA UN ANO - MES PERIODO

@@ -122,6 +122,7 @@ $(function(){
                                         $("#errorNumID").html(test.error);
 					if (test.valid!=false){
 						form.submit();
+                                                //alert("Ha sido registrado el destinatario.")
 						//location.reload();
 					}			    										
 				}

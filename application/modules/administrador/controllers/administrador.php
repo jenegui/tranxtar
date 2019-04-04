@@ -100,6 +100,7 @@ class Administrador extends MX_Controller {
 		$this->load->model("tipodocs");
 		$this->load->model("actividad");
 		$this->load->model("directorio");
+		$this->load->model("usuario");
 		$nom_usuario = $this->session->userdata("nombre");
 		$tipo_usuario = $this->session->userdata("tipo_usuario");
                 $data['tipo_usuario']=$this->session->userdata("controlador");
@@ -110,6 +111,9 @@ class Administrador extends MX_Controller {
 		$data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
 		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
 		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
+		$data["comerciales"] = $this->usuario->obtenerComerciales();
+               
+                $data["id_usuario"]=$this->session->userdata("num_identificacion");
 		//Configuracion del paginador
 		$config = array();
 		$config["base_url"] = site_url("administrador/directorio");
@@ -169,12 +173,12 @@ class Administrador extends MX_Controller {
 		//Trabajo de paginacion
 		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
 		$desde = ($pagina - 1) * $config["per_page"];
-                if($tipo_usuario==5){
-                    $id_operario=$this->session->userdata('num_identificacion');
+                if($tipo_usuario==5 || $tipo_usuario==3){
+                    $id_usuario=$this->session->userdata('num_identificacion');
                 }else{
-                    $id_operario=0;
+                    $id_usuario=0;
                 }
-		$data["control"] = $this->control->obtenerGuias($id_operario);
+		$data["control"] = $this->control->obtenerGuias($id_usuario);
                 //var_dump($data["control"])."-----";
                 $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
                 $data["links"] = $this->pagination->create_links();
@@ -1102,7 +1106,7 @@ class Administrador extends MX_Controller {
 		
                 //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
                 if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
-                        $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones);
+                        $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $cmbComercial, $nom_contacto, $observaciones);
                         echo "La fuente ha sido registrada.";
                 }			
                 else{
@@ -1153,7 +1157,7 @@ class Administrador extends MX_Controller {
                 //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
                 //if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
                         $this->control->insertarControlGuia($idestablecimiento, $fecharecog, $fechaentr,$iddestinatario,$formaPago,$pesokg1,$pesovol1,$unidades,$pesocobrar,$valorDeclarado,$flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext1,$estadocarga,$estadoRecogida1,$observaciones, $idusaurio,$fechaRegistro);
-                        echo "La fuente ha sido registrada.";
+                        echo "La guia ha sido registrada.";
                 //}			
                /* else{
                         echo "No se puede agregar el establecimiento. El establecimiento ya se encuentra registrado.";
@@ -1175,13 +1179,13 @@ class Administrador extends MX_Controller {
             $this->load->model("control");
             $tipo_usuario = $this->session->userdata("tipo_usuario");
             $data["usuario"]=$tipo_usuario;
-            if($tipo_usuario==5){
-                $id_operario=$this->session->userdata('num_identificacion');
+            if($tipo_usuario==5 || $tipo_usuario==3){
+                $id_usuario=$this->session->userdata('num_identificacion');
             }else{
-                $id_operario=0;
+                $id_usuario=0;
             }
             
-            $data["control"] = $this->control->obtenerGuias($id_operario);
+            $data["control"] = $this->control->obtenerGuias($id_usuario);
            // var_dump($data["control"]);
             $this->load->view("ajxcontrol",$data);
         }
@@ -1393,13 +1397,13 @@ class Administrador extends MX_Controller {
 		$this->load->model("usuario");
                 $usuario=$this->session->userdata("num_identificacion");
 		foreach($_POST as $nombre_campo => $valor){
-                        echo $nombre_campo ."=>". $valor.", ";     
-  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";   			
+                        $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";   			
   			eval($asignacion);
                 }
 		//$fecini = $this->general->formatoFecha($txtFecCreacion,"/");
 		
                 $this->usuario->insertarDestinatario($txtNomDest, $txtIdDest, $tipoDocumento, $txtDirDest, $idtelefono, $idcorreo, $iddepto, $idmpio, $nom_contacto);
+                //echo "El distinatario ha sido registrado";
 		redirect('/administrador/destinatarios','refresh');
 	}
         

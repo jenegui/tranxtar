@@ -17,9 +17,11 @@ class Usuario extends CI_Model {
         $sql = "SELECT *
                 FROM txtar_admin_usuarios
                 WHERE   log_usuario = '$login'";
+		
         $query = $this->db->query($sql);
         $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
+        
+		if ($query->num_rows() > 0) {
             $sql2 = "SELECT U.*
             FROM txtar_admin_usuarios U
             WHERE  U.log_usuario = '$login'";

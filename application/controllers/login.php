@@ -26,7 +26,7 @@ class Login extends CI_Controller {
 	public function validar(){		
 		$this->load->model("usuario");
 		$this->load->helper("url");
-                $login = $this->input->post("txtLogin"); //Recibir por post con XSS_CLEAN
+		$login = $this->input->post("txtLogin"); //Recibir por post con XSS_CLEAN
 		$password = $this->input->post("txtPassword"); //Recibir por post con XSS_CLEAN	
                 if ($this->usuario->validarUsuario($login, $password)){
                     $this->usuario->redireccionarUsuario();

@@ -456,7 +456,7 @@ $(function () {
                     required: true,
                     comboBox: '-'
                 },
-                cmbActivEstab: {
+                cmbComercial: {
                     required: true,
                     comboBox: '-'
                 },
@@ -510,9 +510,9 @@ $(function () {
                     required: "Debe indicar el municipio",
                     comboBox: "Debe indicar el municipio"
                 },
-                cmbActivEstab: {
-                    required: "Debe indicar la actividad",
-                    comboBox: "Debe indicar la actividad"
+                cmbComercial: {
+                    required: "Debe seleccionar una opci&oacute;n",
+                    comboBox: "Debe seleccionar una opci&oacute;n"
                 },
                 cmbSedeEstab: {
                     required: "Debe indicar la sede",
@@ -558,7 +558,7 @@ $(function () {
                     cache: false,
                     success: function (data) {
                         if (data != "") {
-                            alert(data);
+                            //alert(data);
                         }
                         form.submit();
                         //$("#agregarEmpresa").dialog('close');
@@ -732,7 +732,7 @@ $(function () {
                         cache: false,
                         success: function (data) {
                             if (data != "") {
-                                alert(data);
+                                //alert(data);
                             }
                             form.submit();
                             //$("#agregarEmpresa").dialog('close');
@@ -3104,12 +3104,13 @@ $(document).ready(function(){
                     "bAutoWidth": true, 
                     "processing": true,
                     "serverSide": true,
+                    "responsive": true,
                     "bProcessing": true,
                     "sAjaxSource": base_url +"administrador/directorioClientes",
                      "aoColumns": [
                             { mData: 'NumEstabl' } ,
                             { mData: 'NombreEstablecimiento' },
-                            { mData: 'NIT' },
+                            { mData: 'idEstablecimiento' },
                             { mData: 'Dierccion' },
                             { mData: 'telefono' },
                             { mData: 'email' },
@@ -3137,6 +3138,7 @@ $(document).ready(function(){
                     "bAutoWidth": true, 
                     "processing": true,
                     "serverSide": true,
+                    "responsive": true,
                     "bProcessing": true,
                     "sAjaxSource": base_url +"administrador/directorioControl",
                      "aoColumns": [

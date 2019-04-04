@@ -12,9 +12,9 @@
 	//*****************************************************************************************
     //* Establece variables de configuracion general de la libreria
     //*****************************************************************************************
-
-	var base_url = "/transxtar/";  //Ruta base para ejecutar AJAX en CodeIgniter
-	var SMMLV = obtenerSalario(); //Se elimina para evitar que el valor se vaya "hard-coded" en el script.
+        //var base_url = "/transxtar/"; 
+	var base_url = "/aplicacion/tranxtar/";  //Ruta base para ejecutar AJAX en CodeIgniter
+        var SMMLV = obtenerSalario(); //Se elimina para evitar que el valor se vaya "hard-coded" en el script.
 	                              //En este caso pregunto con AJAX el valor de la variable para el periodo
 	                              //que se encuentra en el Script.
 	

@@ -142,7 +142,7 @@ class Establecimiento extends CI_Model {
 		return $establecimiento;
    	}
    	
-   	function insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $nom_contacto,$observaciones){
+   	function insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $cmbComercial, $nom_contacto,$observaciones){
    		$data = array('id_establecimiento' => $txtNumEstab, 
    		              'idnomcom' => $txtNomEstab,
                                'nit_establecimiento' => $txtNitEmpresa,
@@ -152,6 +152,7 @@ class Establecimiento extends CI_Model {
                               'nom_contacto' => $nom_contacto,
    		              'fk_depto' => $cmbDeptoEstab, 
    		              'fk_mpio' => $cmbMpioEstab, 
+   		              'id_comercial' => $cmbComercial, 
    		              'estado_establecimiento' => 1,
                               'observaciones' => $observaciones);
    		$this->db->insert('txtar_admin_establecimientos', $data); 

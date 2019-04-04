@@ -8,11 +8,11 @@
 	  <td><input type="hidden" id="txtNumEstab" name="txtNumEstab" value="<?php echo $ultimoEstab+1; ?>"/><?php echo $ultimoEstab+1; ?></td>
 	</tr>
 	<tr>
-	  <td>Nombre comercial: </td>
+	  <td>Nombre: </td>
 	  <td><input type="text" id="txtNomEstab" name="txtNomEstab" value="" size="70" class="textbox"/></td>
 	</tr>
         <tr>
-	  <td>NIT empresa: </td>
+            <td>Id empresa: </td>
 	  <td><input type="text" id="txtNitEmpresa" name="txtNitEmpresa" value="" size="70" class="textbox"/></td>
 	</tr>
 	<tr>
@@ -50,6 +50,24 @@
 	<tr>
 	  <td>Nombre del contacto: </td>
 	  <td><input type="text" id="nom_contacto" name="nom_contacto" value="" size="70" class="textbox"/></td>
+	</tr>
+        <tr>
+	  <td>Comercial: </td>
+	  <td><select id="cmbComercial" name="cmbComercial" class="select">
+                  <option value="-">Seleccione...</option>
+                  <?php
+                  for ($i = 0; $i < count($comerciales); $i++) {
+                      if ($id_usuario == $comerciales[$i]["num_identificacion"]) {
+                          ?> <option value="<?php echo $comerciales[$i]["num_identificacion"]; ?>" selected><?php echo $comerciales[$i]["nom_usuario"]; ?></option> <?php
+                      } else {
+                          ?>
+                          <option value="<?php echo $comerciales[$i]["num_identificacion"]; ?>"><?php echo $comerciales[$i]["nom_usuario"]; ?></option>	
+                          <?php
+                      }
+                  }
+                  ?>
+              </select>
+	  </td>    
 	</tr>
         <tr>
 	  <td>Observaciones: </td>

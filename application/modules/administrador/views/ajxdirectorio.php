@@ -7,7 +7,7 @@ $url = site_url();
         $editar = '<a href=administrador/editarFuente/'.$fuentes[$i]['nro_establecimiento'].' onclick=\"editarDestinatario('.$fuentes[$i]['nro_establecimiento'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
         $datas[] = array('NumEstabl' => $fuentes[$i]['nro_establecimiento'],
             'NombreEstablecimiento' => $fuentes[$i]['idnomcom'],
-            'NIT' => $fuentes[$i]['nit_establecimiento'],
+            'idEstablecimiento' => $fuentes[$i]['nit_establecimiento'],
             'Dierccion' => $fuentes[$i]['iddirecc'],
             'telefono' => $fuentes[$i]['idtelno'],
             'email' => $fuentes[$i]['idcorreo'],

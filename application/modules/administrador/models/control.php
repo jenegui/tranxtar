@@ -8,7 +8,7 @@ class Control extends CI_Model {
         $this->load->library("session");
     }
     
-    function obtenerGuias($id_operario) {
+    function obtenerGuias($id_usuario) {
         $this->load->model("divipola");
         $this->load->model("sede");
         $this->load->model("subsede");
@@ -24,13 +24,16 @@ class Control extends CI_Model {
                 WHERE C.id_establecimientos=EST.id_establecimiento
                 AND C.id_destinatario=DEST.id_destinatario
                 AND C.estado_carga= E.id_estado ";
-                if($id_operario!=0){
-                 $sql.=" AND C.id_usuario_operario= $id_operario ";
+                if($this->session->userdata("tipo_usuario")==5){
+                 $sql.=" AND C.id_usuario_operario= $id_usuario ";
                  $sql.=" AND C.estado_carga != 8 "; 
+                }elseif($this->session->userdata("tipo_usuario")==3){
+                 $sql.=" AND EST.id_comercial= $id_usuario ";   
                 }
         $sql.= "ORDER BY C.id_control "; 
         $query = $this->db->query($sql);
        ;
+      // echo $sql;
         if ($query->num_rows() > 0) {
             $i = 0;
             foreach ($query->result() as $row) {

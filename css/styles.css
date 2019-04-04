@@ -12,10 +12,12 @@
 	}
 	
 	#header{
-		background-color: #FFFFFF;
-		background-image:url('../images/logo.png');
+		background-color: #0b092a;
+	  /*background-image:url('../images/logo.png');*/
 		background-repeat: no-repeat;
-		height: 100px;		
+		padding-top: 20px;
+		padding-bottom: 30px;
+		color: #fff;
 	}
 	
 	#header #periodo{
@@ -89,12 +91,12 @@
 		display: inline;
 		padding-left: 2px;
 		padding-right: 8px;		
-		border-right: 1px solid #E00078;
+		border-right: 1px solid #333;
 	}
 	
-	#menu a:link {text-decoration:none; color: #E00078;} 
-	#menu a:visited {text-decoration:none; color:#E00078; } 	
-	#menu a:hover {text-decoration:underline; color:#E00078;}
+	#menu a:link {text-decoration:none; color: #333;} 
+	#menu a:visited {text-decoration:none; color:#333; } 	
+	#menu a:hover {text-decoration:underline; color:#333;}
 	
 	#menu select{
 		background-color: #DFDFDF;
@@ -120,13 +122,13 @@
 	}
 	
 	#container2 #contenido #login{
-		padding-left: 38%;
+		/*padding-left: 38%;*/
 	}
 	
 	#container2 h1{
 		padding-bottom: 10px;
 		font-size: 18px;
-		color: #E00078;
+		color: #302e5e;
 	}
 	
 	#container2 .table{
@@ -202,7 +204,7 @@
 	#footer{
 		background-color: #FFFFFF;	
 		padding-top: 20px;
-		padding-bottom: 20px;
+		padding-bottom: 30px;
 		text-align: center;
 		line-height: 18px;
 		font-family: Tahoma, Geneva, sans-serif;
@@ -295,7 +297,7 @@
 	}
 
 	.redText{
-		color: #E00078;
+		color: #333;
 	}
 	
 	
