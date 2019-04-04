@@ -34,41 +34,48 @@
 <br/>
 <form id="frmDir" name="frmDir" method="post" action="<?php echo site_url("administrador/descargadirectorio"); ?>"></form>
 <div class="row">
-	<div class="fivecol"><h1>&nbsp; &nbsp;  &nbsp;Directorio de Clientes</h1></div>
+	<div class="fivecol"><h1>&nbsp; &nbsp;  &nbsp;Control Guias por ciudad</h1></div>
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
-	  		//if (($ano_periodo == $reciente["ano"])&&($mes_periodo == $reciente["mes"])){ ?>
-	  			<input type="button" id="btnAgregar" name="btnAgregar" value="Agregar clientes" class="button"/>
-	  			
-	  <?php //} ?>
+                if($usuario==6){
+                    $imprimir="Estado contable";
+                }else{
+                    $imprimir="Imprimir";
+                }
+                if($usuario==4 || $usuario==6){ 
+                    echo "";
+                }else{ ?>
+              <input type="button" id="btnAgregaGuiar" name="btnAgregarGuia" value="Registar guia" class="button"/>
+          <?php } 
+          ?>
 	</div>
 </div>
 <br/>
 <div id="divDirectorio">
-<table id="tablaDirectorio" width="100%" style="font-size: 11px;">
+<table id="tablaControlCiudad" width="100%" style="font-size: 11px;">
 <thead>
 <tr>
-  <th>N.Establ</th>
-  <th>Nombre Establ</th>
-  <th>Id establ</th>
-  <th>Direcci&oacute;n</th>
-  <th>Tel&eacute;fono</th>
-  <th>Correo electr&oacute;nico</th>
-  <th>Contacto</th>
-  <th>Depto</th>
-  <th>Municipio</th>
-  <th>Comercial</th>
-  <th>Estado</th>
-  <th>Editar</th>
-</tr>
+  <th>N.Guia</th>
+  <th>Nombre cliente</th>
+  <th>Fecha recogida</th>
+  <th>Fecha entrega</th>
+  <th>Nombre destinatario</th>
+  <th>Ciudad destinatario</th>
+  <th>Depto destinatario</th>
+  <th>Valor flete</th>
+  <th>Peso Kg</th>
+  <th>Peso Vol.</th>
+  <th>Estado de la carga</th>
 </thead>
 <tbody>
 <?php 
-for ($i=0; $i<count($fuentes); $i++){ 
+for ($i=0; $i<count($control); $i++){ 
     $class = (($i%2)==0)?"row1":"row2";
+    $tipoEncuesta="Encuesta";
+    //$url=base_url("administrador/mostrarFormulario/".$fuentes[$i]["nro_establecimiento"]);
+    
 ?>
 <tr>
-    <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 
@@ -112,16 +119,23 @@ for ($i=0; $i<count($fuentes); $i++){
 
 
 <!-- Div para agregar establecimientos -->
-<div id="agregarFuente" style="display: none">
+<div id="agregarGuia" style="display: none">
 <?php 
 	//Preparo array para terminar de enviarlo como parametro a la vista AJAX
-	$data["tipodocs"] = $tipodocs;
+        $this->load->model("establecimiento");
+        $this->load->model("usuario");
+        $this->load->model("estado");
+        $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+        $data["destinatario"] = $this->usuario->obtenerDestinatarios();
+        $data["operarios"] = $this->usuario->obtenerOperariosInternos();
+        $data["operariosExt"] = $this->usuario->obtenerOperariosExternos();
+        $data["estadocarga"] = $this->estado->estadoCarga();
+        $data["tipodocs"] = $tipodocs;
 	$data["departamentos"] = $departamentos;
 	$data["municipios"] = $municipios;
         $data["ultimoEstab"]=$NoEstab;
-        $data["comerciales"]=$comerciales;
-        $data["id_usuario"]=$id_usuario;
-	$this->load->view("ajxfuentesadd",$data);
+        $data["usuario"]=$this->session->userdata("tipo_usuario");
+	$this->load->view("ajxguiaadd",$data);
 ?>
 </div>
 <!-- Div para remover fuentes -->

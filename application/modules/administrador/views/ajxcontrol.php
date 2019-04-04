@@ -13,11 +13,12 @@ if (count($control) > 0) {
             $editar = '<a href=administrador/editarControl/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
         }
         if($usuario==6){
-            $imprimir=$control[$i]['estado_contable'];
+            $campo1=$control[$i]['estado_contable'];
+            $campo2=$control[$i]['estado_recaudo'];
             
         }else{
-            $imprimir = '<a href=administrador/imprimirGuia/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/impresora.png" alt=\"Editar\"/></a>';
-            
+            $campo1='<a href=administrador/imprimirGuia/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/impresora.png" alt=\"Editar\"/></a>';
+            $campo2=$control[$i]['fecha_registro'];
         }
         $datas[] = array('NumGuia' => "G-".$control[$i]['id_control'],
             'IdCliente' => $control[$i]['id_establecimientos'],
@@ -27,10 +28,10 @@ if (count($control) > 0) {
             'IdDestinatario' => $control[$i]['id_destinatario'],
             'nomDestinatario' => $control[$i]['nombre_destinatario'],
             'valorFlete' => $control[$i]['total_fletes'],
-            'fecRegistro' => $control[$i]['fecha_registro'],
+            'fecRegistro' => $campo2,
             'estadoCarga' => $control[$i]['nom_estado'],
             'Editar'=>$editar,
-            'Imprimir' => $imprimir);
+            'Imprimir' => $campo1);
     }
 } else {
     $datas[] = array('NumGuia' => "",

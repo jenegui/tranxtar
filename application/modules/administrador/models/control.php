@@ -17,9 +17,14 @@ class Control extends CI_Model {
                         C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
     	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
                        C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones,
+                       DEST.ciudad_destinatario, DEST.depto_destinatario,
                        CASE WHEN C.estado_contable = 1 THEN 'Contabilizado'
             WHEN C.estado_contable = 0 THEN 'No contabilizado'
-            END AS estado_contable, C.estado_carga, E.nom_estado	 
+            END AS estado_contable, 
+            CASE WHEN C.estado_recaudo = 1 THEN 'Recaudado'
+            WHEN C.estado_recaudo = 0 THEN 'No recaudado'
+            END AS estado_recaudo,
+            C.estado_carga, E.nom_estado	 
                 FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST, txtar_param_estados E
                 WHERE C.id_establecimientos=EST.id_establecimiento
                 AND C.id_destinatario=DEST.id_destinatario
@@ -45,6 +50,8 @@ class Control extends CI_Model {
                 $control[$i]["fecha_entrega"] = $row->fecha_entrega;
                 $control[$i]["id_destinatario"] = $row->nro_identificacion;
                 $control[$i]["nombre_destinatario"] = $row->nombre_destinatario;
+                $control[$i]["ciudadDest"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
+                $control[$i]["deptoDest"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
                 $control[$i]["forma_pago"] = $row->forma_pago;
                 $control[$i]["unidades"] = $row->unidades;
                 $control[$i]["peso"] = $row->peso;
@@ -62,6 +69,7 @@ class Control extends CI_Model {
                 $control[$i]["fecha_registro"] = $row->fecha_registro;
                 $control[$i]["observaciones"] = $row->observaciones;
                 $control[$i]["estado_contable"] = $row->estado_contable;
+                $control[$i]["estado_recaudo"] = $row->estado_recaudo;
                 $control[$i]["estado_carga"] = $row->estado_carga;
                 $control[$i]["nom_estado"] = $row->nom_estado;
                 $i++;
@@ -80,7 +88,7 @@ class Control extends CI_Model {
                         C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
     	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
                        C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones, C.estado_contable, C.estado_control,
-                       C.estado_carga
+                       C.estado_recaudo, C.estado_carga
                 FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST
                 WHERE C.id_establecimientos=EST.id_establecimiento
                 AND C.id_destinatario=DEST.id_destinatario ";
@@ -118,6 +126,7 @@ class Control extends CI_Model {
                 $control["fecha_registro"] = $row->fecha_registro;
                 $control["observaciones"] = $row->observaciones;
                 $control["estado_contable"] = $row->estado_contable;
+                $control["estado_recaudo"] = $row->estado_recaudo;
                 $control["estado_carga"] = $row->estado_carga;
                 $control["estado_control"] = $row->estado_control;
                 $i++;
@@ -193,9 +202,9 @@ class Control extends CI_Model {
 		$this->db->update("txtar_admin_control",$data);
     }     
     //Actualiza oa información del estado contable de las guias     
-    function actualizarDatosControlCon($id_control, $estadocont){
+    function actualizarDatosControlCon($id_control, $estadocont, $estadorecaudo){
     	$data = array('estado_contable' => $estadocont,
-                );
+                    'estado_recaudo' => $estadorecaudo);
 		$this->db->where("id_control", $id_control);
 		$this->db->update("txtar_admin_control",$data);
     }     

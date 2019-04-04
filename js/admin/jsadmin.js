@@ -3065,7 +3065,7 @@ $(document).ready(function(){
                 result=$('#iddestinatario').val().split(',');
                     res=result[1]*$('#unidades').val(); 
                     if(res<result[1]*1){
-                        cobrar=(result[1]*1)*$('#unidades').val();
+                        cobrar=(result[1]*30)*$('#unidades').val();
                         pesocobrar=1;
                     }else{
                         cobrar=result[1]*$('#unidades').val();
@@ -3094,7 +3094,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('#tablaDirectorio').dataTable( {
                     "sPaginationType": "full_numbers",
-                    "aaSorting": [[0, "asc" ]],
+                    "aaSorting": [[0, "asc"]],
                     "bPaginate": true,
                     "bLengthChange": true,
                     "bFilter": true,
@@ -3109,7 +3109,7 @@ $(document).ready(function(){
                     "sAjaxSource": base_url +"administrador/directorioClientes",
                      "aoColumns": [
                             { mData: 'NumEstabl' } ,
-                            { mData: 'NombreEstablecimiento' },
+                            { mData: 'NombreEstabl' },
                             { mData: 'idEstablecimiento' },
                             { mData: 'Dierccion' },
                             { mData: 'telefono' },
@@ -3117,6 +3117,7 @@ $(document).ready(function(){
                             { mData: 'Contacto' },
                             { mData: 'Departamento' },
                             { mData: 'Municipio' },
+                            { mData: 'Comercial' },
                             { mData: 'Estado' },
                             { mData: 'editar' } 
                     ]
@@ -3154,6 +3155,43 @@ $(document).ready(function(){
                             { mData: 'estadoCarga' },
                             { mData: 'Editar' },
                             { mData: 'Imprimir' }
+                            /*{ mRender: function (mData, type, full) {
+                             return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
+                           }*/
+                      //}
+                    ]
+                    
+     } );
+ 
+});
+$(document).ready(function(){
+    $('#tablaControlCiudad').dataTable( {
+                    "sPaginationType": "full_numbers",
+                    "aaSorting": [[0, "asc" ]],
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bJQueryUI": true,
+                    "bAutoWidth": true, 
+                    "processing": true,
+                    "serverSide": true,
+                    "responsive": true,
+                    "bProcessing": true,
+                    "sAjaxSource": base_url +"administrador/dirControlCiudad",
+                     "aoColumns": [
+                            { mData: 'NumGuia' } ,
+                            { mData: 'nomCliente' },
+                            { mData: 'fecRecogida' },
+                            { mData: 'fecEntrega' },
+                            { mData: 'nomDestinatario' },
+                            { mData: 'ciudadDest' },
+                            { mData: 'deptoDest' },
+                            { mData: 'valorFlete' },
+                            { mData: 'pesoKg' },
+                            { mData: 'pesoVol' },
+                            { mData: 'estadoCarga' }
                             /*{ mRender: function (mData, type, full) {
                              return '<a href="administrador/'+ full.Path + '">'+mData+'</a>';
                            }*/

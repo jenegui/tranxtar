@@ -25,6 +25,25 @@ $(function(){
 <legend><b>Actualizar estado contable</b></legend>
 	<table>
 	<tr>
+	  <td>Estado recaudo: </td>
+	  <td>
+                <select id="estadorecaudo" name="estadorecaudo" class="select">
+                  <option value="-">Seleccione...</option>
+                  <?php 
+                        $selected1="";
+                        $selected2="";
+                        if($control["estado_recaudo"]==0){
+                            $selected1="selected";
+                        }else{
+                            $selected2="selected";
+                        }
+                  ?>
+                    <option value="0" <?php echo $selected1; ?>>No recaudado</option>
+                    <option value="1" <?php echo $selected2; ?>>Recaudado</option>
+                </select>
+	  </td>  
+	</tr>
+        <tr>
 	  <td>Estado contable: </td>
 	  <td>
                 <select id="estadocont" name="estadocont" class="select">
@@ -43,7 +62,6 @@ $(function(){
                 </select>
 	  </td>  
 	</tr>
-        
 	</table>
 </fieldset>
 

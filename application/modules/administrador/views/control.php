@@ -38,9 +38,11 @@
 	<div style="text-align: right;" class="sixcol">
 	  <?php 
                 if($usuario==6){
-                    $imprimir="Estado contable";
+                    $campo1="Estado contable";
+                    $campo2="Estado Recaudo";
                 }else{
-                    $imprimir="Imprimir";
+                    $campo1="Imprimir";
+                    $campo2="Fecha registro";
                 }
                 if($usuario==4 || $usuario==6){ 
                     echo "";
@@ -63,10 +65,10 @@
   <th>ID destinatario</th>
   <th>Nombre destinatario</th>
   <th>Valor flete</th>
-  <th>Fecha registro</th>
+  <th><?php echo $campo2; ?> </th>
   <th>Estado de la carga</th>
   <th>Editar</th>
-  <th><?php echo $imprimir; ?> </th>
+  <th><?php echo $campo1; ?> </th>
 </thead>
 <tbody>
 <?php 

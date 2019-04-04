@@ -32,21 +32,7 @@ class Administrador extends MX_Controller {
 		$this->load->view("layout",$data);		
 	}
 	
-	//Actualiza el ano y el mes del periodo desde el combo de periodos del menu del administrador.
-	public function actualizarPeriodo(){
-		$periodo = $this->input->post("cmbPeriodo");
-		$ano = substr($periodo,0,4);
-		$mes = substr($periodo,4,strlen($periodo));
-		if (($ano!="----")&&($mes!="--")){
-			$this->session->unset_userdata('ano_periodo');
-			$this->session->unset_userdata('mes_periodo');
-			$this->session->set_userdata('ano_periodo', $ano);
-			$this->session->set_userdata('mes_periodo', $mes);
-		}
-		redirect('/administrador', 'location', 301);
-	}
-	
-        //Actualiza el salario minimo.
+	//Actualiza el salario minimo.
 	public function actualizarSalarioMin(){
             $this->load->model("periodo");
             $ano_periodo = $this->session->userdata("ano_periodo");
@@ -136,12 +122,13 @@ class Administrador extends MX_Controller {
 		$this->load->view("layout",$data);
 	}
 	
+	
 	public function cargaDirectorio(){
 		echo Modules::run('carga_directorio/cargadir/index');
 	}
 	
         
-        //Ejecuta la funcion del directorio del menu del administrador.
+        //Ejecuta la funcion del control de guias del menu del administrador.
 	public function control(){
 		$this->load->model("control");
 		$this->load->model("divipola");
@@ -155,6 +142,49 @@ class Administrador extends MX_Controller {
 		$data["controller"] = $this->session->userdata("controlador");
 		$data["menu"] = "adminmenu";
 		$data["view"] = "control";
+		$data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
+		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
+		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
+                $data["usuario"]=$tipo_usuario;
+		//Configuracion del paginador
+		$config = array();
+		$config["base_url"] = site_url("administrador/control");
+		$config["total_rows"] = $this->directorio->contarFuentes(0, 0); //Obtener el numero total de registros que debe procesar el paginador
+		$config["per_page"] = 50;   //Cantidad de registros por pagina que debe mostrar el paginador
+		$config["num_links"] = 5;  //Cantidad de links para cambiar de pÃ¯Â¿Â½gina que va a mostrar el paginador.
+		$config["first_link"] = "Primero";
+		$config["last_link"] = "&Uacute;ltimo";
+		$config["use_page_numbers"] = TRUE;
+		$this->pagination->initialize($config);
+		
+		//Trabajo de paginacion
+		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
+		$desde = ($pagina - 1) * $config["per_page"];
+                if($tipo_usuario==5 || $tipo_usuario==3){
+                    $id_usuario=$this->session->userdata('num_identificacion');
+                }else{
+                    $id_usuario=0;
+                }
+		$data["control"] = $this->control->obtenerGuias($id_usuario);
+                //var_dump($data["control"])."-----";
+                $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
+                $data["links"] = $this->pagination->create_links();
+		$this->load->view("layout",$data);
+	}
+        //Ejecuta la funcion del control de guias por ciudad
+	public function reportexCiudad(){
+		$this->load->model("control");
+		$this->load->model("divipola");
+		$this->load->model("tipodocs");
+		$this->load->model("actividad");
+		$this->load->model("directorio");
+                $nom_usuario = $this->session->userdata("nombre");
+		$tipo_usuario = $this->session->userdata("tipo_usuario");
+                $data['tipo_usuario']=$this->session->userdata("controlador");
+                $data["nom_usuario"] = $nom_usuario;
+		$data["controller"] = $this->session->userdata("controlador");
+		$data["menu"] = "adminmenu";
+		$data["view"] = "controlxCiudad";
 		$data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
 		$data["departamentos"] = $this->divipola->obtenerDepartamentos();
 		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
@@ -415,7 +445,7 @@ class Administrador extends MX_Controller {
             $fechaentr=$fechaent[2].'-'.$fechaent[1].'-'.$fechaent[0];
             $observ=$observaciones." Se modificaron los datos con el usuario  ".$idusaurio.", el ".$fechaRegistro;
             //Actualizar los datos del destinatario
-            $this->control->actualizarDatosControlCon($id_control, $estadocont);
+            $this->control->actualizarDatosControlCon($id_control, $estadocont, $estadorecaudo);
                                                    
             if($this->control->actualizarDatosControlCon){
                 redirect("/administrador/control", "refresh");
@@ -623,116 +653,7 @@ class Administrador extends MX_Controller {
 		$data["asignadas"] = $this->usuario->obtenerFuentesAsignadas($id, $ano_periodo, $mes_periodo);
 		$this->load->view("layout",$data);
 	}
-		
-	
-	//Permite la asignacion de fuentes a los criticos (Administrador/Usuarios/Asignar fuentes)
-	public function asignarFuentes($id){
-		$this->load->model("periodo");
-		$this->load->model("usuario");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
-		$data["periodos"] = $this->periodo->obtenerPeriodosTodosMOD();		
-		$data["idcritico"] = $id;
-		$data["nomcritico"] = $this->usuario->obtenerNombreUsuario($id);
-		$sedeCritico=$data["nomcritico"]["sede"];
-		$subSedeCritico=$data["nomcritico"]["subsede"];
-		$nom_usuario = $this->session->userdata("nombre");
-		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==4){
-			$data['tipo_usuario']="ADMINISTRADOR";
-		}
-		$data["nom_usuario"] = $nom_usuario;
-		$data["controller"] = "administrador";
-		$data["menu"] = "adminmenu";
-		$data["view"] = "asignarfuente";
-		$data["sinasignar"] = $this->usuario->obtenerFuentesSinAsignar($ano_periodo, $mes_periodo, $sedeCritico, $subSedeCritico);
-		$data["asignados"] = $this->usuario->obtenerFuentesAsignadas($id, $ano_periodo, $mes_periodo);
-		$this->load->view("layout",$data);
-	}
-	
-	//Permite la asignacion de fuentes a los logisticos (Administrador/Usuarios/AsignarFuentes) -- Asignacion unicamente para usuarios logisticos
-	public function asignarFuentesLOG($id){
-		$this->load->model("periodo");
-		$this->load->model("usuario");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
-		$nom_usuario = $this->session->userdata("nombre");
-		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		if($tipo_usuario==4){
-			$data['tipo_usuario']="ADMINISTRADOR";
-		}
-		$data["nom_usuario"] = $nom_usuario;
-		$data["controller"] = "administrador";
-		$data["menu"] = "adminmenu";
-		$data["view"] = "asignarfuentelog";
-		$data["periodos"] = $this->periodo->obtenerPeriodosTodosMOD();
-		$data["idlogistico"] = $id;
-		$data["nomlogistico"] = $this->usuario->obtenerNombreUsuario($id);
-		$data["asignados"] = $this->usuario->obtenerFuentesAsignadasLogistica($id, $ano_periodo, $mes_periodo); 
-		$data["sinasignar"] = $this->usuario->obtenerFuentesSinAsignarLogistica($ano_periodo, $mes_periodo);  
-		$this->load->view("layout",$data);
-	}
-	
-	
-	//Actualiza la tabla de control y asigna las fuentes a un critico 
-	public function asignarFuentesCritico(){
-		$this->load->model("usuario");
-		$this->load->model("control");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
-		$usuario = $this->input->post("hddCritico");		 //Obtengo el ID del usuario
-		$rol = $this->usuario->obtenerRolUsuario($usuario);  //Con base en el id de usuario obtengo el rol de ese usuario
-		$fuentes = $this->input->post("chkSinasignar");
-		for ($i=0; $i<count($fuentes); $i++){
-			$arrayData = explode("-",$fuentes[$i]);			
-			$this->control->asignarFuenteCritico($arrayData[0], $arrayData[1], $ano_periodo, $mes_periodo, $usuario);			
-		}
-		redirect("administrador/asignarFuentes/$usuario","location", 301);
-	}
-	
-	public function asignarFuentesLogistico(){
-		$this->load->model("usuario");
-		$this->load->model("control");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");		
-		$logistico = $this->input->post("hddLogistico");		 //Obtengo el ID del usuario
-		$rol = $this->usuario->obtenerRolUsuario($logistico);  //Con base en el id de usuario obtengo el rol de ese usuario
-		$fuentes = $this->input->post("chkSinasignar");
-		for ($i=0; $i<count($fuentes); $i++){
-			$arrayData = explode("-",$fuentes[$i]);			
-			$this->control->asignarFuenteLogistico($arrayData[0], $arrayData[1], $ano_periodo, $mes_periodo, $logistico);			
-		}
-		redirect("administrador/asignarFuentesLOG/$logistico","location", 301);
-	}
-	
-	//Actualiza la tabla de control y remueve las fuentes que se han asignado a un critico
-	public function removerFuentesCritico(){
-		$this->load->model("control");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
-		$critico = $this->input->post("hddCritico");
-		$fuentes = $this->input->post("chkAsignados");
-		for ($i=0; $i<count($fuentes); $i++){
-			$arrayData = explode("-",$fuentes[$i]);
-			$this->control->asignarFuenteCritico($arrayData[0], $arrayData[1], $ano_periodo, $mes_periodo, 0);
-		}
-		redirect("administrador/asignarFuentes/$critico","location", 301);
-	}
-	
-	//Actualiza la tabla de control y remueve las fuentes que se han asignado a un logistico
-	public function removerFuentesLogistico(){
-		$this->load->model("control");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
-		$logistico = $this->input->post("hddLogistico");
-		$fuentes = $this->input->post("chkAsignados");
-		for ($i=0; $i<count($fuentes); $i++){
-			$arrayData = explode("-",$fuentes[$i]);			
-			$this->control->asignarFuenteLogistico($arrayData[0], $arrayData[1], $ano_periodo, $mes_periodo,0);
-		}
-		redirect("administrador/asignarFuentesLOG/$logistico","location", 301);
-	}
-	
+			
 	//Actualiza los datos de un usuario en Administrador/Usuarios/Actualizar Usuario
 	public function actualizarUsuario(){
 		$this->load->library("danecrypt");
@@ -1188,6 +1109,22 @@ class Administrador extends MX_Controller {
             $data["control"] = $this->control->obtenerGuias($id_usuario);
            // var_dump($data["control"]);
             $this->load->view("ajxcontrol",$data);
+        }
+        
+        //Procesa el ajax para mostrar las guias por ciudad
+         public function dirControlCiudad(){
+            $this->load->model("control");
+            $tipo_usuario = $this->session->userdata("tipo_usuario");
+            $data["usuario"]=$tipo_usuario;
+            if($tipo_usuario==5 || $tipo_usuario==3){
+                $id_usuario=$this->session->userdata('num_identificacion');
+            }else{
+                $id_usuario=0;
+            }
+            
+            $data["control"] = $this->control->obtenerGuias($id_usuario);
+           // var_dump($data["control"]);
+            $this->load->view("ajxcontrolCiudad",$data);
         }
         
          public function procesaObtenerEstab(){

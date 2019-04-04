@@ -6,7 +6,7 @@ $url = site_url();
     for ($i = 0; $i < count($fuentes); $i++) {
         $editar = '<a href=administrador/editarFuente/'.$fuentes[$i]['nro_establecimiento'].' onclick=\"editarDestinatario('.$fuentes[$i]['nro_establecimiento'].')\"><img border=\"0px\" src="'.$url.'/images/edit.png" alt=\"Editar\"/></a>';
         $datas[] = array('NumEstabl' => $fuentes[$i]['nro_establecimiento'],
-            'NombreEstablecimiento' => $fuentes[$i]['idnomcom'],
+            'NombreEstabl' => $fuentes[$i]['idnomcom'],
             'idEstablecimiento' => $fuentes[$i]['nit_establecimiento'],
             'Dierccion' => $fuentes[$i]['iddirecc'],
             'telefono' => $fuentes[$i]['idtelno'],
@@ -14,6 +14,7 @@ $url = site_url();
             'Contacto' => $fuentes[$i]['nom_contacto'],
             'Departamento' => $fuentes[$i]['fk_depto'],
             'Municipio' => $fuentes[$i]['fk_mpio'],
+            'Comercial' => $fuentes[$i]['nom_comercial'],
             'Estado' => $fuentes[$i]['estado'],
             'editar' => $editar);
     }

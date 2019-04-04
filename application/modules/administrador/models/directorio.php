@@ -95,12 +95,13 @@ class Directorio extends CI_Model {
 	    
 	    $fuentes = array();	    	
 	    $sql = "SELECT ES.id_establecimiento, UPPER(ES.idnomcom) as idnomcom, nit_establecimiento, ES.iddirecc, ES.idtelno,
-    	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, 
+    	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, ES.id_comercial, US.nom_usuario,
                        CASE WHEN ES.estado_establecimiento = 1 THEN 'Activa'
             WHEN ES.estado_establecimiento = 0 THEN 'Inactiva'
             END AS estado_establecimiento	 
-                FROM txtar_admin_establecimientos ES
+                FROM txtar_admin_establecimientos ES, txtar_admin_usuarios US
                 WHERE ES.id_establecimiento > 0
+                AND US.num_identificacion=ES.id_comercial
                 ORDER BY ES.id_establecimiento, ES.fk_depto, ES.fk_mpio ";	    
 	    $query = $this->db->query($sql);
 	    if ($query->num_rows() > 0){
@@ -116,6 +117,7 @@ class Directorio extends CI_Model {
                         $fuentes[$i]["nom_contacto"] = $row->nom_contacto;
 	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
 	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);
+	    		$fuentes[$i]["nom_comercial"] = $row->nom_usuario;
 	    		$fuentes[$i]["estado"] = $row->estado_establecimiento;
                        $i++;    			
 	    	}
