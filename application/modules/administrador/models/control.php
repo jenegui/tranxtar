@@ -50,8 +50,8 @@ class Control extends CI_Model {
                 $control[$i]["fecha_entrega"] = $row->fecha_entrega;
                 $control[$i]["id_destinatario"] = $row->nro_identificacion;
                 $control[$i]["nombre_destinatario"] = $row->nombre_destinatario;
-                $control[$i]["ciudadDest"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
-                $control[$i]["deptoDest"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
+                $control[$i]["ciudadDest"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
+                $control[$i]["deptoDest"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
                 $control[$i]["forma_pago"] = $row->forma_pago;
                 $control[$i]["unidades"] = $row->unidades;
                 $control[$i]["peso"] = $row->peso;
@@ -84,13 +84,15 @@ class Control extends CI_Model {
         $this->load->model("sede");
         $this->load->model("subsede");
         $control = array();
-        $sql = "SELECT C.id_control, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, C.fecha_recogida, C.fecha_entrega,
-                        C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
+        $sql = "SELECT C.id_control, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.iddirecc, EST.idtelno,
+                        C.fecha_recogida, C.fecha_entrega, C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
+                        DEST.ciudad_destinatario, DEST.depto_destinatario,DEST.direccion_destinatario, DEST.telefono_destinatario,
     	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
                        C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones, C.estado_contable, C.estado_control,
-                       C.estado_recaudo, C.estado_carga
-                FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST
+                       C.estado_recaudo, C.estado_carga, E.nom_estado
+                FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST, txtar_param_estados E
                 WHERE C.id_establecimientos=EST.id_establecimiento
+                AND C.estado_carga= E.id_estado
                 AND C.id_destinatario=DEST.id_destinatario ";
                 if($id_guia!=0){
                  $sql.=" AND C.id_control= $id_guia ";   
@@ -103,12 +105,18 @@ class Control extends CI_Model {
                 $control["id_control"] = $row->id_control;
                 $control["id_establecimiento"] = $row->id_establecimientos;
                 $control["id_establecimientos"] = $row->nit_establecimiento;
+                $control["iddirecc"] = $row->iddirecc;
+                $control["idtelno"] = $row->idtelno;
                 $control["idnomcom"] = $row->idnomcom;
                 $control["fecha_recogida"] = $row->fecha_recogida;
                 $control["fecha_entrega"] = $row->fecha_entrega;
                 $control["id_destinatario"] = $row->nro_identificacion;
                 $control["id_dest"] = $row->id_destinatario;
                 $control["nombre_destinatario"] = $row->nombre_destinatario;
+                $control["ciudadDest"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
+                $control["deptoDest"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
+                $control["direccion_destinatario"] = $row->direccion_destinatario;
+                $control["telefono_destinatario"] = $row->telefono_destinatario;
                 $control["forma_pago"] = $row->forma_pago;
                 $control["unidades"] = $row->unidades;
                 $control["peso"] = $row->peso;
@@ -129,6 +137,7 @@ class Control extends CI_Model {
                 $control["estado_recaudo"] = $row->estado_recaudo;
                 $control["estado_carga"] = $row->estado_carga;
                 $control["estado_control"] = $row->estado_control;
+                $control["nom_estado"] = $row->nom_estado;
                 $i++;
             }
         }

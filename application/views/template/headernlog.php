@@ -4,7 +4,7 @@
 	<div id="header" class="row">
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3"> <!--Logo-->
 
-					<a href="<?php $url ?>/aplicacion/tranxtar/index.php"><img class="img-responsive" src="/aplicacion/tranxtar/images/logo.png" alt="Transxtar SAS"></a>
+					<a href="<?php echo $url; ?>index.php"><img class="img-responsive" src="<?php echo $url; ?>images/logo.png" alt="Transxtar SAS"></a>
 
 				</div>
 

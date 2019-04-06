@@ -3066,10 +3066,10 @@ $(document).ready(function(){
                     res=result[1]*$('#unidades').val(); 
                     if(res<result[1]*1){
                         cobrar=(result[1]*30)*$('#unidades').val();
-                        pesocobrar=1;
+                        pesocobrar=30;
                     }else{
                         cobrar=result[1]*$('#unidades').val();
-                        pesocobrar=1*$('#unidades').val();
+                        pesocobrar=30*$('#unidades').val();
                     }
                     $("#pesocobrar").val(pesocobrar);
                     $("#flete").val(cobrar);

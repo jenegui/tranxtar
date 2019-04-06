@@ -473,6 +473,7 @@ class Usuario extends CI_Model {
                 $datos["contacto_destinatario"] = $row->contacto_destinatario;
             }
         }
+        //echo $sql."<br>";
         $this->db->close();
     	return $datos;
     }

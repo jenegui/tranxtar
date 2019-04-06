@@ -302,7 +302,19 @@
 	
 	
 
+	.fondo-pest1 {
+		color: #333;
+		background: url(../images/fondo-pest1.png) no-repeat bottom right;
+		margin-bottom: 5px;
+		min-height: 300px;
+		}
 
+	.fondo-pest2 {
+		color: #333;
+		background: url(../images/fondo-pest2.png) no-repeat bottom right;
+		margin-bottom: 5px;
+		min-height: 300px;
+		}
 
 
 

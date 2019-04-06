@@ -1,6 +1,7 @@
 <?php
 $this->load->library("session");
 $this->load->helper("url");
+
 $url = site_url();
 //echo '<img scr="'.$url.'("images/edit.png")">';
 if (count($control) > 0) {
@@ -15,9 +16,9 @@ if (count($control) > 0) {
         if($usuario==6){
             $campo1=$control[$i]['estado_contable'];
             $campo2=$control[$i]['estado_recaudo'];
-            
         }else{
-            $campo1='<a href=administrador/imprimirGuia/'.$control[$i]['id_control'].' onclick=\"editarDestinatario('.$control[$i]['id_control'].')\"><img border=\"0px\" src="'.$url.'/images/impresora.png" alt=\"Editar\"/></a>';
+            $id_control=$control[$i]['id_control'];
+            $campo1='<a href=administrador/imprimirGuia/'.$id_control.'><img border=\"0px\" src="'.$url.'/images/impresora.png" alt=\"Imprimir\"/></a>';
             $campo2=$control[$i]['fecha_registro'];
         }
         $datas[] = array('NumGuia' => "G-".$control[$i]['id_control'],

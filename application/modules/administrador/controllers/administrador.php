@@ -1352,9 +1352,11 @@ class Administrador extends MX_Controller {
             $this->load->model("tipodocs");
             $data["controller"] = $this->session->userdata("controlador");
            
-            $id_destinatario=$id_destinatario;
+            $id_dest=$id_destinatario;
             $data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
-            $data["view"] = "editarDestinatario";
+            
+            $data["view"] = "editardest";
+           
             $nom_usuario = $this->session->userdata("nombre");
             $tipo_usuario = $this->session->userdata("tipo_usuario");
             $data['tipo_usuario']=$this->session->userdata("controlador");
@@ -1362,9 +1364,8 @@ class Administrador extends MX_Controller {
             $data["menu"] = "adminmenu";
             $data["departamentos"] = $this->divipola->obtenerDepartamentos();
             $data["municipios"] = $this->divipola->obtenerMunicipios("");
-            $data["destinatario"] = $this->usuario->obtenerDatosDestinatario($id_destinatario);
-            
-		$this->load->view("layout",$data);
+            $data["destinatario"] = $this->usuario->obtenerDatosDestinatario($id_dest);
+            $this->load->view("layout",$data);
 	}
 	
 	//Paginador para la busqueda de resultados de la busqueda de formularios
@@ -1499,43 +1500,22 @@ class Administrador extends MX_Controller {
 	}
 			
 	//Muestra el consolidado de los mÃ¯Â¿Â½dulos II, III y IV para las empresas.)
-	public function mostrarConsolidado($nro_orden){
+	public function imprimirGuia($id_guia){
 		$this->load->model("control");
-		$this->load->model("periodo");
 		$this->load->model("usuario");
-		$this->load->model("consolidado");
-		$ano_periodo = $this->session->userdata("ano_periodo");
-		$mes_periodo = $this->session->userdata("mes_periodo");
 		$tipoUsuario=$this->session->userdata("tipo_usuario");
-		$data["empresa"] = $this->usuario->obtenerNombreEmpresa($nro_orden, $ano_periodo, $mes_periodo);
-		$data["modulo2"] = $this->consolidado->obtenerModulo2($nro_orden, $ano_periodo, $mes_periodo);
-		$data["modulo3"] = $this->consolidado->obtenerModulo3($nro_orden, $ano_periodo, $mes_periodo);
-		$data["modulo4"] = $this->consolidado->obtenerModulo4($nro_orden, $ano_periodo, $mes_periodo);
 		$nom_usuario = $this->session->userdata("nombre");
-		$tipo_usuario = $this->session->userdata("tipo_usuario");
-		
+		$data["tipo_usuario"] = $this->session->userdata("tipo_usuario");
 		$data["nom_usuario"] = $nom_usuario;
-		$data["nro_orden"] = $nro_orden;
-		$data["controller"] = "logistica";
+		$data["controller"] = $this->session->userdata("controlador");
+		$data["menu"] = "adminmenu";
+		$data["view"] = "imprimir";
+		$data["guia"] = $this->control->obtenerGuiasId($id_guia);
 		
-		//Muestra el menu dependiendo del rol del usuario. 4 administrador
-		if($tipoUsuario==4){
-			$data["menu"] = "adminmenu";
-			$data['tipo_usuario']="ADMINISTRADOR";
-		}
-		elseif($tipoUsuario==6){
-			$data["menu"] = "tematicamenu";
-			$data['tipo_usuario']="TEMATICO";
-		}
-		else{
-			$data["menu"] = "logmenu";
-			$data['tipo_usuario']="LOGISTICA";
-		}
-		$data["view"] = "consolidadoEmpresa";
-		
-		$data["periodos"] = $this->periodo->obtenerPeriodosTodosMOD();
 		$this->load->view("layout",$data);
 	}
+        
+        
 
 }//EOC
 	
