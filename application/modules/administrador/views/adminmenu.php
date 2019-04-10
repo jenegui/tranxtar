@@ -4,7 +4,6 @@
          
 ?>
 
-<form id="frmPeriodo" name="frmPeriodo" method="post" action="<?php echo site_url("administrador/actualizarPeriodo"); ?>">
 <div id="menu" class="row">
 	<div class="twelvecol last">
 		<ul>
@@ -49,4 +48,3 @@
                 </ul>
 	</div>	
 </div>
-</form>

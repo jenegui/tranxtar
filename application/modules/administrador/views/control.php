@@ -53,8 +53,8 @@
 	</div>
 </div>
 <br/>
-<div id="divDirectorio">
-<table id="tablaControl" width="100%" style="font-size: 11px;">
+<div id="divDirectorio" class="table-responsive">
+<table id="tablaControl" width="100%" style="font-size: 11px;" class="table">
 <thead>
 <tr>
   <th>N.Guia</th>
@@ -66,7 +66,7 @@
   <th>Nombre destinatario</th>
   <th>Valor flete</th>
   <th><?php echo $campo2; ?> </th>
-  <th>Estado de la carga</th>
+  <th>Estatus de la carga</th>
   <th>Editar</th>
   <th><?php echo $campo1; ?> </th>
 </thead>

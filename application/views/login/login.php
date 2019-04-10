@@ -63,7 +63,9 @@
                             <div class="clearfix">
                                 <?php
                                 if ($this->session->userdata("si") == 1) {
-                                    echo "<p style = 'font-size:12 px ; color: blue'> Estimado Cliente, su carga est&aacute; en estado " . strtoupper($this->session->userdata("guia")) . ", veh&iacute;culo asignado con placa No. " . strtoupper($this->session->userdata("placa")) . ".</p>";
+                                    echo '<div class="alert alert-success">';
+                                    echo "<p style = 'font-size:12 px'> Estimado Cliente, su carga est&aacute; en estado " . strtoupper($this->session->userdata("guia")) . ", veh&iacute;culo asignado con placa No. " . strtoupper($this->session->userdata("placa")) . ".</p>";
+                                    echo '</div>';
                                 } else {
                                     echo "&nbsp;";
                                 }
@@ -109,22 +111,26 @@
                         <div class="form-group">
                             <input class="form-control" id="pesoKg" name="pesoKg" type="text" placeholder="Peso Kg mínimo: 30 kg *">
                         </div>
+                        <div class="form">
+                        <input class="form-control" id="cantidad" name="cantidad" type="text" placeholder="Cantidad">
+                    </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input class="form-control" id="alto" name="alto" type="text" placeholder="alto (cm) *">
+                            <input class="form-control" id="valdeclarado" name="valdeclarado" type="text" placeholder="Valor declarado *">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="ancho" name="ancho" type="text" placeholder="ancho (cm) *">
+                            <input class="form-control" id="alto" name="alto" type="text" placeholder="Alto del paquete(cm) *">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" id="largo" name="largo" type="text" placeholder="largo (cm) *">
+                            <input class="form-control" id="ancho" name="ancho" type="text" placeholder="Ancho del paquete(cm) *">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="largo" name="largo" type="text" placeholder="Largo del paquete(cm) *">
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="col-md-6">
-                        <input class="form-control" id="cantidad" name="cantidad" type="text" placeholder="Cantidad">
-                    </div>
+                    
                     
                     <div class="col-lg-12 text-center">
 
@@ -137,25 +143,24 @@
             </form>
             
             <?php
-                if ($this->session->userdata("flete") == 1) {
+                if($this->session->userdata("flete") == 1) {
                     echo '<div class="alert alert-success">';
-                    echo "<div>Los costos de env&iacute;o desde BOGOT&Aacute; hacia ".$this->session->userdata("mpio")."</div>";
-                    echo "<div>Minima 30Kg:  $".number_format($this->session->userdata("minimaKg"))."</div>";
-                    echo "<div>Valor Kg:  $".number_format($this->session->userdata("valorGg"))."</div>";
-                    echo "<div>Tiempo de entrega:  ".$this->session->userdata("tentrega")."</div>";
-                    echo "<div>Manejo:  $".$this->session->userdata("manejo")."</div>";
-                    echo "<div>Valor flete peso Kg:  $".number_format($this->session->userdata("fleteKg"))."</div>";
-                    echo "<div>Valor flete peso Vol:  $".number_format($this->session->userdata("fletePV"))."</div>";
-                    echo "<div>El flete corresponde al mayor valor entr el peso real y el peso volumen.</div>";
-                    echo "<div>El peso volumen es el resultado de multiplicar (Ancho x Largo x Alto) x 400.</div>";
+                    echo "<div id='anchor'>Los costos de env&iacute;o desde BOGOT&Aacute; hacia ".$this->session->userdata("mpio")."</div>";
+                    echo "<div>Valor del flete $".number_format($this->session->userdata("valorFlete"))."</div>";
+                    echo "<div>Costo de manejo $".number_format($this->session->userdata("costoManejo"))."</div>";
+                    echo "<div>Valor total flete:  $".number_format($this->session->userdata("totalFlete"))."</div>";
+                    
+                    echo "<div>El costo de manejo corresponde al 1% del valor declarado.</div>";
                     echo "<div>El costo de manejo puede variar seg&uacute;n el valor declarado.</div>";
                     echo '</div>';
-                } else {
+                } elseif($this->session->userdata("flete") == 2) {
+                    echo '<div class="alert alert-success">';
+                    echo "&nbsp; Para la ciudad seleccionada no se est&aacute; prestando servicio de transporte.";
+                    echo '</div>';
+                }else{
                     echo "&nbsp;";
                 }
                 ?>
-            
-
         </div>
     </div>
 

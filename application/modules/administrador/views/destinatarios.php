@@ -41,8 +41,8 @@
     </div>
 </div>	 
 <?php //} ?>
-
-<table width="100%" style="font-size: 11px;">
+<div id="divDirectorio" class="table-responsive">
+<table width="100%" style="font-size: 11px;" class="table">
     <tr>
         <td>
             <div id="divUsuarios">
@@ -109,6 +109,7 @@
         </td> 
     </tr>
 </table>
+</div>
 <!-- Div para ageragr empresas -->
 <div id="agregarDestinatario" style="display: none">
     <?php

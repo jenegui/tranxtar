@@ -44,8 +44,8 @@
 	</div>
 </div>
 <br/>
-<div id="divDirectorio">
-<table id="tablaDirectorio" width="100%" style="font-size: 11px;">
+<div id="divDirectorio" class="table-responsive">
+<table id="tablaDirectorio" width="100%" style="font-size: 11px;" class="table">
 <thead>
 <tr>
   <th>N.Establ</th>

@@ -21,7 +21,7 @@ $(function(){
 <form id="frmAgregarGuia" name="frmAgregarGuia" method="post" action="">
 <br/>
 <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
-<legend><b>Registrar Guiaa</b></legend>
+<legend><b>Registrar Guia</b></legend>
 	<table>
 	<tr>
 	  <td>Cliente: </td>

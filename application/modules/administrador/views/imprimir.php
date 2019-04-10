@@ -70,7 +70,7 @@
             </p>
             <p>
             <?php
-                echo "Direcci&oacute;n dest: ".$guia['telefono_destinatario'];
+                echo "Tel&eacute;fono dest: ".$guia['telefono_destinatario'];
             ?>
             </p>
             <p>
@@ -90,27 +90,27 @@
             </p>
             <p>
             <?php
-                echo "Peso a cobrar: ".$guia['peso_cobrar'];
+                echo "Peso a cobrar: $".number_format($guia['peso_cobrar']);
             ?>
             </p>
             <p>
             <?php
-                echo "Valor declarado: ".$guia['valor_declarado'];
+                echo "Valor declarado: $".number_format($guia['valor_declarado']);
             ?>
             </p>
             <p>
             <?php
-                echo "Flete: ".$guia['flete'];
+                echo "Flete: $".number_format($guia['flete']);
             ?>
             </p>
             <p>
             <?php
-                echo "Costo manejo: ".$guia['costo_manejo'];
+                echo "Costo manejo: ".($guia['costo_manejo']*100)."%";
             ?>
             </p>
             <p>
             <?php
-                echo "Total flete: ".$guia['total_fletes'];
+                echo "Total flete: $".number_format($guia['total_fletes']);
             ?>
             </p>
             <p>

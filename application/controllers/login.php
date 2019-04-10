@@ -77,39 +77,45 @@ class Login extends CI_Controller {
 		$depto = $this->input->post("cmbDeptoEstab"); 
 		$ciudad = $this->input->post("cmbMpioEstab"); 
 		$pesokg = $this->input->post("pesoKg"); 
-		$alto = $this->input->post("alto"); 
-		$ancho = $this->input->post("ancho");
-		$largo = $this->input->post("largo");
+		$alto = $this->input->post("alto")/100; 
+		$ancho = $this->input->post("ancho")/100;
+		$largo = $this->input->post("largo")/100;
                 $cantidad = $this->input->post("cantidad");
+                $valdeclarado = $this->input->post("valdeclarado");
                 $data["valCiudad"] = $this->divipola->obtenerValoresCiudad($ciudad);
                //echo $valmin=$data["valCiudad"]["valor_minima"];
-                if(count($data["valCiudad"])>0){
-                    $this->session->set_userdata('minimaKg', $data["valCiudad"]["valor_minima"]);
-                    $this->session->set_userdata('valorGg', $data["valCiudad"]["valor_kilo"]);
-                    $this->session->set_userdata('tentrega', $data["valCiudad"]["tiempo_entrega"]);
-                    $this->session->set_userdata('manejo', $data["valCiudad"]["manejo"]);
-                    
-                    if(($cantidad*$pesokg)<30){
-                         $valorVol=((($ancho*$largo*$alto)*400)*$cantidad);
-                         $valorKg=$data["valCiudad"]["valor_minima"]*$cantidad*$pesokg;
+               
+                if($data["valCiudad"]["valor_minima"]!=0){
+                    $valorKg=$pesokg;
+                    $valorVol=(($ancho*$largo*$alto)*400);
+                   
+                    if($valorKg < $valorVol){
+                        $valorFlete=$valorVol*$data["valCiudad"]["valor_kilo"]*$cantidad;
                     }else{
-                        $valorVol=((($ancho*$largo*$alto)*400)*$cantidad);
-                        $valorKg=$data["valCiudad"]["valor_kilo"]*$cantidad*$pesokg;
-                    }    
-                    $this->session->set_userdata('fletePV', $valorVol);
-                    $this->session->set_userdata('fleteKg', $valorKg);
+                        echo "Kg";
+                        if($pesokg<30){
+                            $valorFlete=$valorKg*$data["valCiudad"]["valor_minima"]*$cantidad;
+                        }else{
+                            $valorFlete=$valorKg*$data["valCiudad"]["valor_kilo"]*$cantidad;
+                        }
+                    }
+                    $costoManejo=$valdeclarado*0.01;   
+                    $totalFlete= ($costoManejo+$valorFlete);
+                    
+                    $this->session->set_userdata('tentrega', $data["valCiudad"]["tiempo_entrega"]);
+                    $this->session->set_userdata('valorFlete', $valorFlete); 
+                    $this->session->set_userdata('totalFlete', $totalFlete);
+                    $this->session->set_userdata('costoManejo', $costoManejo);
                     $this->session->set_userdata('mpio', $data["valCiudad"]["nom_mpio"]);
                     $this->session->set_userdata('flete', 1);
                 }else{
-                    $this->session->set_userdata('minimaKg', 0);
-                    $this->session->set_userdata('valorGg', 0);
                     $this->session->set_userdata('tentrega', 0);
-                    $this->session->set_userdata('manejo', 0);
-                    $this->session->set_userdata('fletePV', 0);
-                    $this->session->set_userdata('fleteKg', 0);
-                    $this->session->set_userdata('flete', 1);
+                    $this->session->set_userdata('valorFlete', 0);
+                    $this->session->set_userdata('totalFlete', 0);
+                    $this->session->set_userdata('mpio', 'Para la ciudad seleccionada no se est&aacute; prestando servicio de transporte.');
+                    $this->session->set_userdata('flete', 2);
                 }
-                redirect('/login', 'location', 301);
+                redirect('/login#anchor', 'location', 301);
                 		
 	}
 	

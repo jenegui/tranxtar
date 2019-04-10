@@ -101,6 +101,7 @@ $(function () {
     $("#cmbDeptoEstab").cargarCombo("cmbMpioEstab", "login/actualizarMunicipios");
     
     $("#pesoKg").numerico().largo(5);
+    $("#cantidad").numerico().largo(5);
     $("#alto").numerico().largo(5);
     $("#ancho").numerico().largo(5);
     $("#profundo").numerico().largo(5);
@@ -112,15 +113,55 @@ $(function () {
                 },
                 cmbMpioEstab: {required: true,
                     comboBox: '-'
+                },
+                pesoKg: {
+                    required: true
+                    //menorQue: 30
+                },
+                cantidad: {
+                    required: true
+                },
+                alto: {
+                    required: true
+                },
+                ancho:{
+                    required: true 
+                },
+                largo:{
+                    required: true
+                },
+                valdeclarado: {
+                    required: true,
+                    menorQue: 300000
                 }
                 
             },
             messages: {
                cmbDeptoEstab: {required: "Debe seleccionar un departamento",
-                    comboBox: "Debe seleccionar un departamento"
+                    comboBox: "Debe seleccionar un departamento."
                 },
                 cmbMpioEstab: {required: "Debe seleccionar una ciudad",
                     comboBox: "Debe seleccionar una ciudad"
+                },
+                pesoKg : {
+                    required: "Debe digitar el peso en Kgs."
+                    //menorQue: "El peso mínimo de de 30 kg."
+                },
+                cantidad: {
+                    required: "Debe digitar la cantidad."
+                },
+                alto: {
+                    required: "Debe digitar el alto de la carga."
+                },
+                ancho: {
+                    required: "Debe digitar el ancho de la carga."
+                },
+                largo: {
+                    required: "Debe digirtar el largo de la carga."
+                },
+                valdeclarado: {
+                    required: "Digite el valor declarado de la carga.",
+                    menorQue: "El valor declarado no puede ser menor a $300.000"
                 }
             },
             errorPlacement: function (error, element) {
@@ -157,7 +198,7 @@ $(function () {
                 });*/
             }
         });
-    });
+     });
 });
 
 $("#idestablecimiento").select2();

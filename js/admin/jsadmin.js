@@ -3028,10 +3028,10 @@ $(document).ready(function(){
                     res=result[1]*$('#unidades').val(); 
                     if(res<result[1]*30){
                         cobrar=(result[1]*30)*$('#unidades').val();
-                        pesocobrar=30;
+                        pesocobrar=result[1]*30;
                     }else{
                         cobrar=result[1]*$('#unidades').val();
-                        pesocobrar=30*$('#unidades').val();
+                        pesocobrar=result[1];
                     }
                     $("#pesocobrar").val(pesocobrar);
                     $("#flete").val(cobrar);
@@ -3064,13 +3064,15 @@ $(document).ready(function(){
                 var pesocobrar;
                 result=$('#iddestinatario').val().split(',');
                     res=result[1]*$('#unidades').val(); 
-                    if(res<result[1]*1){
+                    /*if(res<result[1]*30){
                         cobrar=(result[1]*30)*$('#unidades').val();
-                        pesocobrar=30;
+                        pesocobrar=result[1]*30;
                     }else{
                         cobrar=result[1]*$('#unidades').val();
-                        pesocobrar=30*$('#unidades').val();
-                    }
+                        pesocobrar=result[1];
+                    }*/
+                    cobrar=result[1]*$('#unidades').val();
+                    pesocobrar=result[1];
                     $("#pesocobrar").val(pesocobrar);
                     $("#flete").val(cobrar);
                    $('.calculatotflet').change(function(){
