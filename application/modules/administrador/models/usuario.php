@@ -658,21 +658,23 @@ class Usuario extends CI_Model {
     }
     
     //Obtiene todos los usuarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
-    function obtenerUsuariosPagina($desde, $hasta){
+    function obtenerUsuariosPagina(){
     	$usuarios = array();
     	$this->load->model("control");	
     	$this->load->model("rol");
     	$this->load->model("sede");
     	$this->load->model("subsede");
-    	$sql = "SELECT U.id_usuario, U.num_identificacion, U.nom_usuario, U.log_usuario, U.pass_usuario, U.mail_usuario, U.fec_creacion, U.fec_vencimiento, U.nro_orden, U.fk_rol, U.fk_sede,
+    	$sql = "SELECT U.id_usuario, U.num_identificacion, U.nom_usuario, U.log_usuario, U.pass_usuario, U.mail_usuario, U.fec_creacion, 
+            U.fec_vencimiento, U.nro_orden, U.fk_rol, R.nom_rol, U.fk_sede,
                  CASE U.estado 
                     WHEN 'A' THEN 'Activo' 
                     ELSE 'Inactivo' 
                 END as estado , 
                 U.fk_tipodoc
-                FROM txtar_admin_usuarios U
-                ORDER BY U.fk_rol
-                LIMIT $desde, $hasta";
+                FROM txtar_admin_usuarios U, txtar_param_roles R
+                WHERE
+                R.id_rol=U.fk_rol
+                ORDER BY U.fk_rol";
     	$query = $this->db->query($sql);
 		if ($query->num_rows()>0){
 			$i = 0;
@@ -687,7 +689,7 @@ class Usuario extends CI_Model {
 				$usuarios[$i]["fec_vencimiento"] = $row->fec_vencimiento;
 				$usuarios[$i]["nro_orden"] = $row->nro_orden;
 				$usuarios[$i]["idxrol"] = $row->fk_rol;
-				$usuarios[$i]["rol"] = $this->rol->nombreRol($row->fk_rol);
+				$usuarios[$i]["nom_rol"] = $row->nom_rol;
 				//$usuarios[$i]["sede"] = $this->sede->nombreSede($row->fk_sede);
 				$usuarios[$i]["estado"] = $row->estado;
 				$usuarios[$i]["fk_tipodoc"] = $row->fk_tipodoc;
@@ -696,7 +698,7 @@ class Usuario extends CI_Model {
 			}
 		}
 		$this->db->close();
-		return $usuarios;
+                return $usuarios;
     }
     
     //Obtiene todos los operarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)

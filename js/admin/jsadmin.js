@@ -570,7 +570,6 @@ $(function () {
     
     //Valida el envï¿½o del formulario de agregar establecimientos
     $("#btnAgregarGuia").click(function () {
-
         $("#frmAgregarGuia").validate({
             rules: {
                 idestablecimiento: {
@@ -590,6 +589,18 @@ $(function () {
                 },
                 txtFecEntrega: {
                     required: true
+                },
+                pesokg: {
+                  required: true  
+                },
+                alto: {
+                  required: true  
+                },
+                ancho: {
+                  required: true  
+                },
+                largo: {
+                  required: true  
                 },
                 unidades: {
                     required: true
@@ -646,6 +657,18 @@ $(function () {
                 },
                 txtFecEntrega: {
                     required: "Debe registrar la fecha de entrega"
+                },
+                pesokg: {
+                  required: "Debe registrar el peso en Kg."
+                },
+                alto: {
+                  required: "Debe registrar el alto en cm del paquete."
+                },
+                ancho: {
+                  required: "Debe registrar el ancho en cm del paquete."
+                },
+                largo: {
+                  required: "Debe registrar el ancho en cm del paquete."
                 },
                 unidades: {
                     required: "Debe ingresar el No. de unidades"
@@ -3243,7 +3266,7 @@ $(document).ready(function(){
                     "bProcessing": true,
                     "sAjaxSource": base_url +"administrador/directorioDestinatarios",
                      "aoColumns": [
-                            { mData: 'id_destinatario' } ,
+                            { mData: 'id_destinatario' },
                             { mData: 'nombre_destinatario' },
                             { mData: 'nro_identificacion' },
                             { mData: 'fk_mpio' },
@@ -3255,5 +3278,54 @@ $(document).ready(function(){
                     ]
                     
      } );
- 
+});
+
+$(document).ready(function(){
+    $('#tablaUsuarios').dataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend:    'copyHtml5',
+                        text:      '<i class="fa fa-files-o"></i>',
+                        titleAttr: 'Copy'
+                    },
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="fa fa-file-excel-o"></i>',
+                        titleAttr: 'Excel'
+                    },
+                    {
+                        extend:    'csvHtml5',
+                        text:      '<i class="fa fa-file-text-o"></i>',
+                        titleAttr: 'CSV'
+                    },
+                    {
+                        extend:    'pdfHtml5',
+                        text:      '<i class="fa fa-file-pdf-o"></i>',
+                        titleAttr: 'PDF'
+                    }
+                ],
+                    "sPaginationType": "full_numbers",
+                    "aaSorting": [[0, "asc" ]],
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bJQueryUI": true,
+                    "bAutoWidth": true, 
+                    "processing": true,
+                    "serverSide": true,
+                    "responsive": true,
+                    "bProcessing": true,
+                    "sAjaxSource": base_url +"administrador/directorioUsuarios",
+                     "aoColumns": [
+                            { mData: 'Id' },
+                            { mData: 'nombre' },
+                            { mData: 'rol' },
+                            { mData: 'estado' },
+                            { mData: 'editar' }  
+                    ]
+                    
+     } );
 });

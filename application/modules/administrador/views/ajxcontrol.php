@@ -52,6 +52,7 @@ $results = array(
     "sEcho" => 1,
     "iTotalRecords" => count($control),
     "iTotalDisplayRecords" => count($control),
-    "aaData" => $datas,);
+    "aaData" => $datas);
+
 echo json_encode($results);
 ?>

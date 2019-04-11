@@ -3,7 +3,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
             <?php $this->load->helper("url"); ?>
             <h1><strong>Bienvenido a la aplicacion web de TRANSXTAR</strong></h1>
-            <p>El objetivo de esta aplicaci&oacute;n llevar el registro en l&iacute;nea de las operaciones log&iacute;sticas de la empresa mediante el registro y control de las guias, de los clientes y destinatarios, tambi&eacute;n permite la generaci&oacute;n de indicadores de gesti&oacute;n los cuales permiten guiar la implementaci&oacute;n de medidas o pol&iacute;ticas que beneficien la empresa. </p>
+            <p>El objetivo de esta aplicaci&oacute;n es llevar el registro en l&iacute;nea de las operaciones log&iacute;sticas de la empresa mediante el registro y control de las guias, de los clientes y destinatarios, tambi&eacute;n permite la generaci&oacute;n de indicadores de gesti&oacute;n los cuales permiten guiar la implementaci&oacute;n de medidas o pol&iacute;ticas que beneficien la empresa. </p>
             <br/>
         </div>
 

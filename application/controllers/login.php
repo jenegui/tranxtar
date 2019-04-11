@@ -90,9 +90,12 @@ class Login extends CI_Controller {
                     $valorVol=(($ancho*$largo*$alto)*400);
                    
                     if($valorKg < $valorVol){
-                        $valorFlete=$valorVol*$data["valCiudad"]["valor_kilo"]*$cantidad;
+                        if($valorVol<30){
+                            $valorFlete=$valorVol*$data["valCiudad"]["valor_minima"]*$cantidad;
+                        }else{
+                            $valorFlete=$valorVol*$data["valCiudad"]["valor_kilo"]*$cantidad;
+                        }
                     }else{
-                        echo "Kg";
                         if($pesokg<30){
                             $valorFlete=$valorKg*$data["valCiudad"]["valor_minima"]*$cantidad;
                         }else{

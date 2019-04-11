@@ -42,73 +42,65 @@
 </div>	 
 <?php //} ?>
 <div id="divDirectorio" class="table-responsive">
-<table width="100%" style="font-size: 11px;" class="table">
-    <tr>
-        <td>
-            <div id="divUsuarios">
-                <form id="frmUsuarios" name="frmUsuarios" method="post" action="">
-                    <table width="100%" id="tablaDestinatarios" class="table">
-                        <thead class="thead">
-                            <tr>
-                                <th>Id Destinatario</th>
-                                <th width="30%">Nombre destinatario</th>
-                                <th>Identificaci&oacute;n</th>
-                                <th>Ciudad</th>
-                                <th>Departamento</th>
-                                <th>Tel&eacute;fono</th>
-                                <th>Direcci&oacute;n</th>
-                                <th width="30%">Contacto</th>
-                                <th>Editar</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            for ($i = 0; $i < count($destinatarios); $i++) {
-                                if ($destinatarios[$i]["nombre_destinatario"] != "") {
-                                    if (($i % 2) == 0)
-                                        $class = "row1";
-                                    else
-                                        $class = "row2";
-                                    ?>
-                                    <tr class="<?php echo $class; ?>">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                         <td></td>
-                                    </tr>
-                                    <?php
+    <table width="100%" style="font-size: 11px;" class="table">
+        <tr>
+            <td>
+                <div id="divUsuarios">
+                    <form id="frmUsuarios" name="frmUsuarios" method="post" action="">
+                        <table width="100%" id="tablaDestinatarios" class="table">
+                            <thead class="thead">
+                                <tr>
+                                    <th>Id Destinatario</th>
+                                    <th width="30%">Nombre destinatario</th>
+                                    <th>Identificaci&oacute;n</th>
+                                    <th>Ciudad</th>
+                                    <th>Departamento</th>
+                                    <th>Tel&eacute;fono</th>
+                                    <th>Direcci&oacute;n</th>
+                                    <th width="30%">Contacto</th>
+                                    <th>Editar</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                for ($i = 0; $i < count($destinatarios); $i++) {
+                                    if ($destinatarios[$i]["nombre_destinatario"] != "") {
+                                        if (($i % 2) == 0)
+                                            $class = "row1";
+                                        else
+                                            $class = "row2";
+                                        ?>
+                                        <tr class="<?php echo $class; ?>">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <?php
+                                    }
                                 }
-                            }
-                            ?>
-                        </tbody>   
-                        <!-- links -->
-                        <tfoot>
-                            <tr>
-                                <td colspan="7">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" align="left">&nbsp;</td>
-                                <td colspan="4" align="right" class="links"><?php echo $links; ?></td>
-                            </tr>
-                        </tfoot>
-                        <!-- links -->
-                    </table>   
-                </form>
-            </div>   
-        </td> 
-    </tr>
-    <tr>
-        <td>
-            <div id="detalle"></div>
-        </td> 
-    </tr>
-</table>
+                                ?>
+                            </tbody>   
+                            <!-- links -->
+                            
+                            <!-- links -->
+                        </table>   
+                    </form>
+                </div>   
+            </td> 
+        </tr>
+        <tr>
+            <td>
+                <div id="detalle"></div>
+            </td> 
+        </tr>
+    </table>
 </div>
 <!-- Div para ageragr empresas -->
 <div id="agregarDestinatario" style="display: none">

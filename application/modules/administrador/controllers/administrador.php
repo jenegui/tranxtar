@@ -506,7 +506,7 @@ class Administrador extends MX_Controller {
 		//Trabajo de paginacion
 		$pagina = ($this->uri->segment(3))?$this->uri->segment(3):1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
 		$desde = ($pagina - 1) * $config["per_page"];
-		$data["usuarios"] = $this->usuario->obtenerUsuariosPagina($desde, $config["per_page"]);
+		$data["usuarios"] = $this->usuario->obtenerUsuariosPagina();
 		$data["links"] = $this->pagination->create_links();		
 		$this->load->view("layout",$data);					
 	}
@@ -1149,6 +1149,13 @@ class Administrador extends MX_Controller {
             $data["destinatarios"] = $this->usuario->obtenerDestinatariosPagina();
             $this->load->view("ajxdestinatarios",$data);
         }
+         //Procesa el ajax para mostrar los usuarios en datatable
+         public function directorioUsuarios(){
+            $this->load->model("usuario");
+            $data["usuarios"] = $this->usuario->obtenerUsuariosPagina();
+            
+            $this->load->view("ajxusuarios",$data);
+        }
 	
 	//Remueve las fuentes del directorio de fuentes. Operacion DELETE sobre el directorio de fuentes. Se eliminan los datos del periodo actual. 
 	//Si existen datos de periodos anteriores, estos datos se mantienen.
@@ -1177,7 +1184,7 @@ class Administrador extends MX_Controller {
 	}
 	
 	//Descarga del directorio de usuarios
-	public function directorioUsuarios(){
+	/*public function directorioUsuarios(){
 		$this->load->model("usuario");
 		$usuarios = $this->usuario->reporteDirectorioUsuarios();
 		$sheet = $this->phpexcel->getActiveSheet();
@@ -1212,7 +1219,7 @@ class Administrador extends MX_Controller {
 		$writer = new PHPExcel_Writer_Excel5($this->phpexcel);
 		header('Content-type: application/vnd.ms-excel');
 		$writer->save('php://output');
-	}
+	}*/
 	
 	//Muestra el formulario para realizar la captura de datos e ingresar los datos de un nuevo usuario del sistema (No para fuentes)
 	public function INSUsuario(){

@@ -69,6 +69,7 @@
   <th>Estatus de la carga</th>
   <th>Editar</th>
   <th><?php echo $campo1; ?> </th>
+</tr>
 </thead>
 <tbody>
 <?php 
@@ -96,15 +97,7 @@ for ($i=0; $i<count($control); $i++){
 <tr>
 </tr>
 </tbody>
-<tfoot>
-	<tr>
-  		<td colspan="9">&nbsp;</td>
-	</tr>
-	<tr>
-		<td colspan="3" align="left">&nbsp;</td>
-		<td colspan="6" align="right" class="links"><?php echo $links; ?></td>
-	</tr>
-</tfoot>
+
 </table>
 </div>
 
