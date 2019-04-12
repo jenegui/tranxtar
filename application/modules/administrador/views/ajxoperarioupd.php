@@ -1,7 +1,9 @@
 <script type="text/javascript">
 $(function(){
-
-
+    $("#txtNumId").numerico().largo(18);
+    $("#teloperario").numerico().largo(18);
+    $("#txtNomUsuario").mayusculas().largo(80); 
+            
 	$("#cmbsede").cargarCombo("cmbsubsede","administrador/actualizarSubsedes");
 
 	$("#txtFecCreacion").datepicker();

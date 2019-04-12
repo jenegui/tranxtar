@@ -175,6 +175,10 @@ $(function () {
     $("#direccion").mayusculas().largo(80);
     $("#nom_contacto").mayusculas().largo(80);
     $("#idnomcomest").mayusculas().largo(80);
+    $("#pesokg").numerico();
+    $("#ancho").numerico();
+    $("#alto").numerico();
+    $("#largo").numerico();
     
     $("#cmbDeptoEstab").cargarCombo("cmbMpioEstab", "administrador/actualizarMunicipios");
     $("#cmbSedeEstab").cargarCombo("cmbSubSedeEstab", "administrador/actualizarSubsedes");
@@ -731,7 +735,7 @@ $(function () {
                 error.css('-webkit-border-radius','6px');
             },
             submitHandler: function (form) {
-                $("#pesokg").on("change",function(){
+                /*$("#pesokg").on("change",function(){
 			if($(this).prop('checked')){
 			$("#pesokg").parent().parent().removeClass("alert alert-danger");
 			$('#mensaje').html('');
@@ -746,7 +750,7 @@ $(function () {
                 if(!$("#pesokg").prop('checked') && !$("#pesovol").prop('checked')){
 			$("#pesokg").parent().parent().addClass("alert alert-danger");
 			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Por favor, seleccione una opción para continuar.</span></div>');
-		}else{
+		}else{*/
                     $.ajax({
                         type: "POST",
                         url: base_url + "administrador/insertarGuia",
@@ -761,7 +765,7 @@ $(function () {
                             //$("#agregarEmpresa").dialog('close');
                         }
                     });
-                }
+                //}
             }
         });
     });
@@ -786,6 +790,18 @@ $(function () {
                     required: true
                 },
                 txtFecEntrega: {
+                    required: true
+                },
+                pesokg: {
+                    required: true
+                },
+                ancho: {
+                    required: true
+                },
+                alto: {
+                    required: true
+                },
+                largo: {
                     required: true
                 },
                 unidades: {
@@ -843,6 +859,18 @@ $(function () {
                 },
                 txtFecEntrega: {
                     required: "Debe registrar la fecha de entrega"
+                },
+                pesokg: {
+                    required: "Debe ingresar el peso en Kg."
+                },
+                ancho: {
+                    required: "Debe ingresar el ancho en cm."
+                },
+                alto: {
+                    required: "Debe ingresar el alto en cm."
+                },
+                largo: {
+                    required: "Debe ingresar el largo en cm."
                 },
                 unidades: {
                     required: "Debe ingresar el No. de unidades"
@@ -905,7 +933,7 @@ $(function () {
                 error.css('-webkit-border-radius','6px');
             },
             submitHandler: function (form) {
-                $("#pesokg").on("change",function(){
+                /*$("#pesokg").on("change",function(){
 			if($(this).prop('checked')){
 			$("#pesokg").parent().parent().removeClass("alert alert-danger");
 			$('#mensaje').html('');
@@ -920,7 +948,7 @@ $(function () {
                 if(!$("#pesokg").prop('checked') && !$("#pesovol").prop('checked')){
 			$("#pesokg").parent().parent().addClass("alert alert-danger");
 			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Por favor, seleccione una opción para continuar.</span></div>');
-		}else{
+		}else{*/
                     $.ajax({
                         type: "POST",
                         url: base_url + "administrador/actualizarDatosControl",
@@ -929,13 +957,13 @@ $(function () {
                         cache: false,
                         success: function (data) {
                             if (data != "") {
-                                //alert(data);
+                                alert(data);
                             }
                             form.submit();
                             //$("#agregarEmpresa").dialog('close');
                         }
                     });
-                }
+                //}
             }
         });
     });
@@ -1166,7 +1194,7 @@ $(function () {
         $.ajax({url: base_url + "administrador/INSUsuario",
             type: "post",
             dataType: "html",
-            //alert(url);
+            //alert("url");
             success: function (data) {
                 $("#detalle").html(data);
             }
@@ -3036,83 +3064,65 @@ $(document).ready(function () {
 
 
 $(document).ready(function(){
-    $("#pesokg").change(function () {
+    $(".guia").change(function () {
         opcion=$(this).val();
-        if($(this).prop('checked')){
-             $("#pesovol").prop("disabled",true);
-             $("#pesovol").prop("checked",false);
-              $("#unidades").blur(function(){
+       
+        //if($(this).prop('checked')){
+            $(".totalFlete").blur(function(){
                 var result;
-                var res;
-                var cobrar;
+                var valorKilo;
+                var flete;
                 var pesocobrar;
                 var totalflete;
+                var pesoKg;
+                var pesoVol;
+                var alto;
+                var ancho;
+                var largo;
                 result=$('#iddestinatario').val().split(',');
-                    res=result[1]*$('#unidades').val(); 
-                    if(res<result[1]*30){
-                        cobrar=(result[1]*30)*$('#unidades').val();
-                        pesocobrar=result[1]*30;
+                valorKilo=result[1];
+                pesoKg=$('#pesokg').val();
+                alto=$('#alto').val()/100;
+                ancho=$('#ancho').val()/100;
+                largo=$('#largo').val()/100;
+                pesoVol=(alto*ancho*largo)*400;
+                
+                if(pesoVol>pesoKg){
+                    if(pesoVol<30){
+                        pesocobrar=valorKilo*30;
+                        flete=pesocobrar*parseInt($('#unidades').val());
                     }else{
-                        cobrar=result[1]*$('#unidades').val();
-                        pesocobrar=result[1];
+                        pesocobrar=valorKilo;
+                        flete=pesoVol*pesocobrar*$('#unidades').val();
                     }
-                    $("#pesocobrar").val(pesocobrar);
-                    $("#flete").val(cobrar);
-                    $('.calculatotflet').change(function(){
-                        totalflete=($('#valorDeclarado').val()*$('#costomanejo').val())+parseInt($('#flete').val());
-                        $("#totalflete").val(totalflete);
-                    });
+                }else{
+                    if(pesoKg<30){
+                        pesocobrar=valorKilo*30;
+                        flete=pesocobrar*parseInt($('#unidades').val());
+                    }else{
+                        pesocobrar=valorKilo;
+                        flete=pesoKg*pesocobrar*$('#unidades').val();
+                    }
+                }
+                $("#pesocobrar").val(pesocobrar);
+                $("#flete").val(flete);
+                totalflete=($('#valorDeclarado').val()*$('#costomanejo').val())+parseInt($('#flete').val());
+                $("#totalflete").val(totalflete);
+                
             });
-        }else{
+        /*}else{
             $("#pesovol").prop("disabled",false);
             $("#pesovol").prop("checked",false);
             $("#flete").val('');
             $("#pesocobrar").val('');
             $("#unidades").val('');
             $("#totalflete").val('');
-        }
+        }*/
         //$('#iddestinatario').change(function(){
            
     	//});
     })
-    $("#pesovol").change(function () {
-        opcion=$(this).val();
-        if($(this).prop('checked')){
-             $("#pesokg").prop("disabled",true);
-             $("#pesokg").prop("checked",false);
-                $("#unidades").blur(function(){
-                var result;
-                var res;
-                var cobrar;
-                var pesocobrar;
-                result=$('#iddestinatario').val().split(',');
-                    res=result[1]*$('#unidades').val(); 
-                    /*if(res<result[1]*30){
-                        cobrar=(result[1]*30)*$('#unidades').val();
-                        pesocobrar=result[1]*30;
-                    }else{
-                        cobrar=result[1]*$('#unidades').val();
-                        pesocobrar=result[1];
-                    }*/
-                    cobrar=result[1]*$('#unidades').val();
-                    pesocobrar=result[1];
-                    $("#pesocobrar").val(pesocobrar);
-                    $("#flete").val(cobrar);
-                   $('.calculatotflet').change(function(){
-                        totalflete=($('#valorDeclarado').val()*$('#costomanejo').val())+parseInt($('#flete').val());
-                        $("#totalflete").val(totalflete);
-                    });
-                    
-            });
-        }else{
-            $("#pesokg").prop("disabled",false);
-            $("#pesokg").prop("checked",false);
-            $("#flete").val('');
-            $("#pesocobrar").val('');
-            $("#unidades").val('');
-            $("#totalflete").val('');
-        }
-    })
+    
 });
 
   
@@ -3323,6 +3333,56 @@ $(document).ready(function(){
                             { mData: 'Id' },
                             { mData: 'nombre' },
                             { mData: 'rol' },
+                            { mData: 'estado' },
+                            { mData: 'editar' }  
+                    ]
+                    
+     } );
+});
+$(document).ready(function(){
+    $('#tablaOperarios').dataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend:    'copyHtml5',
+                        text:      '<i class="fa fa-files-o"></i>',
+                        titleAttr: 'Copy'
+                    },
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="fa fa-file-excel-o"></i>',
+                        titleAttr: 'Excel'
+                    },
+                    {
+                        extend:    'csvHtml5',
+                        text:      '<i class="fa fa-file-text-o"></i>',
+                        titleAttr: 'CSV'
+                    },
+                    {
+                        extend:    'pdfHtml5',
+                        text:      '<i class="fa fa-file-pdf-o"></i>',
+                        titleAttr: 'PDF'
+                    }
+                ],
+                    "sPaginationType": "full_numbers",
+                    "aaSorting": [[0, "asc" ]],
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bJQueryUI": true,
+                    "bAutoWidth": true, 
+                    "processing": true,
+                    "serverSide": true,
+                    "responsive": true,
+                    "bProcessing": true,
+                    "sAjaxSource": base_url +"administrador/directorioOperarios",
+                     "aoColumns": [
+                            { mData: 'nomOperario' },
+                            { mData: 'identificacion' },
+                            { mData: 'telefono' },
+                            { mData: 'placaVehiculo' },
                             { mData: 'estado' },
                             { mData: 'editar' }  
                     ]

@@ -88,9 +88,9 @@ $(function(){
         <option value="-">Seleccione el tipo de documento...</option>
         <?php for ($i=0; $i<count($tipodoc); $i++){
      	 		 if ($usuario["fk_tipodoc"]==$tipodoc[$i]["id"])
-         			echo '<option value="'.$tipodoc[$i]["id"].'" selected="selected">'.utf8_encode($tipodoc[$i]["nombre"]).'</option>';
+         			echo '<option value="'.$tipodoc[$i]["id"].'" selected="selected">'.$tipodoc[$i]["nombre"].'</option>';
          		 else	
-         		 	echo '<option value="'.$tipodoc[$i]["id"].'">'.utf8_encode($tipodoc[$i]["nombre"]).'</option>';
+         		 	echo '<option value="'.$tipodoc[$i]["id"].'">'.$tipodoc[$i]["nombre"].'</option>';
      	}?>
         </select>
     </td>
@@ -138,7 +138,23 @@ $(function(){
 </tr>
 
 <tr>
-    <td colspan="2">&nbsp;</td>
+    <td>Estado:</td>
+    <td>
+        <select id="estado" name="estado" class="select">
+               
+	      <?php 
+                $selectd1='';
+                $selectd2='';
+                if($usuario["estado"]=='A'){
+                      $selectd1='selected="selected"';
+                  }elseif($usuario["estado"]=='I'){
+                      $selectd2='selected="selected"';
+                  }
+                ?>
+              <option value="A" <?php echo $selectd1; ?>>Activo</option>
+              <option value="I" <?php echo $selectd2; ?>>Inactivo</option>
+            </select>
+    </td>
 </tr>
 <tr>
     <td colspan="2"><input type="submit" id="btnInsertar" name="btnInsertar" value="Modificar Datos" class="button"/></td>

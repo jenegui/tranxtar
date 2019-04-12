@@ -24,7 +24,7 @@
         <table>
             <tr>
                 <td>Cliente: </td>
-                <td><select id="idestablecimiento" name="idestablecimiento" class="select">
+                <td><select id="idestablecimiento" name="idestablecimiento" class="select guia">
                         <option value="-">Seleccione...</option>
                         <?php for ($i = 0; $i < count($establecimiento); $i++) { ?>
                             <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
@@ -34,15 +34,15 @@
             </tr>
             <tr>
                 <td>Fecha de recogida: </td>
-                <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y"); ?>" class="textbox"/></td>
+                <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y"); ?>" class="textbox guia"/></td>
             </tr>
             <tr>
                 <td>Fecha de entrega: </td>
-                <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="" class="textbox"/></td>
+                <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="" class="textbox guia"/></td>
             </tr>
             <tr>
                 <td>Destinatario: </td>
-                <td><select id="iddestinatario" name="iddestinatario" class="select selectDest">
+                <td><select id="iddestinatario" name="iddestinatario" class="select guia">
                         <option value="-">Seleccione...</option>
                         <?php for ($i = 0; $i < count($destinatario); $i++) { ?>
                             <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
@@ -53,7 +53,7 @@
             <tr>
                 <td>Forma de pago</td>
                 <td>
-                    <select id="formaPago" name="formaPago" class="select">
+                    <select id="formaPago" name="formaPago" class="select guia">
                         <option value="-">Seleccione...</option>  
                         <option value="1">Contado</option>
                         <option value="2">Contraentrega</option>
@@ -63,36 +63,40 @@
             </tr>
             <tr>
                 <td>Peso (Kgs): </td>
-                <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox"/></td>
+                <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox guia"/></td>
             </tr>
             <tr>
                 <td>Alto (cm): </td>
-                <td><input type="text" id="alto" name="alto" value="" size="5" class="textbox"/></td>
+                <td><input type="text" id="alto" name="alto" value="" size="5" class="textbox guia"/></td>
             </tr>
             <tr>
                 <td>Ancho (cm): </td>
-                <td><input type="text" id="ancho" name="ancho" value="" size="5" class="textbox"/></td>
+                <td><input type="text" id="ancho" name="ancho" value="" size="5" class="textbox guia"/></td>
             </tr>
             <tr>
                 <td>Largo (cm): </td>
-                <td><input type="text" id="largo" name="largo" value="" size="5" class="textbox"/></td>
+                <td><input type="text" id="largo" name="largo" value="" size="5" class="textbox guia"/></td>
+            </tr>
+            <tr>
+                <td>Unidades: </td>
+                <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox guia totalFlete"/></td>
             </tr>
             <tr>
                 <td>Peso a cobrar: </td>
-                <td><input type="text" id="pesocobrar" name="pesocobrar" value="" size="15" class="textbox"/></td>
+                <td><input type="text" id="pesocobrar" name="pesocobrar" value="" size="15" class="textbox guia"/></td>
             </tr>
             <tr>
                 <td>Valor declarado: </td>
-                <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="" size="15" class="textbox"/></td>
+                <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="" size="15" class="textbox guia totalFlete"/></td>
             </tr>
             <tr>
                 <td>Flete: </td>
-                <td><input type="text" id="flete" name="flete" value="" size="15" class="textbox calculatotflet"/></td>
+                <td><input type="text" id="flete" name="flete" value="" size="15" class="textbox guia totalFlete"/></td>
             </tr>
             <tr>
                 <td>Costo manejo</td>
                 <td>
-                    <select id="costomanejo" name="costomanejo" class="select calculatotflet">
+                    <select id="costomanejo" name="costomanejo" class="select guia totalFlete">
                         <option value="-">Seleccione...</option>
                         <option value="0.01">1%</option>
                         <option value="0.03">3%</option>

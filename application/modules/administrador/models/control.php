@@ -87,7 +87,7 @@ class Control extends CI_Model {
         $sql = "SELECT C.id_control, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.iddirecc, EST.idtelno,
                         C.fecha_recogida, C.fecha_entrega, C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
                         DEST.ciudad_destinatario, DEST.depto_destinatario,DEST.direccion_destinatario, DEST.telefono_destinatario,
-    	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
+    	               C.forma_pago, C.unidades, C.peso, C.pv_alto, C.pv_ancho, C.pv_largo, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
                        C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones, C.estado_contable, C.estado_control,
                        C.estado_recaudo, C.estado_carga, E.nom_estado
                 FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST, txtar_param_estados E
@@ -120,7 +120,9 @@ class Control extends CI_Model {
                 $control["forma_pago"] = $row->forma_pago;
                 $control["unidades"] = $row->unidades;
                 $control["peso"] = $row->peso;
-                $control["peso_vol"] = $row->peso_vol;
+                $control["alto"] = round($row->pv_alto);
+                $control["ancho"] = round($row->pv_ancho);
+                $control["largo"] = round($row->pv_largo);               
                 $control["peso_cobrar"] = $row->peso_cobrar;
                 $control["valor_declarado"] = $row->valor_declarado;
                 $control["flete"] = $row->flete;
@@ -147,7 +149,7 @@ class Control extends CI_Model {
     }
 
     	//Crea los registros de control cuando se realiza el cargue masivo del directorio
-	 function insertarControlGuia($idestablecimiento, $txtFecRecogida, $txtFecEntrega,$iddestinatario,$formaPago,$pesokg,$pesovol,$unidades,$pesocobrar,$valorDeclarado,
+	 function insertarControlGuia($idestablecimiento, $txtFecRecogida, $txtFecEntrega,$iddestinatario,$formaPago,$pesokg,$alto,$ancho,$largo,$unidades,$pesocobrar,$valorDeclarado,
                  $flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext,$estadocarga,$estadoRecogida,$observaciones,$idusaurio,$fechaRegistro){
 	 	$data = array(
                             'id_establecimientos' => $idestablecimiento, 
@@ -157,7 +159,9 @@ class Control extends CI_Model {
 	 	              'forma_pago' => $formaPago, 
 	 	              'unidades' => $unidades,  
 	 	              'peso' => $pesokg, 
-	 	              'peso_vol' => $pesovol, 
+	 	              'pv_alto' => $alto, 
+	 	              'pv_ancho' => $ancho, 
+	 	              'pv_largo' => $largo, 
 	 	              'peso_cobrar' => $pesocobrar,
                               'valor_declarado' => $valorDeclarado,
 	 	              'flete' => $flete, 
@@ -176,16 +180,18 @@ class Control extends CI_Model {
 	 	$this->db->close();
 	 }
     //Actualiza oa información del control de las guias     
-    function actualizarDatosControl($id_control, $idestablecimiento, $txtFecRecogida, $txtFecEntrega, $iddestinatario, $formaPago, $pesokg, $pesovol, $unidades, 
-            $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones){
+    function actualizarDatosControl($id_control, $idestablecimiento, $fecharecog, $fechaentr, $iddestinatario, $formaPago, $pesokg, $alto, $ancho, $largo,
+            $unidades, $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observ){
     	$data = array('id_establecimientos' => $idestablecimiento,
-		     'fecha_recogida' => $txtFecRecogida,
-		     'fecha_entrega' => $txtFecEntrega,
+		     'fecha_recogida' => $fecharecog,
+		     'fecha_entrega' => $fechaentr,
 		     'id_destinatario' => $iddestinatario,
 		     'forma_pago' => $formaPago,
 		     'unidades' => $unidades,
 		     'peso' => $pesokg,
-		     'peso_vol' => $pesovol,
+		     'pv_ancho' => $ancho,
+		     'pv_alto' => $alto,
+		     'pv_largo' => $largo,
 		     'peso_cobrar' => $pesocobrar,
 		     'valor_declarado' => $valorDeclarado,
 		     'flete' => $flete,
@@ -194,7 +200,7 @@ class Control extends CI_Model {
 		     'id_usuario_operario' => $idoperario,
 		     'nro_placa' => $numplaca,
 		     'id_operario' => $idoperarioext,
-		     'observaciones' => $observaciones,
+		     'observaciones' => $observ,
 		     'estado_carga' => $estadocarga,
                      'estado_control' => $estadoRecogida   
 		);

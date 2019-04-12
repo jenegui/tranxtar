@@ -4,6 +4,10 @@ $(function(){
 
 	$("#unidades").numerico();
 	$("#peso").numerico();
+	$("#pesokg").numerico();
+	$("#ancho").numerico();
+	$("#alto").numerico();
+	$("#largo").numerico();
 	$("#pesovolumen").numerico();
 	$("#pesocobrar").numerico();
 	$("#flete").numerico();
@@ -26,7 +30,7 @@ $(function(){
 	<table>
 	<tr>
 	  <td>Cliente: </td>
-            <td><select id="idestablecimiento" name="idestablecimiento" class="select">
+            <td><select id="idestablecimiento" name="idestablecimiento" class="select guia">
                 <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($establecimiento); $i++){ 
                     if($control["id_establecimiento"]==$establecimiento[$i]["id_establecimiento"]){
@@ -45,15 +49,15 @@ $(function(){
 	</tr>
         <tr>
             <td>Fecha de recogida: </td>
-            <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y", strtotime($control["fecha_recogida"])); ?>" class="textbox"/></td>
+            <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y", strtotime($control["fecha_recogida"])); ?>" class="textbox guia"/></td>
 	</tr>
 	<tr>
             <td>Fecha de entrega: </td>
-            <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="<?php echo date("d/m/Y", strtotime($control["fecha_entrega"])); ?>" class="textbox"/></td>
+            <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="<?php echo date("d/m/Y", strtotime($control["fecha_entrega"])); ?>" class="textbox guia"/></td>
 	</tr>
         <tr>
 	  <td>Destinatario: </td>
-	  <td><select id="iddestinatario" name="iddestinatario" class="select selectDest">
+	  <td><select id="iddestinatario" name="iddestinatario" class="select guia">
                  <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($destinatario); $i++){ 
                     if($control["id_dest"]==$destinatario[$i]["id_destinatario"]){
@@ -73,7 +77,7 @@ $(function(){
         <tr>
 	  <td>Forma de pago</td>
 	  <td>
-            <select id="formaPago" name="formaPago" class="select">
+            <select id="formaPago" name="formaPago" class="select guia">
                
 	      <?php 
                 $selectd1='';
@@ -94,45 +98,42 @@ $(function(){
           </td>    
 	</tr>
         <tr>
-           <td colspan="2">
-           <?php 
-                $checked1='';
-                $checked2='';
-                if($control["peso"]==1){
-                      $checked1='checked="checked"';
-                  }else{
-                      $checked2='checked="checked""';
-                  }
-                ?>    
-           <div class="form-group">
-             Peso (Kgs): &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-             <input type="checkbox" name="pesokg" id="pesokg" value="1" <?php echo $checked1; ?>><br>
-            Peso Volumen: &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; 
-            <input type="checkbox" name="pesovol" id="pesovol" value="2" <?php echo $checked2; ?>></div>
-            <div id="mensaje"></div>
-        </td>
-	</tr>
+            <td>Peso (Kgs): </td>
+            <td><input type="text" id="pesokg" name="pesokg" value="<?php echo $control["peso"]; ?>" size="10" class="textbox guia"/></td>
+        </tr>
+        <tr>
+            <td>Alto (cm): </td>
+            <td><input type="text" id="alto" name="alto" value="<?php echo $control["alto"]; ?>" size="5" class="textbox guia"/></td>
+        </tr>
+        <tr>
+            <td>Ancho (cm): </td>
+            <td><input type="text" id="ancho" name="ancho" value="<?php echo $control["ancho"]; ?>" size="5" class="textbox guia"/></td>
+        </tr>
+        <tr>
+            <td>Largo (cm): </td>
+            <td><input type="text" id="largo" name="largo" value="<?php echo $control["largo"]; ?>" size="5" class="textbox guia"/></td>
+        </tr>
 	<tr>
 	  <td>Unidades: </td>
-	  <td><input type="text" id="unidades" name="unidades" value="<?php echo $control["unidades"]; ?>" size="10" class="textbox"/></td>
+	  <td><input type="text" id="unidades" name="unidades" value="<?php echo $control["unidades"]; ?>" size="10" class="textbox guia"/></td>
 	</tr>
 	
 	<tr>
 	  <td>Peso a cobrar: </td>
-	  <td><input type="text" id="pesocobrar" name="pesocobrar" value="<?php echo $control["peso_cobrar"]; ?>" size="15" class="textbox"/></td>
+	  <td><input type="text" id="pesocobrar" name="pesocobrar" value="<?php echo $control["peso_cobrar"]; ?>" size="15" class="textbox guia"/></td>
 	</tr>
 	<tr>
 	  <td>Valor declarado: </td>
-	  <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="<?php echo $control["valor_declarado"]; ?>" size="15" class="textbox"/></td>
+	  <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="<?php echo $control["valor_declarado"]; ?>" size="15" class="textbox guia"/></td>
 	</tr>
 	<tr>
 	  <td>Flete: </td>
-	  <td><input type="text" id="flete" name="flete" value="<?php echo $control["flete"]; ?>" size="15" class="textbox calculatotflet"/></td>
+	  <td><input type="text" id="flete" name="flete" value="<?php echo $control["flete"]; ?>" size="15" class="textbox guia"/></td>
 	</tr>
         <tr>
 	  <td>Costo manejo</td>
 	  <td>
-            <select id="costomanejo" name="costomanejo" class="select calculatotflet">
+            <select id="costomanejo" name="costomanejo" class="select guia">
               <?php 
                 $selectd1='';
                 $selectd2='';

@@ -336,17 +336,7 @@ class Administrador extends MX_Controller {
             }
             $idusaurio=$this->session->userdata('id');
             $fechaRegistro= date("Y-m-d H:i:s"); 
-
-            if(!isset($pesokg)){
-                $pesokg1=0;
-            }else{
-                $pesokg1=$pesokg;
-            }
-            if(!isset($pesovol)){
-                $pesovol1=0;
-            }else{
-                $pesovol1=$pesovol;
-            }
+            
             if($idoperarioext=='-'){
                 $idoperarioext1=0;
             }else{
@@ -359,10 +349,9 @@ class Administrador extends MX_Controller {
             $fechaentr=$fechaent[2].'-'.$fechaent[1].'-'.$fechaent[0];
             $observ=$observaciones." Se modificaron los datos con el usuario  ".$idusaurio.", el ".$fechaRegistro;
             //Actualizar los datos del destinatario
-            $this->control->actualizarDatosControl($id_control, $idestablecimiento, $fecharecog, $fechaentr, $iddestinatario, $formaPago, $pesokg1, $pesovol1, $unidades, $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observ);
-                                                   
-
-            redirect("/administrador/editarControl/$id_control", "refresh");
+            $this->control->actualizarDatosControl($id_control, $idestablecimiento, $fecharecog, $fechaentr, $iddestinatario, $formaPago, $pesokg, $alto, $ancho, $largo, $unidades, $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observ);
+            echo "¡Registro exitoso!.";                                       
+            redirect("/administrador/control", "refresh");
 	}
         
         //funcion para editar el estado de las Guias
@@ -570,29 +559,42 @@ class Administrador extends MX_Controller {
 	}
         
 	//Muestra el formulario para actualizar los datos de un usuario
-	public function UPDUsuario(){
+	public function UPDUsuario($id_usuario){
 		$this->load->model("usuario");
 		$this->load->model("tipodocs");
 		$this->load->model("rol");
+                $nom_usuario = $this->session->userdata("nombre");
+		$tipo_usuario = $this->session->userdata("tipo_usuario");
+                $data["controller"] = $this->session->userdata("controlador");
+                $data['tipo_usuario']=$this->session->userdata("controlador");
+                $data["menu"] = "adminmenu";
+                $data["nom_usuario"] = $nom_usuario;
 		$index = $this->input->post("index");
-               $data["index"] = $index;
+                $data["index"] = $id_usuario;
 		$data["tipodoc"] = $this->tipodocs->obtenerTipoDocumentos();
 		$data["roles"] = $this->rol->obtenerRolesUsuario();
-		$data["usuario"] = $this->usuario->obtenerUsuarioID($index);
-		$this->load->view("ajxusuarioupd",$data);			
+		$data["usuario"] = $this->usuario->obtenerUsuarioID($id_usuario);
+		$data["view"] = "ajxusuarioupd";
+                $this->load->view("layout",$data);
 	}
         
         //Muestra el formulario para actualizar los datos de un operario
-	public function UPDOperario(){
+	public function UPDOperario($id_operario){
 		$this->load->model("usuario");
 		$this->load->model("tipodocs");
 		//$this->load->model("rol");
+                $nom_usuario = $this->session->userdata("nombre");
+		$tipo_usuario = $this->session->userdata("tipo_usuario");
+                $data["controller"] = $this->session->userdata("controlador");
+                $data['tipo_usuario']=$this->session->userdata("controlador");
+                $data["menu"] = "adminmenu";
 		$index = $this->input->post("index");
-               $data["index"] = $index;
+                $data["index"] = $id_operario;
 		$data["tipodoc"] = $this->tipodocs->obtenerTipoDocumentos();
 		//$data["roles"] = $this->rol->obtenerRolesUsuario();
-		$data["operario"] = $this->usuario->obtenerOperarioID($index);
-                $this->load->view("ajxoperarioupd",$data);			
+		$data["operario"] = $this->usuario->obtenerOperarioID($id_operario);
+                $data["view"] = "ajxoperarioupd";
+                $this->load->view("layout",$data);
 	}
 	
 	//Elimina el registro de un usuario en Administrador/Usuarios/Eliminar Usuario
@@ -664,8 +666,9 @@ class Administrador extends MX_Controller {
   			eval($asignacion);
 		}
 		$password = $this->danecrypt->encode($txtPassword);
-		$this->usuario->actualizarUsuario($hddIndex, $txtNumId, $txtNomUsuario, $txtLogin, $password, $txtEmail, $txtFecCreacion, $txtFecVencimiento, $cmbRol, 0, 0, $cmbTipoDocumento);
-		redirect('/administrador/usuarios','refresh');
+		$this->usuario->actualizarUsuario($hddIndex, $txtNumId, $txtNomUsuario, $txtLogin, $password, $txtEmail, $txtFecCreacion, $txtFecVencimiento, $cmbRol, 0, 0, $cmbTipoDocumento, $estado);
+		echo "<script>alert('¡Registro exitoso!.');</script>";
+                redirect('/administrador/usuarios','refresh');
 	}
 	
         //Actualiza los datos de los operarios
@@ -1050,17 +1053,7 @@ class Administrador extends MX_Controller {
                 $idusaurio=$this->session->userdata('id');
                 $fechaRegistro= date("Y-m-d H:i:s"); 
                 
-		if(!isset($pesokg)){
-                    $pesokg1=0;
-                }else{
-                    $pesokg1=$pesokg;
-                }
-                if(!isset($pesovol)){
-                    $pesovol1=0;
-                }else{
-                    $pesovol1=$pesovol;
-                }
-                if($idoperarioext=='-'){
+		if($idoperarioext=='-'){
                     $idoperarioext1=0;
                 }else{
                     $idoperarioext1=$idoperarioext;
@@ -1077,7 +1070,7 @@ class Administrador extends MX_Controller {
                 
                 //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
                 //if (!$this->usuario->validaRegistroEstablecimiento(0, $txtNumEstab)){
-                        $this->control->insertarControlGuia($idestablecimiento, $fecharecog, $fechaentr,$iddestinatario,$formaPago,$pesokg1,$pesovol1,$unidades,$pesocobrar,$valorDeclarado,$flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext1,$estadocarga,$estadoRecogida1,$observaciones, $idusaurio,$fechaRegistro);
+                        $this->control->insertarControlGuia($idestablecimiento, $fecharecog, $fechaentr,$iddestinatario,$formaPago,$pesokg,$alto,$ancho,$largo,$unidades,$pesocobrar,$valorDeclarado,$flete,$costomanejo,$totalflete,$idoperario,$numplaca,$idoperarioext1,$estadocarga,$estadoRecogida1,$observaciones, $idusaurio,$fechaRegistro);
                         echo "La guia ha sido registrada.";
                 //}			
                /* else{
@@ -1155,6 +1148,13 @@ class Administrador extends MX_Controller {
             $data["usuarios"] = $this->usuario->obtenerUsuariosPagina();
             
             $this->load->view("ajxusuarios",$data);
+        }
+         //Procesa el ajax para mostrar los usuarios en datatable
+         public function directorioOperarios(){
+            $this->load->model("usuario");
+            $data["usuarios"] = $this->usuario->obtenerOperariosPagina();
+            
+            $this->load->view("ajxoperarios",$data);
         }
 	
 	//Remueve las fuentes del directorio de fuentes. Operacion DELETE sobre el directorio de fuentes. Se eliminan los datos del periodo actual. 
@@ -1464,8 +1464,9 @@ class Administrador extends MX_Controller {
 		
 		//Actualizar los datos del establecimiento
 		$this->establecimiento->actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
-		redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
-	}
+		echo "<script>alert('¡Registro exitoso!.');</script>";
+                redirect('/administrador/directorio','refresh');
+        }
         
 	//funcion para actualizar los datos de un destintatario
 	public function actualizarDatosDestinatario(){
@@ -1483,7 +1484,8 @@ class Administrador extends MX_Controller {
 		//Actualizar los datos del destinatario
 		$this->usuario->actualizarDestinatario($id_destinatario, $idnomdest, $identificacion, $tipoDocumento, $direccion, $telefono, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst);
 		
-                redirect("/administrador/editarDestinatario/$id_destinatario", "refresh");
+                echo "<script>alert('¡Registro exitoso!.');</script>";
+                redirect('/administrador/destinatarios','refresh');
 	}
 	
 	public function cambiarFuente(){

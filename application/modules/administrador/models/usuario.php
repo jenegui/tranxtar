@@ -18,7 +18,7 @@ class Usuario extends CI_Model {
     	$this->load->model("control");
     	
     	$usuario = array();
-    	$sql = "SELECT id_usuario, num_identificacion, nom_usuario, log_usuario, pass_usuario, mail_usuario, fec_creacion, fec_vencimiento, nro_orden, fk_rol, fk_sede, fk_subsede, fk_tipodoc
+    	$sql = "SELECT id_usuario, num_identificacion, nom_usuario, log_usuario, pass_usuario, mail_usuario, fec_creacion, fec_vencimiento, nro_orden, fk_rol, fk_sede, fk_subsede, fk_tipodoc, estado
                 FROM txtar_admin_usuarios
                 WHERE id_usuario = $id";
     	$query = $this->db->query($sql);
@@ -37,6 +37,7 @@ class Usuario extends CI_Model {
 				$usuario["sede"] = $row->fk_sede;
 				$usuario["subsede"] = $row->fk_subsede;
 				$usuario["fk_tipodoc"] = $row->fk_tipodoc;
+				$usuario["estado"] = $row->estado;
 				$usuario["fuentes"] = 0;
 			}
 		}
@@ -702,7 +703,7 @@ class Usuario extends CI_Model {
     }
     
     //Obtiene todos los operarios del sistema que no hacen parte de las fuentes (fk_rol <> 1)
-    function obtenerOperariosPagina($desde, $hasta){
+    function obtenerOperariosPagina(){
     	$usuarios = array();
     	$this->load->model("control");	
     	$this->load->model("rol");
@@ -715,8 +716,7 @@ class Usuario extends CI_Model {
             FROM txtar_param_operario a, txtar_param_tipodocs c
             WHERE
             fk_tipodoc=id_tipodoc
-            ORDER BY id_operario
-            LIMIT $desde, $hasta";
+            ORDER BY id_operario";
     	$query = $this->db->query($sql);
 		if ($query->num_rows()>0){
 			$i = 0;
@@ -926,7 +926,7 @@ class Usuario extends CI_Model {
     }
     
     //Actualiza los datos de un usuario que se encuentra en la B.D.
-    function actualizarUsuario($id, $numident, $nombre, $login, $password, $email, $feccrea, $fecvence, $rol, $sede, $subsede, $tipodoc) {
+    function actualizarUsuario($id, $numident, $nombre, $login, $password, $email, $feccrea, $fecvence, $rol, $sede, $subsede, $tipodoc, $estado) {
         $data = array('num_identificacion' => $numident,
             'nom_usuario' => $nombre,
             'log_usuario' => $login,
@@ -938,7 +938,7 @@ class Usuario extends CI_Model {
             'fk_sede' => $sede,
             'fk_subsede' => $subsede,
             'fk_tipodoc' => $tipodoc,
-            'estado' => 'A'
+            'estado' => $estado
         );
         $this->db->where('id_usuario', $id);
         $this->db->update('txtar_admin_usuarios', $data);
