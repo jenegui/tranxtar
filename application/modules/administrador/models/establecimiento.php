@@ -15,7 +15,7 @@ class Establecimiento extends CI_Model {
      */
     function obtenerEstablecimientos(){
     	$establecimiento = array();
-    	$sql = "SELECT id_establecimiento, concat_ws(' - ', nit_establecimiento, idnomcom) as establecimiento
+    	$sql = "SELECT id_establecimiento, concat_ws(' - ', idnomcom, iddirecc ) as establecimiento
    		FROM txtar_admin_establecimientos
    		ORDER BY establecimiento ASC ";
     	 

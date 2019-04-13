@@ -772,7 +772,7 @@ class Usuario extends CI_Model {
     //Obtiene todos los destinatarios del sistema 
     function obtenerDestinatarios() {
         $destinatarios = array();
-        $sql = "SELECT id_destinatario,  concat_ws(' - ', nro_identificacion, nombre_destinatario) as destinatario,
+        $sql = "SELECT id_destinatario,  concat_ws(' - ', nombre_destinatario, direccion_destinatario, nom_mpio) as destinatario,
             valor_kilo
             FROM  txtar_admin_destinatarios, txtar_param_mpios
             WHERE ciudad_destinatario=id_mpio

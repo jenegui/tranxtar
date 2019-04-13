@@ -19,7 +19,10 @@ $(function(){
 	$("#txtFecRecogida").datepicker();
 	$("#txtFecEntrega").datepicker();
 	$("#cmbsede").cargarCombo("cmbSubsede","administrador/actualizarSubsedes");
-        //$("#idestablecimiento").select2();
+         $("#iddestinatario").select2();
+        $("#idestablecimiento").select2();
+        $("#idoperario").select2();
+        $("#idoperarioext").select2();
  });
 
 </script>
@@ -30,7 +33,7 @@ $(function(){
 	<table>
 	<tr>
 	  <td>Cliente: </td>
-            <td><select id="idestablecimiento" name="idestablecimiento" class="select guia">
+            <td><select id="idestablecimiento" name="idestablecimiento" style="width:250px;" class="select guia">
                 <option value="-">Seleccione...</option>
                 <?php for ($i=0; $i<count($establecimiento); $i++){ 
                     if($control["id_establecimiento"]==$establecimiento[$i]["id_establecimiento"]){
@@ -40,33 +43,6 @@ $(function(){
                     else{
                 ?>    		
                         <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option>
-                <?php
-                    }
-                } 
-                ?>
-	      </select>
-	  </td>   
-	</tr>
-        <tr>
-            <td>Fecha de recogida: </td>
-            <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y", strtotime($control["fecha_recogida"])); ?>" class="textbox guia"/></td>
-	</tr>
-	<tr>
-            <td>Fecha de entrega: </td>
-            <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="<?php echo date("d/m/Y", strtotime($control["fecha_entrega"])); ?>" class="textbox guia"/></td>
-	</tr>
-        <tr>
-	  <td>Destinatario: </td>
-	  <td><select id="iddestinatario" name="iddestinatario" class="select guia">
-                 <option value="-">Seleccione...</option>
-                <?php for ($i=0; $i<count($destinatario); $i++){ 
-                    if($control["id_dest"]==$destinatario[$i]["id_destinatario"]){
-                ?>
-                        <option value="<?php echo $destinatario[$i]["id_destinatario"].','.$destinatario[$i]["valor_kilo"]; ?>" selected="selected"><?php echo $destinatario[$i]["destinatario"]; ?></option>
-                 <?php 	} 
-                    else{
-                ?>    		
-                        <option value="<?php echo $destinatario[$i]["id_destinatario"].','.$destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option>
                 <?php
                     }
                 } 
@@ -97,6 +73,34 @@ $(function(){
             </select>
           </td>    
 	</tr>
+        <tr>
+            <td>Fecha de recogida: </td>
+            <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y", strtotime($control["fecha_recogida"])); ?>" class="textbox guia"/></td>
+	</tr>
+	<tr>
+            <td>Fecha de entrega: </td>
+            <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="<?php echo date("d/m/Y", strtotime($control["fecha_entrega"])); ?>" class="textbox guia"/></td>
+	</tr>
+        <tr>
+	  <td>Destinatario: </td>
+	  <td><select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
+                 <option value="-">Seleccione...</option>
+                <?php for ($i=0; $i<count($destinatario); $i++){ 
+                    if($control["id_dest"]==$destinatario[$i]["id_destinatario"]){
+                ?>
+                        <option value="<?php echo $destinatario[$i]["id_destinatario"].','.$destinatario[$i]["valor_kilo"]; ?>" selected="selected"><?php echo $destinatario[$i]["destinatario"]; ?></option>
+                 <?php 	} 
+                    else{
+                ?>    		
+                        <option value="<?php echo $destinatario[$i]["id_destinatario"].','.$destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option>
+                <?php
+                    }
+                } 
+                ?>
+	      </select>
+	  </td>   
+	</tr>
+        
         <tr>
             <td>Peso (Kgs): </td>
             <td><input type="text" id="pesokg" name="pesokg" value="<?php echo $control["peso"]; ?>" size="10" class="textbox guia"/></td>

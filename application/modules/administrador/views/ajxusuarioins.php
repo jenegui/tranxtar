@@ -121,9 +121,6 @@ $(function(){
 </script>
 
 <?php $this->load->helper("url"); ?>
-   <br/>
-   <h1>Agregar Nuevo Usuario</h1>
-   <br/>
    <form id="frmINSusuario" name="frmINSusuario" method="post" action="<?php echo site_url("administrador/insertarUsuario"); ?>">
    <table width="100%">
    <tr>

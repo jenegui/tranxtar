@@ -38,6 +38,7 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/general/select2.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2_locale_es.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/jqueryui.js"); ?>"></script>
+            <!-- load jQuery 1.10.2 -->
             
              
             <!-- Fuente -->

@@ -8,7 +8,8 @@ $(function(){
 	$("#txtFecCreacion").datepicker();
 	$("#txtFecVencimiento").datepicker();
 	$("#cmbsede").cargarCombo("cmbSubsede","administrador/actualizarSubsedes");
-
+        $("#iddepto").select2();
+        $("#idmpio").select2();
 	$("#frmINSdestinatario").validate({
 		//Reglas de validacion
 		rules: {
@@ -137,7 +138,7 @@ $(function(){
 <?php $this->load->helper("url"); ?>
    <br/>
    <form id="frmINSdestinatario" name="frmINSdestinatario" method="post" action="<?php echo site_url("administrador/insertarDestinatario"); ?>">
-   <legend><b>Datos Destinatario</b></legend>
+   
 	<table>
 	<tr>
 	  <td>Nombre: </td>
@@ -176,7 +177,7 @@ $(function(){
 	</tr>	
 	<tr>
 	  <td>Departamento: </td>
-	  <td><select id="iddepto" name="iddepto" class="select">
+	  <td><select id="iddepto" name="iddepto" style="width:250px;" class="select">
 	      <option value="-">Seleccione...</option>
 	      <?php for ($i=0; $i<count($departamentos); $i++){ ?>
        	     <option value="<?php echo $departamentos[$i]["codigo"]; ?>"><?php echo $departamentos[$i]["nombre"]; ?></option>	
@@ -186,7 +187,7 @@ $(function(){
 	</tr>
 	<tr>
 	  <td>Municipio: </td>
-	  <td><select id="idmpio" name="idmpio" class="select">
+	  <td><select id="idmpio" name="idmpio" style="width:250px;" class="select">
 	      <option value="-">Seleccione...</option>
 	      <?php for ($i=0; $i<count($municipios); $i++){ ?>
              <option value="<?php echo $municipios[$i]["codigo"]; ?>"><?php echo $municipios[$i]["nombre"]; ?></option> 

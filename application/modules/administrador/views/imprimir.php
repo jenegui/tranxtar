@@ -80,17 +80,17 @@
             </p>
             <p>
             <?php
-                echo "Peso Kg: ".$guia['peso'];
-            ?>
-            </p>
-            <p>
-            <?php
-                echo "Peso vol: ".$guia['peso_vol'];
-            ?>
-            </p>
-            <p>
-            <?php
-                echo "Peso a cobrar: $".number_format($guia['peso_cobrar']);
+                $pesoVol=(($guia['alto']/100)*($guia['ancho']/100)*($guia['largo']/100))*400;
+                $pesoKg=$guia['peso'];
+                if($pesoVol>$pesoKg){
+                    echo '<p>';
+                        echo "Peso vol: ".$pesoVol;
+                    echo '</p>';
+                }else{
+                    echo '<p>';
+                        echo "Peso Kg: ".$guia['peso'];
+                    echo '</p>';
+                }
             ?>
             </p>
             <p>
@@ -114,8 +114,17 @@
             ?>
             </p>
             <p>
+            <?php
+                echo "Forma de pago: $".$guia['forma_pago'];
+            ?>
+            </p>
+            <p>
                <br>______________________________<br>
                Nombre quien recibe 
+            </p>
+            <p>
+                _____________________________<br>
+                N&uacute;mero de identificaci&oacute;n
             </p>
             <p>
                ______________________________<br>  

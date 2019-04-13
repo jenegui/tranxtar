@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
 
     $(function () {
@@ -15,37 +16,25 @@
         $("#txtFecRecogida").datepicker();
         $("#txtFecEntrega").datepicker();
         $("#cmbsede").cargarCombo("cmbSubsede", "administrador/actualizarSubsedes");
-        //$("#idestablecimiento").select2();
+       $("#iddestinatario").select2();
+       $("#idestablecimiento").select2();
+       $("#idoperario").select2();
+       $("#idoperarioext").select2();
     });
+    
 </script>
+
 <form id="frmAgregarGuia" name="frmAgregarGuia" method="post" action="">
     <br/>
+    
     <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
         <table>
             <tr>
                 <td>Cliente: </td>
-                <td><select id="idestablecimiento" name="idestablecimiento" class="select guia">
+                <td><select id="idestablecimiento" name="idestablecimiento" style="width:250px;" class="select guia">
                         <option value="-">Seleccione...</option>
                         <?php for ($i = 0; $i < count($establecimiento); $i++) { ?>
                             <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
-                        <?php } ?>
-                    </select>
-                </td>   
-            </tr>
-            <tr>
-                <td>Fecha de recogida: </td>
-                <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y"); ?>" class="textbox guia"/></td>
-            </tr>
-            <tr>
-                <td>Fecha de entrega: </td>
-                <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="" class="textbox guia"/></td>
-            </tr>
-            <tr>
-                <td>Destinatario: </td>
-                <td><select id="iddestinatario" name="iddestinatario" class="select guia">
-                        <option value="-">Seleccione...</option>
-                        <?php for ($i = 0; $i < count($destinatario); $i++) { ?>
-                            <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
                         <?php } ?>
                     </select>
                 </td>   
@@ -61,6 +50,25 @@
                     </select>
                 </td>    
             </tr>
+            <tr>
+                <td>Fecha de recogida: </td>
+                <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y"); ?>" class="textbox guia"/></td>
+            </tr>
+            <tr>
+                <td>Fecha de entrega: </td>
+                <td><input type="text" id="txtFecEntrega" name="txtFecEntrega" value="" class="textbox guia"/></td>
+            </tr>
+            <tr>
+                <td>Destinatario: </td>
+                <td><select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
+                        <option value="-">Seleccione...</option>
+                        <?php for ($i = 0; $i < count($destinatario); $i++) { ?>
+                            <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
+                        <?php } ?>
+                    </select>
+                </td>   
+            </tr>
+            
             <tr>
                 <td>Peso (Kgs): </td>
                 <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox guia"/></td>
@@ -112,7 +120,7 @@
                 <td>Operario interno </td>
                 <td>
 
-                    <select id="idoperario" name="idoperario" class="select">
+                    <select id="idoperario" name="idoperario" style="width:250px;" class="select">
                         <option value="-">Seleccione...</option>
                         <?php
                         for ($i = 0; $i < count($operarios); $i++) {
@@ -136,7 +144,7 @@
             </tr>
             <tr>
                 <td>Operario externo</td>
-                <td><select id="idoperarioext" name="idoperarioext" class="select">
+                <td><select id="idoperarioext" name="idoperarioext" style="width:250px;" class="select">
                         <option value="-">Seleccione...</option>
                         <?php for ($i = 0; $i < count($operariosExt); $i++) { ?>
                             <option value="<?php echo $operariosExt[$i]["nro_identificacion"]; ?>"><?php echo $operariosExt[$i]["nombre_operario"]; ?></option> 
