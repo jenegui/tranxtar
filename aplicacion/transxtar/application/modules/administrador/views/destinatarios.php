@@ -109,15 +109,17 @@
     $this->load->model("rol");
     $this->load->model("divipola");
     $this->load->model("establecimiento");
+    $this->load->model("usuario");
     $data["tipo_usuario"] = $this->session->userdata("tipo_usuario");
     
-    $data["id_usuario"] = $this->session->userdata('num_identificacion');
-    
+    $data["idCliente"] = $this->session->userdata('num_identificacion');
+    //echo "mmmm".$this->session->userdata("controlador");
     $data["departamentos"] = $this->divipola->obtenerDepartamentos();
     $data["municipios"] = $this->divipola->obtenerMunicipios(0);
     $data["tipodoc"] = $this->tipodocs->obtenerTipoDocumentos();
     $data["roles"] = $this->rol->obtenerRoles();
     $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
+    $data["clientes"] = $this->establecimiento->obtenerEstablecimientos();
     $this->load->view("ajxdestinarariosins", $data);
     ?>
 </div>

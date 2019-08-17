@@ -123,7 +123,7 @@ class Usuario extends CI_Model {
 		$total = 0;
 		$sql = "SELECT COUNT(*) AS total
 		        FROM txtar_admin_establecimientos E
-                        LEFT JOIN txtar_admin_usuarios U ON E.id_establecimiento=U.id_establecimiento 
+                        WHERE E.id_establecimiento NOT IN (select U.id_establecimiento from txtar_admin_usuarios U)
 		        ";
 		$query = $this->db->query($sql);
     	if ($query->num_rows()>0){
@@ -135,7 +135,28 @@ class Usuario extends CI_Model {
     	return $total;
 	}
 	
-	
+        function traerFuentes($uno, $dos){
+		$fuentes = array();
+		$sql = "SELECT E.id_establecimiento, nit_establecimiento, idnomcom,
+                        idcorreo, idtelno
+		        FROM txtar_admin_establecimientos E
+                        WHERE E.id_establecimiento NOT IN (select U.id_establecimiento from txtar_admin_usuarios U)
+                        ";
+		$query = $this->db->query($sql);
+    	if ($query->num_rows()>0){
+    		$i = 0;
+    		foreach($query->result() as $row){
+                    $fuentes[$i]["id_establecimiento"] = $row->id_establecimiento;
+                    $fuentes[$i]["nit_establecimiento"] = $row->nit_establecimiento;
+                    $fuentes[$i]["idnomcom"] = $row->idnomcom;
+                    $fuentes[$i]["idcorreo"] = $row->idcorreo;
+                    $fuentes[$i]["idtelno"] = $row->idtelno;
+                    $i++;
+    		}
+    	}
+    	$this->db->close();
+    	return $fuentes;
+	}
 	
 	
  	//Obtiene todos los usuarios del sistema que son fuentes (Sin paginacion)
@@ -228,7 +249,7 @@ class Usuario extends CI_Model {
     }
     
     //Inserta el registro de un nuevo usuario en la base de datos
-    function insertarUsuario($num_identificacion, $nom_usuario, $log_usuario, $pass_usuario, $mail_usuario, $fec_creacion, $fec_vencimiento, $nro_orden, $nro_establecimiento, $fk_tipodoc, $fk_rol, $fk_sede, $fk_subsede) {
+    function insertarUsuario($num_identificacion, $nom_usuario, $log_usuario, $pass_usuario, $mail_usuario, $fec_creacion, $fec_vencimiento, $nro_orden, $id_estab, $nro_telefono, $fk_tipodoc, $fk_rol, $fk_sede, $fk_subsede) {
         //Verificar que el usuario no exista ya en la base de datos
         $data = array('num_identificacion' => $num_identificacion,
             'nom_usuario' => $nom_usuario,
@@ -238,13 +259,24 @@ class Usuario extends CI_Model {
             'fec_creacion' => $fec_creacion,
             'fec_vencimiento' => $fec_vencimiento,
             'nro_orden' => $nro_orden,
-            'nro_establecimiento' => $nro_establecimiento,
+            'id_establecimiento' => $id_estab,
+            'nro_telefono' => $nro_telefono,
             'fk_tipodoc' => $fk_tipodoc,
             'fk_rol' => $fk_rol,
             'fk_sede' => $fk_sede,
             'fk_subsede' => $fk_subsede
         );
         $this->db->insert('txtar_admin_usuarios', $data);
+        $this->db->close();
+    }
+    //Inserta el registro de un nuevo usuario en la base de datos
+    function insertarNotifica($id_est, $pass, $notifica) {
+        //Verificar que el usuario no exista ya en la base de datos
+        $data = array('id_establecimientos' => $id_est,
+            'usuario' => $pass,
+            'notifica' => $notifica
+        );
+        $this->db->insert('txtar_admin_notifica', $data);
         $this->db->close();
     }
     
@@ -258,7 +290,7 @@ class Usuario extends CI_Model {
             'nro_placa' => $numplaca,
             'fecha_registro' => $fecini,
             'id_usuario' => $usuario,
-            'estado_operario' => 1
+            'estado_operario' => $estado
         );
         $this->db->insert('txtar_param_operario', $data);
         $this->db->close();
@@ -279,6 +311,7 @@ class Usuario extends CI_Model {
         );
         $this->db->insert('txtar_admin_destinatarios', $data);
         $this->db->close();
+        //echo $this->db->last_query();
     }
     
     //Obtiene el ID de usuario del ultimo usuario que se inserto en la B.D.
@@ -358,11 +391,11 @@ class Usuario extends CI_Model {
     }
     
     //Funcion que me indica si un establecimiento ya esta registrado en el directorio de empresas (Para un a�o y periodo).
-    function validaRegistroEstablecimiento($nro_orden, $nro_establecimiento){
+    function validaRegistroEstablecimiento($nro_establecimiento){
     	$retorno = false;
     	$sql = "SELECT *
                 FROM txtar_admin_establecimientos ES
-                WHERE ES.id_establecimiento = $nro_establecimiento";    	
+                WHERE ES.nit_establecimiento = $nro_establecimiento";    	
     	$query = $this->db->query($sql);
     	if ($query->num_rows()>0){
     		$retorno = true;
@@ -447,13 +480,13 @@ class Usuario extends CI_Model {
     	return $datos;
     }
     //Funcion para consultar los datos deL destinatario
-    function obtenerDatosDestinatario($id_destinatario){
+    function obtenerDatosDestinatario($nro_identificacion){
     	$datos = array();
     	$sql = "SELECT d.id_destinatario, d.nro_identificacion, d.tipo_identificacion, d.nombre_destinatario,
                 d.ciudad_destinatario, d.depto_destinatario, d.direccion_destinatario, d.telefono_destinatario,
                 d.correo_destinatario, d.contacto_destinatario
                 FROM txtar_admin_destinatarios d
-                WHERE id_destinatario = $id_destinatario
+                WHERE nro_identificacion = $nro_identificacion
                 ";
     	$query = $this->db->query($sql);
     	if ($query->num_rows() > 0) {
@@ -742,8 +775,9 @@ class Usuario extends CI_Model {
             depto_destinatario, direccion_destinatario, telefono_destinatario, contacto_destinatario
             FROM  txtar_admin_destinatarios a, txtar_param_tipodocs b 
             WHERE
-            	id_tipodoc=tipo_identificacion
-            ORDER BY id_destinatario";
+            	id_tipodoc=tipo_identificacion 
+                ORDER BY id_destinatario";
+            //echo $sql;
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $i = 0;
@@ -812,7 +846,7 @@ class Usuario extends CI_Model {
         $operarios = array();
         $sql = "SELECT id_operario, nro_identificacion, nombre_operario      
             FROM  txtar_param_operario
-            WHERE estado_operario = 1
+            WHERE estado_operario=1
             ORDER BY nro_identificacion";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
@@ -898,11 +932,14 @@ class Usuario extends CI_Model {
         
     }
      //Verifica que un numero de identificacion no exista ya dentro de la base de datos. 
-    function numIdentDestinanarioExiste($tipo, $numdoc){
+    function numIdentDestinanarioExiste($tipo, $numdoc, $idmpio, $direccion){
     	$sql = "SELECT 	tipo_identificacion, nro_identificacion
                 FROM txtar_admin_destinatarios
                 WHERE tipo_identificacion = $tipo
-                AND nro_identificacion = $numdoc";
+                AND nro_identificacion = $numdoc
+                AND ciudad_destinatario = $idmpio
+                AND direccion_destinatario = '$direccion'";
+      
     	$query = $this->db->query($sql);
     	if ($query->num_rows() > 0){
     		$this->db->close();
@@ -940,6 +977,25 @@ class Usuario extends CI_Model {
             'estado' => $estado
         );
         $this->db->where('id_usuario', $id);
+        $this->db->update('txtar_admin_usuarios', $data);
+        //echo $this->db->last_query();
+    }
+    //Registra los datos de los usuarios de los clientes en la bd
+    function registraUsuarios($numident, $nombre, $login, $password, $email, $feccrea, $fecvence, $rol, $sede, $subsede, $tipodoc, $estado) {
+        $data = array('num_identificacion' => $numident,
+            'nom_usuario' => $nombre,
+            'log_usuario' => $login,
+            'pass_usuario' => $password,
+            'mail_usuario' => $email,
+            'fec_creacion' => $feccrea,
+            'fec_vencimiento' => $fecvence,
+            'fk_rol' => $rol,
+            'fk_sede' => $sede,
+            'fk_subsede' => $subsede,
+            'fk_tipodoc' => $tipodoc,
+            'estado' => $estado
+        );
+       // $this->db->where('id_usuario', $id);
         $this->db->update('txtar_admin_usuarios', $data);
         //echo $this->db->last_query();
     }

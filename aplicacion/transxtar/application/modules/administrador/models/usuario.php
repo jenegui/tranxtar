@@ -297,7 +297,7 @@ class Usuario extends CI_Model {
     }
     
     //Inserta el registro de un nuevo destinatario en la base de datos
-    function insertarDestinatario($txtNomDest, $txtIdDest, $tipoDocumento, $txtDirDest, $idtelefono, $idcorreo, $iddepto, $idmpio, $nom_contacto) {
+    function insertarDestinatario($txtNomDest, $txtIdDest, $tipoDocumento, $txtDirDest, $idtelefono, $idcorreo, $iddepto, $idmpio, $nom_contacto, $id_cliente) {
         //Verificar que el usuario no exista ya en la base de datos
         $data = array('nro_identificacion' => $txtIdDest,
             'tipo_identificacion' => $tipoDocumento,
@@ -307,7 +307,8 @@ class Usuario extends CI_Model {
             'direccion_destinatario' => $txtDirDest,
             'telefono_destinatario' => $idtelefono,
             'correo_destinatario' => $idcorreo,
-            'contacto_destinatario' => $nom_contacto
+            'contacto_destinatario' => $nom_contacto,
+            'id_establecimiento' => $id_cliente
         );
         $this->db->insert('txtar_admin_destinatarios', $data);
         $this->db->close();
@@ -766,18 +767,22 @@ class Usuario extends CI_Model {
     }
     
     //Obtiene todos los destinatarios del sistema 
-    function obtenerDestinatariosPagina() {
+    function obtenerDestinatariosPagina($identificacion) {
         $destinatarios = array();
         $this->load->model("control");
         $this->load->model("rol");
         $this->load->model("divipola");
         $sql = "SELECT id_destinatario, nro_identificacion, tipo_identificacion, nom_tipodoc, nombre_destinatario, ciudad_destinatario, 
-            depto_destinatario, direccion_destinatario, telefono_destinatario, contacto_destinatario
+            depto_destinatario, direccion_destinatario, telefono_destinatario, contacto_destinatario, id_establecimiento
             FROM  txtar_admin_destinatarios a, txtar_param_tipodocs b 
             WHERE
-            	id_tipodoc=tipo_identificacion 
-                ORDER BY id_destinatario";
-            //echo $sql;
+            	id_tipodoc=tipo_identificacion ";
+                if($identificacion !=0 ){
+                    $sql.= "AND id_establecimiento= $identificacion ";
+                } 
+                $sql.= " ORDER BY id_destinatario";
+
+            
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $i = 0;
@@ -792,6 +797,7 @@ class Usuario extends CI_Model {
                 $destinatarios[$i]["direccion_destinatario"] = $row->direccion_destinatario;
                 $destinatarios[$i]["telefono_destinatario"] = $row->telefono_destinatario;
                 $destinatarios[$i]["contacto_destinatario"] = $row->contacto_destinatario;
+                $destinatarios[$i]["id_establecimiento"] = $row->id_establecimiento;
 
                 $i++;
             }
@@ -803,7 +809,7 @@ class Usuario extends CI_Model {
     function obtenerDestinatarios() {
         $destinatarios = array();
         $sql = "SELECT id_destinatario,  concat_ws(' - ', nombre_destinatario, direccion_destinatario, nom_mpio) as destinatario,
-            valor_kilo
+            valor_kilo, id_establecimiento
             FROM  txtar_admin_destinatarios, txtar_param_mpios
             WHERE ciudad_destinatario=id_mpio
             ORDER BY id_destinatario";
@@ -814,6 +820,7 @@ class Usuario extends CI_Model {
                 $destinatarios[$i]["id_destinatario"] = $row->id_destinatario;
                 $destinatarios[$i]["destinatario"] = $row->destinatario;
                 $destinatarios[$i]["valor_kilo"] = $row->valor_kilo;
+                $destinatarios[$i]["id_establecimiento"] = $row->id_establecimiento;
                 $i++;
             }
         }
@@ -932,13 +939,14 @@ class Usuario extends CI_Model {
         
     }
      //Verifica que un numero de identificacion no exista ya dentro de la base de datos. 
-    function numIdentDestinanarioExiste($tipo, $numdoc, $idmpio, $direccion){
+    function numIdentDestinanarioExiste($tipo, $numdoc, $idmpio, $direccion, $id_cliente){
     	$sql = "SELECT 	tipo_identificacion, nro_identificacion
                 FROM txtar_admin_destinatarios
                 WHERE tipo_identificacion = $tipo
                 AND nro_identificacion = $numdoc
                 AND ciudad_destinatario = $idmpio
-                AND direccion_destinatario = '$direccion'";
+                AND direccion_destinatario = '$direccion'
+                AND id_establecimiento = $id_cliente ";
       
     	$query = $this->db->query($sql);
     	if ($query->num_rows() > 0){

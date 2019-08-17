@@ -3,12 +3,25 @@
     <!-- Logo -->
 
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 head">
 
-            <img class="img-responsive" src="../../../../../img/logos/logo-transxtar.png" alt="Transxtar SAS">
+            <img class="img-responsive pequena" src="<?php echo base_url("images/logo-transxtar.png"); ?>">
 
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9">
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-3 text-center head">
+            <span alingn="center">
+                Tranxtar SAS</br>
+                Dirección: AV. Calle 6 # 31B-69</br>
+                Teléfono: 6 961 068 
+                <br>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <br>
         </div>
     </div>
     <!-- Contenido -->
@@ -38,13 +51,15 @@
             <?php
             echo "<b>Direcci&oacute;n</b>: " . $guia['iddirecc'];
             ?>
-        </div>    
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-            <?php
-            echo "<b>Tel&eacute;fono</b>: " . $guia['idtelno'];
-            ?>
         </div>
     </div>
+    <!--div class="row">    
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+            <?php
+            //echo "<b>Tel&eacute;fono</b>: " . $guia['idtelno'];
+            ?>
+        </div>
+    </div-->
     <div class="row">    
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-12">
             <?php
@@ -57,7 +72,9 @@
             <?php
             echo "<b>Ciudad dest</b>: " . $guia['ciudadDest'];
             ?>
-        </div>    
+        </div>
+    </div>
+    <div class="row">    
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
             echo "<b>Departamento dest</b>: " . $guia['deptoDest'];
@@ -69,19 +86,23 @@
             <?php
             echo "<b>Direcci&oacute;n dest</b>: " . $guia['direccion_destinatario'];
             ?>
-        </div>    
+        </div>
+    </div>
+    <!--div class="row">    
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
-            echo "<b>Tel&eacute;fono dest</b>: " . $guia['telefono_destinatario'];
+            //echo "<b>Tel&eacute;fono dest</b>: " . $guia['telefono_destinatario'];
             ?>
         </div>     
-    </div>
+    </div-->
     <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
             echo "<b>Unidades</b>: " . $guia['unidades'];
             ?>
-        </div>    
+        </div>
+    </div>
+    <div class="row">    
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
             $pesoVol = (($guia['alto'] / 100) * ($guia['ancho'] / 100) * ($guia['largo'] / 100)) * 400;
@@ -99,7 +120,9 @@
             <?php
             echo "<b>Valor declarado</b>: $" . number_format($guia['valor_declarado']);
             ?>
-        </div>    
+        </div>
+    </div>
+    <div class="row">    
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
             echo "<b>Flete</b>: $" . number_format($guia['flete']);
@@ -111,7 +134,9 @@
             <?php
             echo "<b>Costo manejo</b>: " . ($guia['costo_manejo'] * 100) . "%";
             ?>
-        </div>    
+        </div>
+    </div>
+    <div class="row">    
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
             echo "<b>Total flete</b>: $" . number_format($guia['total_fletes']);
@@ -151,16 +176,12 @@
             <br>
         </div>
     </div>
-
+    <div><br></div>
 <!-- Footer -->
     <div>
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-3 text-center">
-                <span>
-                    Transportar SAS</br>
-                    Dirección: AV. Calle 6 # 31B-69</br>
-                    Teléfono: 6 961 068 
-                </span>
+            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-3 text-center pie">
+                
 
             </div>
         </div>
@@ -175,17 +196,59 @@
 
                 function printDiv()
                 {
-
                     var divToPrint = document.getElementById('DivIdToPrint');
-
                     var newWin = window.open('', 'Print-Window');
-
+                    var htmlToPrint = '' +
+                    '<style type="text/css">' +
+                    'table th, table td {' +
+                    'border:1px solid #000;' +
+                    'padding;0.5em;' +
+                    '}' +
+                    '@page {'+
+                    'size: auto;'+
+                    'margin: 10%;'+
+                    '}'+
+                    '@page :first  {'+
+                    'margin-top: 0.3cm;'+
+                    '}'+
+                    '@page :right {'+
+                    'margin-left: 14cm;'+
+                    'margin-right: 13cm;'+
+                    '}'+
+                    'div.container {'+
+                    'font-size : 9pt;'+ 
+                    'font-family : arial,helvetica;'+ 
+                    'font-weight : normal;'+
+                    'text-align: justify;'+
+                    '}'+
+                    'div.head {'+
+                    'font-size : 7pt;'+ 
+                    'font-family : arial,helvetica;'+ 
+                    'font-weight : normal;'+
+                    'margin-left: auto;'+
+                    'margin-right: auto;'+
+                    'text-align: center;'+
+                    '}'+
+                    'img.pequena{'+
+                    'width: 150px; height: 90   px;'+
+                    '}'+
+                    '@page { margin: 0; }'+
+                    '@media print {'+
+                    '@page { margin: 0; }'+
+                    'body { margin-top: 3.0cm; }'+
+                    'body { margin-left: 7.0cm; }'+
+                    'body { margin-right: 8.0cm; }'+
+                    '}'+
+                    '</style>';
+                    htmlToPrint += divToPrint.outerHTML;
                     newWin.document.open();
-
-                    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
-
+                    newWin.document.write('<html>');
+                    newWin.document.write('<head>');
+                    newWin.document.write('</head>');
+                    newWin.document.write('<body onload="window.print()">' + htmlToPrint + '</body>');
+                    newWin.document.write('</html>'); 
                     newWin.document.close();
-
+                    
                     setTimeout(function () {
                         newWin.close();
                     }, 10);

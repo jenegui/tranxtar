@@ -175,6 +175,7 @@ $(function () {
     $("#direccion").mayusculas().largo(80);
     $("#nom_contacto").mayusculas().largo(80);
     $("#idnomcomest").mayusculas().largo(80);
+    $("#valorpesokg").numerico().largo(8);
     $("#pesokg").numerico();
     $("#ancho").numerico();
     $("#alto").numerico();

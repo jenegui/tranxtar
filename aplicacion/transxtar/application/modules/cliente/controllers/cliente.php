@@ -24,6 +24,70 @@ class Cliente extends MX_Controller {
         $data["menu"] = "clientemenu";
         $this->load->view("layout", $data);
     }
+    
+     //function para editar los datos de la fuente en el directorio de fuentes
+    public function editarFuente() {
+        $this->load->model("divipola");
+        $this->load->model("empresa");
+        $this->load->model("establecimiento");
+        $data["controller"] = "administrador";
+        
+        $nro_establecimiento = $this->session->userdata("num_identificacion");
+       
+        $data["view"] = "detalle";
+        $nom_usuario = $this->session->userdata("nombre");
+        $tipo_usuario = $this->session->userdata("tipo_usuario");
+        $data['tipo_usuario'] = $this->session->userdata("controlador");
+        $data["nom_usuario"] = $nom_usuario;
+        $data["menu"] = "clientemenu";
+        $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+        $data["municipios"] = $this->divipola->obtenerMunicipios("");
+        $data["establecimiento"] = $this->establecimiento->obtenerDatosEstablecimiento($nro_establecimiento);
+
+        $this->load->view("layout_1", $data);
+    }
+    
+     //funcion para actualizar los datos de una fuente
+    public function actualizarDatosFuente() {
+        //$this->load->model("procedure");
+        $this->load->model("empresa");
+        $this->load->model("establecimiento");
+        //Recibir todas las variables que vengan enviadas por POST
+        foreach ($_POST as $nombre_campo => $valor) {
+
+            $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+            eval($asignacion);
+        }
+
+        //Actualizar los datos del establecimiento
+        $this->establecimiento->actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
+        //echo "<script>alert('¡Registro exitoso!.');</script>";
+        redirect('/cliente/editarFuente', 'refresh');
+    }
+    
+     //function para editar los datos del destinatario en el directorio de fuentes
+    public function editarDestinatario() {
+        $this->load->model("divipola");
+        $this->load->model("empresa");
+        $this->load->model("usuario");
+        $this->load->model("tipodocs");
+        $data["controller"] = $this->session->userdata("controlador");
+       
+        $nro_ident = $this->session->userdata("num_identificacion");
+        $data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
+
+        $data["view"] = "editardest";
+
+        $nom_usuario = $this->session->userdata("nombre");
+        $tipo_usuario = $this->session->userdata("tipo_usuario");
+        $data['tipo_usuario'] = $this->session->userdata("controlador");
+        $data["nom_usuario"] = $nom_usuario;
+        $data["menu"] = "clientemenu";
+        $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+        $data["municipios"] = $this->divipola->obtenerMunicipios("");
+        $data["destinatario"] = $this->usuario->obtenerDatosDestinatario($nro_ident);
+        $this->load->view("layout", $data);
+    }
 
     //Ejecuta la funcion del control de guias del menu del administrador.
     public function control() {
@@ -39,7 +103,7 @@ class Cliente extends MX_Controller {
         $data["nom_usuario"] = $nom_usuario;
         $data["controller"] = $this->session->userdata("controlador");
 
-        $data["menu"] = "traficomenu";
+        $data["menu"] = "clientemenu";
 
         $data["view"] = "control";
         //echo "nrnbn";

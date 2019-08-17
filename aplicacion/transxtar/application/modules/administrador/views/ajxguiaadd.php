@@ -105,12 +105,38 @@
             </tr>
             <tr>
                 <td>Destinatario: </td>
-                <td><select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
-                        <option value="-">Seleccione...</option>
-                        <?php for ($i = 0; $i < count($destinatario); $i++) { ?>
-                            <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
-                        <?php } ?>
-                    </select>
+                <td>
+                    <?php
+                    if ($tipo_usuario == 8) {
+                        ?>
+                        <select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
+                            <option value="-">Seleccione...</option>
+                            <?php
+                            for ($i = 0; $i < count($destinatario); $i++) {
+                                if ($destinatario[$i]["id_establecimiento"] == $id_usuario) { 
+                            ?>
+                                <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
+                            <?php
+                                }
+                            }
+                        ?>
+                        </select>
+                        <?php
+                    }else{
+                    ?>
+                    <select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
+                            <option value="-">Seleccione...</option>
+                            <?php
+                            for ($i = 0; $i < count($destinatario); $i++) {
+                            ?>
+                                <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
+                            <?php
+                            }
+                        ?>
+                        </select>
+                        <?php 
+                    }
+                    ?>
                 </td>   
             </tr>
 

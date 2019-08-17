@@ -15,7 +15,7 @@ class Establecimiento extends CI_Model {
      */
     function obtenerEstablecimientos(){
     	$establecimiento = array();
-    	$sql = "SELECT id_establecimiento, concat_ws(' - ', idnomcom, iddirecc ) as establecimiento
+    	$sql = "SELECT id_establecimiento, concat_ws(' - ', idnomcom, iddirecc ) as establecimiento, nit_establecimiento
    		FROM txtar_admin_establecimientos
    		ORDER BY establecimiento ASC ";
     	 
@@ -25,6 +25,7 @@ class Establecimiento extends CI_Model {
     		$i=0;
     		foreach($query->result() as $row){
     			$establecimiento[$i]["id_establecimiento"] = $row->id_establecimiento;
+    			$establecimiento[$i]["nit_establecimiento"] = $row->nit_establecimiento;
                         $establecimiento[$i]["establecimiento"] = $row->establecimiento;
                        $i++;
     		}
@@ -117,7 +118,7 @@ class Establecimiento extends CI_Model {
                                ELSE 'Inactivo' END AS nom_estado_establecimiento, 
                                observaciones
                 FROM txtar_admin_establecimientos
-                WHERE id_establecimiento = $nro_establecimiento ";
+                WHERE nit_establecimiento = $nro_establecimiento ";
                 
    	   $query = $this->db->query($sql);
    		if ($query->num_rows()>0){
@@ -194,6 +195,7 @@ class Establecimiento extends CI_Model {
                 );
 		$this->db->where('id_establecimiento', $IdEstablecimiento);
 		$this->db->update('txtar_admin_establecimientos', $data);
+               // echo $this->db->last_query();
    	}
         
         

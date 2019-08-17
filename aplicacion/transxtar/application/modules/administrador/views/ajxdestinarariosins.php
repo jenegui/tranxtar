@@ -12,6 +12,7 @@
         $("#iddepto").select2();
         $("#idmpio").select2();
         $("#idestablecimiento").select2();
+        $("#id_cliente").select2();
         $("#frmINSdestinatario").validate({
             //Reglas de validacion
             rules: {
@@ -108,8 +109,10 @@
                     data: {'tipodoc': $("#tipoDocumento").val(),
                         'numdoc': $("#txtIdDest").val(),
                         'idmpio': $("#idmpio").val(),
-                        'direccion': $("#txtDirDest").val()
+                        'direccion': $("#txtDirDest").val(),
+                        'id_cliente': $("#id_cliente").val()
                     },
+
                     dataType: "html",
                     cache: false,
                     success: function (data) {
@@ -212,9 +215,30 @@
             <td>Nombre del contacto: </td>
             <td><input type="text" id="nom_contacto" name="nom_contacto" value="" size="35" class="textbox"/></td>
         </tr>
-        
         <tr>
-            <td colspan="2" align="center"><input type="submit" id="btnGrabar" name="btnGrabar" value="Registar Datos" class="button"/></td>
+            <?php
+                if($this->session->userdata("tipo_usuario")==8){
+            ?>
+                <td rowspan="2"><input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $idCliente; ?>"/></td>
+            <?php
+                }else{
+            ?>
+                <td>Cliente al que pertenece: </td>
+                <td><select id="id_cliente" name="id_cliente" style="width:250px;" class="select">
+                        <option value="-">Seleccione...</option>
+                        <?php for ($i = 0; $i < count($clientes); $i++) { ?>
+                            <option value="<?php echo $clientes[$i]["nit_establecimiento"]; ?>"><?php echo $clientes[$i]["establecimiento"]; ?></option> 
+                        <?php } ?>
+                    </select>
+                </td> 
+            <?php
+                }
+            ?>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" id="btnGrabar" name="btnGrabar" value="Registar Datos" class="button"/>
+            </td>
         </tr>
     </table>
 </fieldset>

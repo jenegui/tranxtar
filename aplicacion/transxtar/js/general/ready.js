@@ -45,9 +45,7 @@ $(function () {
             }
         });
     });
-});
 
-$(function () {
 //Valida el env�o del formulario de agregar empresas
 $("#numGuia").numerico().largo(20);
     $("#seguimiento").click(function () {
@@ -95,11 +93,8 @@ $("#numGuia").numerico().largo(20);
             }
         });
     });
-});
 
-$(function () {
     $("#cmbDeptoEstab").cargarCombo("cmbMpioEstab", "login/actualizarMunicipios");
-    
     $("#pesoKg").numerico().largo(5);
     $("#cantidad").numerico().largo(5);
     $("#alto").numerico().largo(5);
@@ -198,35 +193,34 @@ $(function () {
                 });*/
             }
         });
-     });
+    });
+
+    $("#idestablecimiento").select2();
+    $("#evento").select2();
+    $("#anio").select2();
+
+
+
+    $('#fechaIni').datepicker({
+    //$('#fechaIni'+ i).datepicker({    
+            dateFormat: 'mm/dd/yy',
+            monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+            'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+            monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+            dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+            dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
+            dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa']
+            });
+    $('#fechaFin').datepicker({
+            dateFormat: 'mm/dd/yy',
+            monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+            'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+            monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+            dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+            dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
+            dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa']
+            });
 });
-
-$("#idestablecimiento").select2();
-$("#evento").select2();
-$("#anio").select2();
-
-
-
- $('#fechaIni').datepicker({
-//$('#fechaIni'+ i).datepicker({    
-        dateFormat: 'mm/dd/yy',
-        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-        dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
-        dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa']
-        });
-$('#fechaFin').datepicker({
-        dateFormat: 'mm/dd/yy',
-        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-        dayNames: ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
-        dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa']
-        });
-
 $(function() {
     $( "button" )
     .button()
@@ -241,5 +235,7 @@ $(function() {
 $(function() {
     $( "#tabs" ).tabs();
 });
+
+
 
 

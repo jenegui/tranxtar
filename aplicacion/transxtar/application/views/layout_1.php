@@ -13,66 +13,53 @@ if ($controller == "miniencuesta") {
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="<?php echo base_url("images/favicon.ico"); ?>">
-        <!--[if lte IE 9]><link rel="stylesheet" href="<?php echo base_url("css/ie.css"); ?>" type="text/css" media="screen" /><![endif]-->
+        <!--[if lte IE 9]>
+            <link rel="stylesheet" href="<?php echo base_url("css/ie.css"); ?>" type="text/css" media="screen" /><![endif]-->
             <link rel="stylesheet" href="<?php echo base_url("css/1140.css"); ?>" type="text/css" media="screen" />
-            <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url("css/custom-theme/jquery-ui-1.8.18.custom.css"); ?>" />
+            <!--link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url("css/custom-theme/jquery-ui-1.8.18.custom.css"); ?>" /-->
             <link rel="stylesheet" href="<?php echo base_url("css/styles.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/select2.css"); ?>" type="text/css" media="screen" />
-            <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
-            <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables.css"); ?>" type="text/css" media="screen" />
+            <!--link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
+            <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables.css"); ?>" type="text/css" media="screen" /-->
             <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" /-->
             <link href="<?php echo base_url("/css/bootstrap/bootstrap.min.css"); ?>" rel="stylesheet"/>
             <link href="<?php echo base_url("/css/bootstrap/sticky-footer-navbar.css"); ?>" rel="stylesheet"/>
-            <script type="text/javascript" src="<?php echo base_url("js/general/jquery-1.10.1.min.js"); ?>"></script>
+
+            <script type="text/javascript" src="<?php echo base_url("js/general/jquery-3.3.1.min.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/bootstrap/bootstrap.min.js");  ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url("js/general/css3-mediaqueries.js"); ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url("js/general/jquery-1.7.2.min.js"); ?>"></script>
-            <!--script type="text/javascript" src="<?php //echo base_url("js/jqueryui/jquery-3.3.1.min.js");  ?>"></script>
-            <!--script type="text/javascript" src="<?php //echo base_url("js/jqueryui/jquery-3.3.1.js");  ?>"></script-->
-            <!--script type="text/javascript" src="<?php echo base_url("js/general/jquery.easy-confirm-dialog.js"); ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url("js/general/jquery-ui-1.8.18.custom.min.js"); ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url("js/general/jquery.qtip-1.0.0-rc3.min.js"); ?>"></script-->
-            <script type="text/javascript" src="<?php echo base_url("js/general/jquery.validate.min.js"); ?>"></script>
+            <!--script type="text/javascript" src="<?php //echo base_url("js/general/css3-mediaqueries.js"); ?>"></script-->
+            <script type="text/javascript" src="<?php echo base_url("js/general/jquery.easy-confirm-dialog.js"); ?>"></script>
+            <!--script type="text/javascript" src="<?php //echo base_url("js/general/jquery.qtip-1.0.0-rc3.min.js"); ?>"></script-->
+            <script type="text/javascript" src="<?php echo base_url("js/jqueryui/jquery.validate.min.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/jqueryui/jquery.validate.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/danevalidator.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.min.js"); ?>"></script>
-            <!--script type="text/javascript" src="<?php echo base_url("js/general/ready.js"); ?>"></script-->
+            <script type="text/javascript" src="<?php echo base_url("js/general/ready.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2_locale_es.js"); ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url("js/general/jqueryui.js"); ?>"></script>
-            <!-- load jQuery 1.10.2 -->
-
-
-            <!-- Fuente -->
-            <?php if ($controller == "fuente") { ?>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsfuente.js"); ?>"></script>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsmodulo1.js"); ?>"></script>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsmodulo2.js"); ?>"></script>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsmodulo3.js"); ?>"></script>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsmodulo4.js"); ?>"></script>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsmodulo5.js"); ?>"></script>
-                <script type="text/javascript" src="<?php echo base_url("js/fuente/jsenvioform.js"); ?>"></script>
-            <?php } ?>
-
-            <?php if (($controller != "fuente") && ($controller != "login") && ($controller != "indicadorcalidad")) { ?>
-                <!-- Admin -->
-                <?php if ($controller == "Administrador" || $controller == "Supervisor" || $controller == "Comercial" || $controller == "Operario" ||
-                        $controller == "Traficoseguridad" || $controller == "Contabilidad" || $controller == "Despacho" || $controller == "Cliente" || $controller == "Logistica") {
-                    ?>
-                    <script type="text/javascript" src="<?php echo base_url("js/admin/jsadmin.js"); ?>"></script>
-
-
-                <?php } elseif ($controller == "critico") {
-                    ?>
-                    <!-- Critico -->
-                    <script type="text/javascript" src="<?php echo base_url("js/critico/jscritico.js"); ?>"></script>
-                <?php }
+           
+            <?php 
+            
+            if ($controller == "administrador" || $controller == "Supervisor" || $controller == "Comercial" || $controller == "Operario" || 
+                $controller == "Traficoseguridad" || $controller == "Contabilidad" || $controller == "Despacho" || $controller == "Cliente" || $controller == "Logistica") {
                 ?>
+                <script type="text/javascript" src="<?php echo base_url("js/admin/jsadmin.js"); ?>"></script>
 
-                <script type="text/javascript" src="<?php echo base_url("js/cargadir/jscargadir.js"); ?>"></script>
-                <!-- Indicador de calidad -->
-                <?php
-            }
+
+            <?php 
+            } 
+            elseif ($controller == "critico") {
+                ?>
+                <!-- Critico -->
+                <script type="text/javascript" src="<?php echo base_url("js/critico/jscritico.js"); ?>"></script>
+            <?php }
+            ?>
+
+            <script type="text/javascript" src="<?php echo base_url("js/cargadir/jscargadir.js"); ?>"></script>
+            <!-- Indicador de calidad -->
+            <?php
+           
             if (($controller == "indicadorcalidad") && ($controller != "login")) {
                 ?>
                 <script type="text/javascript" src="<?php echo base_url("js/indicador/indicador.js"); ?>"></script>

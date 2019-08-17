@@ -154,10 +154,6 @@ class Administrador extends MX_Controller {
         $this->load->model("divipola");
         $this->load->model("empresa");
         $this->load->model("establecimiento");
-        $this->load->model("modulo1");
-        $this->load->model("modulo2");
-        $this->load->model("modulo3");
-        $this->load->model("modulo4");
         $this->load->model("directorio");        
         $data["controller"] = "administrador";
         $data["view"] = "detalle";
@@ -180,6 +176,8 @@ class Administrador extends MX_Controller {
         $this->load->model("divipola");
         $this->load->model("empresa");
         $this->load->model("establecimiento");
+        $this->load->model("tarifas");
+
         $data["controller"] = "administrador";
         if (isset($_REQUEST['nro_establecimiento'])) {
             $this->session->set_userdata('nro_establecimiento', $_REQUEST['nro_establecimiento']);
@@ -187,7 +185,9 @@ class Administrador extends MX_Controller {
         } else {
             $nro_establecimiento = $nro_establecimiento;
         }
+       
         $data["view"] = "detalle";
+
         $nom_usuario = $this->session->userdata("nombre");
         $tipo_usuario = $this->session->userdata("tipo_usuario");
         $data['tipo_usuario'] = $this->session->userdata("controlador");
@@ -196,12 +196,70 @@ class Administrador extends MX_Controller {
         $data["departamentos"] = $this->divipola->obtenerDepartamentos();
         $data["municipios"] = $this->divipola->obtenerMunicipios("");
         $data["establecimiento"] = $this->establecimiento->obtenerDatosEstablecimiento($nro_establecimiento);
+       
+        $data["tarifas"] = $this->tarifas->obtenerDatosTarifasTodas($nro_establecimiento);
+        
+        $data["ciudadesTarifas"]=0;
+        for($i=0; $i<=count($data["tarifas"])-1; $i++){
+            $data["ciudadesTarifas"]= $data["ciudadesTarifas"].','.$data["tarifas"][$i]["id_ciudad"]; 
+        }
 
         $this->load->view("layout_1", $data);
+    }
+
+    //Función para registrar las tarifas
+    public function registrarTarifas(){
+        $this->load->model("empresa");
+        $this->load->model("usuario");
+        $this->load->model("control");
+        $this->load->model("tarifas");
+        //Recibir todas las variables que vengan enviadas por POST
+        foreach ($_POST as $nombre_campo => $valor) {
+
+            $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+            eval($asignacion);
+        }
+        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar);
+        if(count($data["tarifa"]) > 0) {
+            echo "El registro ya existe"; 
+        }else{
+            //Actualizar los datos del destinatario
+            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $valorpesokg, $valorvolumen, $valorxunidad);
+        }
+        redirect("/administrador/editarFuente/$IdEstablecimiento#tarifas", "refresh");
     }
     
     public function cargaDirectorio() {
         echo Modules::run('carga_directorio/cargadir/index');
+    }
+
+    //Función para editar las tarifas
+    public function formEditarTarifas($id_tarifa){
+        $this->load->model("establecimiento");
+        $this->load->model("tarifas");
+        $this->load->model("divipola");
+        $data["tarifa"] = $this->tarifas->obtenerTarifasId($id_tarifa);
+        $data["establecimiento"] = $this->establecimiento->obtenerDatosEstablecimiento($data["tarifa"]["id_establecimientos"]);
+        $data["controller"] = "administrador";
+        $data["menu"] = "adminmenu";
+        $data["view"] = "editarTarifa";
+        //echo $actualizo;
+        $this->load->view("layout_1", $data);
+    }
+
+    //Función para registrar la edición de las tarifas
+    public function editarTarifas(){
+        $this->load->model("establecimiento");
+        $this->load->model("tarifas");
+        $this->load->model("divipola");
+        //Recibir todas las variables que vengan enviadas por POST
+        foreach ($_POST as $nombre_campo => $valor) {
+
+            $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+            eval($asignacion);
+        }
+        $this->tarifas->actualizarTarifas($IdTarifa, $valorpesokg, $valorvolumen, $valorxunidad);
+        redirect("/administrador/editarFuente/$IdEstablecimiento#tarifas", "refresh");
     }
 
     //Ejecuta la funcion del control de guias del menu del administrador.
@@ -657,6 +715,12 @@ class Administrador extends MX_Controller {
         $data["controller"] = $this->session->userdata("controlador");
         $data["menu"] = "adminmenu";
         $data["view"] = "destinatarios";
+        
+        if($tipo_usuario==8){
+            $data["identificacion"] = $this->session->userdata("num_identificacion");
+        }else{
+            $data["identificacion"] = 0;
+        }
 
         //Configuracion del paginador
         $config = array();
@@ -671,9 +735,74 @@ class Administrador extends MX_Controller {
         //Trabajo de paginacion
         $pagina = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
         $desde = ($pagina - 1) * $config["per_page"];
-        $data["destinatarios"] = $this->usuario->obtenerDestinatariosPagina($desde, $config["per_page"]);
+        $data["destinatarios"] = $this->usuario->obtenerDestinatariosPagina($data["identificacion"] );
         $data["links"] = $this->pagination->create_links();
         $this->load->view("layout", $data);
+    }
+
+    //Agrega el registro de un nuevo destinatatrio creado en el sistema a la B.D.
+    public function insertarDestinatario() {
+        $this->load->helper("url");
+        $this->load->library("danecrypt");
+        $this->load->library("general");
+        $this->load->model("usuario");
+        $usuario = $this->session->userdata("num_identificacion");
+        
+        foreach ($_POST as $nombre_campo => $valor) {
+            $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+            eval($asignacion);
+        }
+        //$fecini = $this->general->formatoFecha($txtFecCreacion,"/");
+        $this->usuario->insertarDestinatario($txtNomDest, $txtIdDest, $tipoDocumento, $txtDirDest, $idtelefono, $idcorreo, $iddepto, $idmpio, $nom_contacto, $id_cliente);
+        //echo "El distinatario ha sido registrado";
+        redirect('/administrador/destinatarios', 'refresh');
+    }
+
+    //function para editar los datos del destinatario en el directorio de fuentes
+    public function editarDestinatario($id_destinatario) {
+        $this->load->model("divipola");
+        $this->load->model("empresa");
+        $this->load->model("usuario");
+        $this->load->model("tipodocs");
+        $data["controller"] = $this->session->userdata("controlador");
+
+        $id_dest = $id_destinatario;
+        $data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
+
+        $data["view"] = "editardest";
+
+        $nom_usuario = $this->session->userdata("nombre");
+        $tipo_usuario = $this->session->userdata("tipo_usuario");
+        $data['tipo_usuario'] = $this->session->userdata("controlador");
+        $data["nom_usuario"] = $nom_usuario;
+        $data["menu"] = "adminmenu";
+        $data["departamentos"] = $this->divipola->obtenerDepartamentos();
+        $data["municipios"] = $this->divipola->obtenerMunicipios("");
+        $data["destinatario"] = $this->usuario->obtenerDatosDestinatario($id_dest);
+        $this->load->view("layout", $data);
+    }
+
+    //Busca en la base de datos si el numero de identificacion del destinatario que se esta creando ya esta en la base de datos
+    public function validaDestinatario() {
+        $this->load->model("usuario");
+        $tipo = $this->input->post("tipodoc");
+        $numero = $this->input->post("numdoc");
+        $idmpio = $this->input->post("idmpio");
+        $direccion = $this->input->post("direccion");
+        $id_cliente = $this->input->post("id_cliente");
+        $valid1 = $this->usuario->numIdentDestinanarioExiste($tipo, $numero, $idmpio, $direccion, $id_cliente);
+        
+        //$valid2 = $this->usuario->existeLogin($login);
+        if ($valid1 == true) {
+            $validar = false;
+            $error = "El destinatario ya existe.";
+        } else {
+            $validar = true;
+            $error = "&nbsp;";
+        }
+        $arrayError = array('valid' => $validar,
+            'error' => $error);
+        echo json_encode($arrayError);
     }
 
     //Muestra el formulario para actualizar los datos de un usuario
@@ -1421,26 +1550,7 @@ class Administrador extends MX_Controller {
         echo json_encode($arrayError);
     }
 
-    //Busca en la base de datos si el numero de identificacion del destinatario que se esta creando ya esta en la base de datos
-    public function validaDestinatario() {
-        $this->load->model("usuario");
-        $tipo = $this->input->post("tipodoc");
-        $numero = $this->input->post("numdoc");
-        $idmpio = $this->input->post("idmpio");
-        $direccion = $this->input->post("direccion");
-        $valid1 = $this->usuario->numIdentDestinanarioExiste($tipo, $numero, $idmpio, $direccion);
-        //$valid2 = $this->usuario->existeLogin($login);
-        if ($valid1 == true) {
-            $validar = false;
-            $error = "El destinatario ya existe.";
-        } else {
-            $validar = true;
-            $error = "jj&nbsp;";
-        }
-        $arrayError = array('valid' => $validar,
-            'error' => $error);
-        echo json_encode($arrayError);
-    }
+    
 
     //Agrega el registro de un nuevo usuario creado en el sistema a la B.D.
     public function insertarUsuario() {
@@ -1484,48 +1594,6 @@ class Administrador extends MX_Controller {
 
         $this->usuario->insertarOperario($cmbTipoDocumento, $txtNumId, $txtNomUsuario, $teloperario, $numplaca, $fecini, $usuario, $estado);
         redirect('/administrador/operarios', 'refresh');
-    }
-
-    //Agrega el registro de un nuevo destinatatrio creado en el sistema a la B.D.
-    public function insertarDestinatario() {
-        $this->load->helper("url");
-        $this->load->library("danecrypt");
-        $this->load->library("general");
-        $this->load->model("usuario");
-        $usuario = $this->session->userdata("num_identificacion");
-        
-        foreach ($_POST as $nombre_campo => $valor) {
-            $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
-            eval($asignacion);
-        }
-        //$fecini = $this->general->formatoFecha($txtFecCreacion,"/");
-        $this->usuario->insertarDestinatario($txtNomDest, $txtIdDest, $tipoDocumento, $txtDirDest, $idtelefono, $idcorreo, $iddepto, $idmpio, $nom_contacto);
-        //echo "El distinatario ha sido registrado";
-        redirect('/administrador/destinatarios', 'refresh');
-    }
-
-    //function para editar los datos del destinatario en el directorio de fuentes
-    public function editarDestinatario($id_destinatario) {
-        $this->load->model("divipola");
-        $this->load->model("empresa");
-        $this->load->model("usuario");
-        $this->load->model("tipodocs");
-        $data["controller"] = $this->session->userdata("controlador");
-
-        $id_dest = $id_destinatario;
-        $data["tipodocs"] = $this->tipodocs->obtenerTipoDocumentos();
-
-        $data["view"] = "editardest";
-
-        $nom_usuario = $this->session->userdata("nombre");
-        $tipo_usuario = $this->session->userdata("tipo_usuario");
-        $data['tipo_usuario'] = $this->session->userdata("controlador");
-        $data["nom_usuario"] = $nom_usuario;
-        $data["menu"] = "adminmenu";
-        $data["departamentos"] = $this->divipola->obtenerDepartamentos();
-        $data["municipios"] = $this->divipola->obtenerMunicipios("");
-        $data["destinatario"] = $this->usuario->obtenerDatosDestinatario($id_dest);
-        $this->load->view("layout", $data);
     }
 
     //Paginador para la busqueda de resultados de la busqueda de formularios
@@ -1651,7 +1719,7 @@ class Administrador extends MX_Controller {
         $data["view"] = "imprimir";
         $data["guia"] = $this->control->obtenerGuiasId($id_guia);
 
-        $this->load->view("layout", $data);
+        $this->load->view("layout_1", $data);
     }
 
     //Muestra el detalle del segimiento de las guias
