@@ -1,0 +1,66 @@
+CREATE TABLE `thot_admin_usuarios` (
+  `id_usuario` int(11) NOT NULL COMMENT 'Llave primaria de la tabla usuarios',
+  `num_identificacion` bigint(20) DEFAULT NULL COMMENT 'Número de identificación del usuario',
+  `nom_usuario` varchar(80) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'Nombre del usuario',
+  `log_usuario` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'Login del usuario',
+  `pass_usuario` varchar(128) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'Password del usuario',
+  `mail_usuario` varchar(80) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'Correo electrónico del usuario',
+  `fec_creacion` datetime DEFAULT NULL COMMENT 'Fecha de creación del usuario',
+  `fec_vencimiento` datetime DEFAULT NULL COMMENT 'Fecha de vencimiento del usuario',
+  `nro_orden` int(11) NOT NULL,
+  `id_establecimiento` int(11) NOT NULL COMMENT 'Id del empresacliente',
+  `nro_telefono` int(11) NOT NULL COMMENT 'Número de telefono del usuario',
+  `fk_tipodoc` int(11) NOT NULL COMMENT 'Tipo de documento de identidad',
+  `fk_rol` int(11) NOT NULL COMMENT 'Rol que desempeña el usuario dentro del aplicativo',
+  `estado` char(2) COLLATE utf8_spanish_ci DEFAULT 'A' COMMENT 'A - ActivoP - Pasivo',
+  `fk_sede` int(4) NOT NULL,
+  `fk_subsede` int(4) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `thule_admin_usuarios`
+--
+ALTER TABLE `thot_admin_usuarios`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD KEY `fk_empresa_usuario` (`nro_orden`),
+  ADD KEY `fk_establecimiento_usuario` (`nro_telefono`),
+  ADD KEY `fk_roles_usuario` (`fk_rol`),
+  ADD KEY `fk_tipodoc_usuario` (`fk_tipodoc`),
+  ADD KEY `log_usuario` (`log_usuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `thot_admin_usuarios`
+--
+ALTER TABLE `thot_admin_usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria de la tabla usuarios';
+COMMIT;
+
+
+
+CREATE TABLE `thot_param_roles` (
+  `id_rol` int(11) NOT NULL COMMENT 'Llave primaria de la tabla roles',
+  `nom_rol` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL COMMENT 'Nombre de los diferentes roles'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `txtar_param_roles`
+--
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `txtar_param_roles`
+--
+ALTER TABLE `thot_param_roles`
+  ADD PRIMARY KEY (`id_rol`);
+COMMIT;
