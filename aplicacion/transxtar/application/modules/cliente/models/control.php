@@ -37,7 +37,7 @@ class Control extends CI_Model {
             OP.telefono_operario,
             OP.nro_placa as placa_ext
                 FROM txtar_admin_control C
-                INNER JOIN txtar_admin_establecimientos EST ON C.id_establecimientos=EST.id_establecimiento 
+                INNER JOIN txtar_admin_establecimientos EST ON C.id_establecimientos=EST.id_establecimiento AND EST.nit_establecimiento= $id_usuario
                 INNER JOIN txtar_admin_destinatarios DEST ON C.id_destinatario=DEST.id_destinatario
                 INNER JOIN txtar_param_estados E ON C.estado_carga= E.id_estado
                 LEFT JOIN txtar_param_operario OP ON C.id_operario = OP.id_operario  

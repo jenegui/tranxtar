@@ -57,7 +57,7 @@
 </div>
 <br/>
 <div id="divDirectorio" class="table-responsive">
-<table id="tablaControlts" width="100%" style="font-size: 11px;" class="table">
+<table id="tablaControlcliente" width="100%" style="font-size: 11px;" class="table">
 <thead>
 <tr>
   <th>N.Guia</th>

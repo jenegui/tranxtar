@@ -60,7 +60,16 @@ $(function () {
                 return true;
         }, "")
 
-        jQuery(function () {
+        
+        $("#valorpesokg").numerico().largo(8);
+        $("#valorvolumen").numerico().largo(8)
+        $("#valorxunidad").numerico().largo(8);
+        
+        $("#cmbDeptoTar").select2();
+        $("#cmbMpioTar").select2();
+        $("#cmbDeptoTar").cargarCombo("cmbMpioTar", "administrador/actualizarMunicipios");
+    });
+    jQuery(function () {
             jQuery("#frmRegTarifas").validate({
                 rules: {
                     cmbDeptoTar: {
@@ -117,15 +126,6 @@ $(function () {
                 }
             });
         });
-        $("#valorpesokg").numerico().largo(8);
-        $("#valorvolumen").numerico().largo(8)
-        $("#valorxunidad").numerico().largo(8);
-        
-        $("#cmbDeptoTar").select2();
-        $("#cmbMpioTar").select2();
-        $("#cmbDeptoTar").cargarCombo("cmbMpioTar", "administrador/actualizarMunicipios");
-    });
-
 </script>
 <div>
     <form id="frmRegTarifas" name="frmRegTarifas" method="post" action="<?php echo site_url("administrador/registrarTarifas"); ?>">
@@ -158,7 +158,7 @@ $(function () {
                     </td>
                 </tr>
                 <tr>
-                    <td>Municipio: </td>
+                    <td>Ciudad: </td>
                     <td><select id="cmbMpioTar" name="cmbMpioTar" class="select1">
                             <option value="-">Seleccione el municipio...</option>
                             <?php
@@ -166,7 +166,7 @@ $(function () {
                                     if (in_array($departamentos[$i]["codigo"], $ciudadesTarifas)) {
                                         echo "Existe Irix";
                                     }
-                                    ?>			
+                                    ?>          
                                         <option value="<?php echo $municipios[$i]["codigo"]; ?>"><?php echo $municipios[$i]["codigo"].''.$municipios[$i]["nombre"]; ?></option>
                                     <?php
                                     
@@ -177,16 +177,26 @@ $(function () {
                     </td>
                 </tr>
                 <tr>
-                    <td>Valor peso Kg: </td>
-                    <td><input type="text" id="valorpesokg" name="valorpesokg" value="" size="25" class="textbox"/></td>
+                    <td>Tipo de carga: </td>
+                    <td><select id="tipo_carga" name="tipo_carga" class="select1">
+                            <option value="-">Seleccione...</option>
+                            <option value="1">Peso</option>
+                            <option value="2">Volumen</option>
+                            <option value="3">Paquete</option>
+                        </select>
+                    </td>
                 </tr>    
                 <tr>
-                    <td>Valor volumen: </td>
-                    <td><input type="text" id="valorvolumen" name="valorvolumen" value="" size="25" class="textbox"/></td>
+                    <td>Valor tarifa: </td>
+                    <td><input type="text" id="valor_tarifa" name="valor_tarifa" value="" size="25" class="textbox"/></td>
                 </tr>    
                 <tr>
-                    <td>Valor por unidades: </td>
-                    <td><input type="text" id="valorxunidad" name="valorxunidad" value="" size="25" class="textbox"/></td>
+                    <td>Referencia: </td>
+                    <td><input type="text" id="referencia" name="referencia" value="" size="25" class="textbox"/></td>
+                </tr>  
+                <tr>
+                    <td>Descripci&oacute;n: </td>
+                    <td><input type="text" id="descripcion" name="descripcion" value="" size="25" class="textbox"/></td>
                 </tr>    
             </table>
             <br/>
@@ -203,9 +213,10 @@ $(function () {
         <thead>
             <tr>
                 <th>Ciudad</th>
-                <th>Valor kilo</th>
-                <th>Valor volumen</th>
-                <th>Valor por unidad</th>
+                <th>Tipo de carga</th>
+                <th>Valor tarifa</th>
+                <th>Referencia</th>
+                <th>Descripci&oacute;n</th>
                 <th>Editar</th>
             </tr>
         </thead>
@@ -216,9 +227,10 @@ $(function () {
                 ?>
                 <tr>
                     <td><?php echo $tarifas[$i]['nomciudad']; ?></td> 
-                    <td><?php echo $tarifas[$i]['valor_kilo']; ?></td> 
-                    <td><?php echo $tarifas[$i]['valor_volumen']; ?></td> 
-                    <td><?php echo $tarifas[$i]['valorx_unidad']; ?></td>
+                    <td><?php echo $tarifas[$i]['tipo_carga']; ?></td> 
+                    <td><?php echo $tarifas[$i]['valor_tarifa']; ?></td> 
+                    <td><?php echo $tarifas[$i]['referencia']; ?></td>
+                    <td><?php echo $tarifas[$i]['descripcion']; ?></td>
                     <td><a href="<?php echo site_url("administrador/formEditarTarifas/".$tarifas[$i]["id_tarifa"].""); ?>"><img src="<?php echo base_url("images/edit.png"); ?>"/></a>
                     </td>    
                 </tr>

@@ -219,12 +219,12 @@ class Administrador extends MX_Controller {
             $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
             eval($asignacion);
         }
-        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar);
+        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_carga, $referencia);
         if(count($data["tarifa"]) > 0) {
             echo "El registro ya existe"; 
         }else{
             //Actualizar los datos del destinatario
-            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $valorpesokg, $valorvolumen, $valorxunidad);
+            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_carga, $valor_tarifa, $referencia, $descripcion);
         }
         redirect("/administrador/editarFuente/$IdEstablecimiento#tarifas", "refresh");
     }
@@ -258,7 +258,7 @@ class Administrador extends MX_Controller {
             $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
             eval($asignacion);
         }
-        $this->tarifas->actualizarTarifas($IdTarifa, $valorpesokg, $valorvolumen, $valorxunidad);
+        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_carga_ed, $valor_tarifa_ed, $referencia_ed, $descripcion_ed);
         redirect("/administrador/editarFuente/$IdEstablecimiento#tarifas", "refresh");
     }
 
@@ -1352,7 +1352,7 @@ class Administrador extends MX_Controller {
         }
 
         $data["control"] = $this->control->obtenerGuias($id_usuario);
-        // var_dump($data["control"]);
+         //var_dump($data["control"]);
         $this->load->view("ajxcontrol", $data);
     }
 

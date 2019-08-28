@@ -45,7 +45,7 @@
             $campo1 = "Imprimir";
             $campo2 = "Estado control";
             $campo3 = "Valor flete";
-        } elseif ($usuario == 7) {
+        } elseif ($usuario == 7 || $usuario == 8) {
             $campo1 = "Imprimir";
             $campo2 = "Fecha registro";
             $campo3 = "Unidades";

@@ -102,7 +102,7 @@ class Cliente extends MX_Controller {
         $data['tipo_usuario'] = $this->session->userdata("controlador");
         $data["nom_usuario"] = $nom_usuario;
         $data["controller"] = $this->session->userdata("controlador");
-
+        
         $data["menu"] = "clientemenu";
 
         $data["view"] = "control";
@@ -115,8 +115,8 @@ class Cliente extends MX_Controller {
         $config = array();
 
         $config["base_url"] = site_url("traficoseguridad/control");
-        $id_usuario = 0;
-
+        $id_usuario = $this->session->userdata("num_identificacion");
+        
 
         $data["control"] = $this->control->obtenerGuias($id_usuario);
 
@@ -130,15 +130,13 @@ class Cliente extends MX_Controller {
         $this->load->model("control");
         $tipo_usuario = $this->session->userdata("tipo_usuario");
         $data["usuario"] = $tipo_usuario;
-        if ($tipo_usuario == 5 || $tipo_usuario == 3) {
-            $id_usuario = $this->session->userdata('num_identificacion');
-        } else {
-            $id_usuario = 0;
-        }
+       
+        $id_usuario = $this->session->userdata('num_identificacion');
+        
 
         $data["control"] = $this->control->obtenerGuias($id_usuario);
         // var_dump($data["control"]);
-        $this->load->view("ajxcontrol", $data);
+        //$this->load->view("ajxcontrol", $data);
     }
 
     //funcion para editar el control de guias

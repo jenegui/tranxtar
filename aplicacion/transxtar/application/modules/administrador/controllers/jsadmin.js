@@ -3172,7 +3172,6 @@ $(document).ready(function(){
 
   
 $(document).ready(function(){
-    
     $('#tablaDirectorio').dataTable( {
                     "sPaginationType": "full_numbers",
                     "aaSorting": [[0, "asc"]],
@@ -3227,6 +3226,7 @@ function format ( d ) {
 }
 
 $(document).ready(function(){
+	alert("mmm");
     $('#tablaControl').dataTable( {
                     "sPaginationType": "full_numbers",
                     "aaSorting": [[0, "asc" ]],
@@ -3334,7 +3334,8 @@ $(document).ready(function(){
                     
      } );
  
-});$(document).ready(function(){
+});
+$(document).ready(function(){
     $('#tablaControlcliente').dataTable( {
                     "sPaginationType": "full_numbers",
                     "aaSorting": [[0, "asc" ]],
