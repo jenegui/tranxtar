@@ -196,7 +196,7 @@ $("#numGuia").numerico().largo(20);
     });
 
     $("#idestablecimiento").select2();
-    $("#evento").select2();
+    $("#iddestinatario").select2();
     $("#anio").select2();
 
 
@@ -235,6 +235,8 @@ $(function() {
 $(function() {
     $( "#tabs" ).tabs();
 });
+
+
 
 
 

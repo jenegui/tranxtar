@@ -35,7 +35,8 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/general/danevalidator.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.min.js"); ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url("js/general/ready.js"); ?>"></script>
+            <!--script type="text/javascript" src="<?php //echo base_url("js/general/ready.js"); ?>"></script-->
+            <script type="text/javascript" src="<?php echo base_url("js/guias/guias.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2_locale_es.js"); ?>"></script>
            
@@ -45,8 +46,7 @@ if ($controller == "miniencuesta") {
                 $controller == "Traficoseguridad" || $controller == "Contabilidad" || $controller == "Despacho" || $controller == "Cliente" || $controller == "Logistica") {
                 ?>
                 <script type="text/javascript" src="<?php echo base_url("js/admin/jsadmin.js"); ?>"></script>
-
-
+                <script type="text/javascript" src="<?php echo base_url("js/admin/tarifas.js"); ?>"></script>
             <?php 
             } 
             elseif ($controller == "critico") {

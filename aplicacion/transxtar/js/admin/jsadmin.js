@@ -3105,7 +3105,6 @@ $(document).ready(function () {
     });
 });
 
-
 $(document).ready(function(){
     $(".guia").change(function () {
         opcion=$(this).val();

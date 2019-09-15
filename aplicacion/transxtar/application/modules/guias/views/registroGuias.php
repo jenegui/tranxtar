@@ -1,8 +1,16 @@
-<form id="frmAgregarGuia" name="frmAgregarGuia" method="post" action="">
+<form id="frmRegistrarGuia" name="frmRegistrarGuia" method="post" action="">
     <br/>
-
     <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
         <table>
+            <tr>
+                <td>Selccione el tipo de tarifa: </td>
+                <td><select id="tipo_tarifa" name="tipo_tarifa" class="select1">
+                        <option value="-">Seleccione...</option>
+                        <option value="1">Referencia</option>
+                        <option value="2">General</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td>Nro. de remesa: </td>
                 <td>
@@ -65,19 +73,6 @@
                 <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y"); ?>" class="textbox guia"/></td>
             </tr>
             <tr>
-                <td>Fecha de entrega: </td>
-                <td>
-                    <input type="text" id="txtFecEntrega" name="txtFecEntrega" value="" class="textbox guia"/><br>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div class="alert alert-warning alert-dismissable">
-                        <strong>¡Atento!</strong> Esta fecha puede variar, est&aacute; sujeta a condiciones log&iacute;sticas.
-                    </div>
-                </td>
-            </tr>
-            <tr>
                 <td>Destinatario: </td>
                 <td>
                     <?php
@@ -89,7 +84,7 @@
                             for ($i = 0; $i < count($destinatario); $i++) {
                                 if ($destinatario[$i]["id_establecimiento"] == $id_usuario) { 
                             ?>
-                                <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
+                                <option value="<?php echo $destinatario[$i]["id_destinatario"] . '-' . $destinatario[$i]["nro_identificacion"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
                             <?php
                                 }
                             }
@@ -103,7 +98,7 @@
                             <?php
                             for ($i = 0; $i < count($destinatario); $i++) {
                             ?>
-                                <option value="<?php echo $destinatario[$i]["id_destinatario"] . ',' . $destinatario[$i]["valor_kilo"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
+                                <option value="<?php echo $destinatario[$i]["id_destinatario"] . '-' . $destinatario[$i]["nro_identificacion"]; ?>"><?php echo $destinatario[$i]["destinatario"]; ?></option> 
                             <?php
                             }
                         ?>
@@ -111,9 +106,21 @@
                         <?php 
                     }
                     ?>
+                </td>
+                <td>
+                     <a href="<?php echo site_url("administrador/destinatarios"); ?>">Registrar destinatarios</a> 
                 </td>   
             </tr>
-
+            <tr>
+                <td>Ciudad destino: </td>
+                <td><select id="idmpioDest" name="idmpioDest" style="width:250px;" class="select">
+                        <option value="-">Seleccione...</option>
+                        <?php for ($i = 0; $i < count($municipios); $i++) { ?>
+                            <option value="<?php echo $municipios[$i]["codigo"]; ?>"><?php echo $municipios[$i]["nombre"]; ?></option> 
+                        <?php } ?>
+                    </select>
+                </td>    
+            </tr>
             <tr>
                 <td>Peso (Kgs): </td>
                 <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox guia"/></td>
@@ -277,5 +284,5 @@
     </fieldset>
 
     <br/>
-    <input type="submit" id="btnAgregarGuia" name="btnAgregarGuia" value="Registrar Guia" class="button"/>
+    <input type="submit" id="btnRegistrarGuia" name="btnRegistrarGuia" value="Registrar Guia" class="button"/>
 </form>

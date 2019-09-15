@@ -17,7 +17,19 @@
 			$CI =& get_instance();
 			$CI->load->helper("url");
 			$CI->load->library("session");			
-			$modulos_generales = array("supervisor","administrador","comercial","operario","traficoseguridad","contabilidad","despacho","imprimir","cliente","logistica","fuente","");
+			$modulos_generales = array("supervisor",
+				"administrador",
+				"comercial",
+				"operario",
+				"traficoseguridad",
+				"contabilidad",
+				"despacho",
+				"imprimir",
+				"cliente",
+				"logistica",
+				"fuente",
+				"guias",
+				"");
 			if (in_array($CI->uri->segment(1),$modulos_generales)){				
 				if ($CI->session->userdata("auth")!="OK"){
 					redirect($this->url,"refresh");

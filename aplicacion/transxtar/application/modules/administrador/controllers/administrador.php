@@ -215,18 +215,27 @@ class Administrador extends MX_Controller {
         $this->load->model("tarifas");
         //Recibir todas las variables que vengan enviadas por POST
         foreach ($_POST as $nombre_campo => $valor) {
-
-            $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+            //echo $nombre_campo ."=>". $valor;
+            if(!isset($valor)){
+                $valor1=0;
+            }else{
+                $valor1=$valor;
+            }
+            $asignacion = "\$" . $nombre_campo . "='" . $valor1 . "';";
             eval($asignacion);
         }
-        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_carga, $referencia);
+       
+        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia);
+
         if(count($data["tarifa"]) > 0) {
+            
             echo "El registro ya existe"; 
         }else{
+           
             //Actualizar los datos del destinatario
-            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_carga, $valor_tarifa, $referencia, $descripcion);
+            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $referencia, $descripcion);
         }
-        redirect("/administrador/editarFuente/$IdEstablecimiento#tarifas", "refresh");
+        redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
     }
     
     public function cargaDirectorio() {
@@ -258,8 +267,8 @@ class Administrador extends MX_Controller {
             $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
             eval($asignacion);
         }
-        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_carga_ed, $valor_tarifa_ed, $referencia_ed, $descripcion_ed);
-        redirect("/administrador/editarFuente/$IdEstablecimiento#tarifas", "refresh");
+        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_carga_ed, $valor_tarifa_ed, $factor_conversion_ed, $valor_minima_ed, $peso_ed, $ancho_ed, $alto_ed, $largo_ed, $referencia_ed, $descripcion_ed);
+        redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
     }
 
     //Ejecuta la funcion del control de guias del menu del administrador.

@@ -7,6 +7,11 @@ $url = site_url();
         //});
         $("#valorpesokg").numerico().largo(8);
         $("#valor_tarifa_ed").numerico().largo(8)
+        $("#valor_minima_ed").numerico().largo(8);
+        $("#peso_ed").numerico().largo(8);
+        $("#ancho_ed").numerico().largo(8);
+        $("#alto_ed").numerico().largo(8);
+        $("#largo_ed").numerico().largo(8);
         $("#valorxunidad").numerico().largo(8);
         
         $("#cmbDeptoTar").select2();
@@ -29,6 +34,21 @@ $url = site_url();
                     valor_tarifa_ed: {
                         required: true
                     },
+                    valor_minima_ed: {
+                        required: true
+                    },
+                    peso_ed: {
+                        required: true
+                    },
+                    ancho_ed: {
+                        required: true
+                    },
+                    alto_ed: {
+                        required: true
+                    },
+                    largo_ed: {
+                        required: true
+                    },
                     referencia_ed: {
                         required: true
                     },
@@ -48,6 +68,21 @@ $url = site_url();
                     },
                     valor_tarifa_ed: {
                         required: "El campo valor tarifa es obligatorio."
+                    },
+                    valor_minima_ed: {
+                        required: "El campo valor minima es obligatorio."
+                    },
+                    peso_ed: {
+                        required: "El campo peso es obligatorio."
+                    },
+                    ancho_ed: {
+                        required: "El campo ancho es obligatorio."
+                    },
+                    alto_ed: {
+                        required: "El campo alto es obligatorio."
+                    },
+                    largo_ed: {
+                        required: "El campo largo es obligatorio."
                     },
                     referencia_ed: {
                         required: "El campo referencia es obligatorio."
@@ -124,6 +159,30 @@ $url = site_url();
                 <tr>
                     <td>Valor tarifa: </td>
                     <td><input type="text" id="valor_tarifa_ed" name="valor_tarifa_ed" value="<?php echo $tarifa["valor_tarifa"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Factro de conversi&oaacute;n: </td>
+                    <td><input type="text" id="factor_conversion_ed" name="factor_conversion_ed" value="<?php echo $tarifa["factor_conversion"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Valor m&iacute;nima: </td>
+                    <td><input type="text" id="valor_minima_ed" name="valor_minima_ed" value="<?php echo $tarifa["valor_minima"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Peso: </td>
+                    <td><input type="text" id="peso_ed" name="peso_ed" value="<?php echo $tarifa["peso"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Ancho: </td>
+                    <td><input type="text" id="ancho_ed" name="ancho_ed" value="<?php echo $tarifa["ancho"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Largo: </td>
+                    <td><input type="text" id="largo_ed" name="largo_ed" value="<?php echo $tarifa["largo"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Alto: </td>
+                    <td><input type="text" id="alto_ed" name="alto_ed" value="<?php echo $tarifa["alto"]; ?>" size="25" class="textbox"/></td>
                 </tr>    
                 <tr>
                     <td>Referencia: </td>
