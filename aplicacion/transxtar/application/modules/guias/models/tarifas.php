@@ -19,7 +19,7 @@ class Tarifas extends CI_Model {
         WHEN tipo_tarifa = 1 THEN 'Referencia'
         WHEN tipo_tarifa = 2 THEN 'General'
         END as tipoTarifa,
-        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE id_establecimientos=$nro_establecimiento
                 ORDER BY id_establecimientos";
@@ -39,7 +39,6 @@ class Tarifas extends CI_Model {
                 $tarifas[$i]["ancho"] = $row->ancho;
                 $tarifas[$i]["alto"] = $row->alto;
                 $tarifas[$i]["largo"] = $row->largo;
-                $tarifas[$i]["costo_manejo"] = $row->costo_manejo;
                 $tarifas[$i]["referencia"] = $row->referencia;
                 $tarifas[$i]["descripcion"] = $row->descripcion;
             $i++;    
@@ -52,7 +51,7 @@ class Tarifas extends CI_Model {
     function obtenerTarifasId($id_tarifa) {
         $this->load->model("divipola");
         $tarifas = array();
-        $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
+        $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE id_tarifa=$id_tarifa
                 ORDER BY id_establecimientos";
@@ -71,7 +70,6 @@ class Tarifas extends CI_Model {
                 $tarifas["ancho"] = $row->ancho;
                 $tarifas["alto"] = $row->alto;
                 $tarifas["largo"] = $row->largo;
-                $tarifas["costo_manejo"] = $row->costo_manejo;
                 $tarifas["referencia"] = $row->referencia;
                 $tarifas["descripcion"] = $row->descripcion;
             }
@@ -80,7 +78,45 @@ class Tarifas extends CI_Model {
         return $tarifas;
     }
 
-    //Función para obtener las tarifas por establecimiento y ciudad
+    //Función para obtener las tarifas por establecimiento, ciudad y referencia
+    function obtenerTarifasEstablecimiento($IdEstablecimiento, $ciudadDest) {
+        $tarifas = array();
+        $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, 
+        CASE
+        WHEN tipo_tarifa = 1 THEN 'Referencia'
+        WHEN tipo_tarifa = 2 THEN 'General'
+        END as tipoTarifa,
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, referencia, descripcion
+                FROM txtar_admin_tarifas
+                WHERE  id_establecimientos = $IdEstablecimiento
+                AND id_ciudad=$ciudadDest ";
+        //echo $sql;        
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i=0;
+            foreach ($query->result() as $row) {
+                $tarifas[$i]["id_tarifa"] = $row->id_tarifa;
+                $tarifas[$i]["id_establecimientos"] = $row->id_establecimientos;
+                $tarifas[$i]["id_ciudad"] = $row->id_ciudad;
+                $tarifas[$i]["tipo_tarifa"] = $row->tipo_tarifa;
+                $tarifas[$i]["valor_tarifa"] = $row->valor_tarifa;
+                $tarifas[$i]["factor_conversion"] = $row->factor_conversion;
+                $tarifas[$i]["valor_minima"] = $row->valor_minima;
+                $tarifas[$i]["peso"] = $row->peso;
+                $tarifas[$i]["ancho"] = $row->ancho;
+                $tarifas[$i]["alto"] = $row->alto;
+                $tarifas[$i]["largo"] = $row->largo;
+                $tarifas[$i]["referencia"] = $row->referencia;
+                $tarifas[$i]["descripcion"] = $row->descripcion;
+            $i++;    
+            }
+        }
+        
+        $this->db->close();
+        return $tarifas;
+    } 
+
+    //Función para obtener las tarifas por establecimiento 
     function obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia) {
         $tarifas = array();
         $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, 
@@ -88,7 +124,7 @@ class Tarifas extends CI_Model {
         WHEN tipo_tarifa = 1 THEN 'Referencia'
         WHEN tipo_tarifa = 2 THEN 'General'
         END as tipoTarifa,
-        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE  id_establecimientos = $IdEstablecimiento
                 AND  id_ciudad=$cmbMpioTar
@@ -106,9 +142,7 @@ class Tarifas extends CI_Model {
                 $tarifas["peso"] = $row->peso;
                 $tarifas["ancho"] = $row->ancho;
                 $tarifas["alto"] = $row->alto;
-                $tarifas["costo_manejo"] = $row->costo_manejo;
                 $tarifas["largo"] = $row->largo;
-
                 $tarifas["referencia"] = $row->referencia;
                 $tarifas["descripcion"] = $row->descripcion;
             }
@@ -118,7 +152,7 @@ class Tarifas extends CI_Model {
         return $tarifas;
     } 
     //Función para registrar las tarifas
-    function registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $costo_manejo, $largo, $referencia, $descripcion) {
+    function registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $referencia, $descripcion) {
         $data = array(
             'id_establecimientos' => $IdEstablecimiento,
             'id_ciudad' => $cmbMpioTar,
@@ -130,7 +164,6 @@ class Tarifas extends CI_Model {
             'ancho' => $ancho,
             'alto' => $alto,
             'largo' => $largo,
-            'costo_manejo' => $costo_manejo,
             'referencia' => $referencia,
             'descripcion' => $descripcion
         );
@@ -139,7 +172,7 @@ class Tarifas extends CI_Model {
         //echo $this->db->last_query();
     }
     //Función para actualizar las tarifas
-    function actualizarTarifas($IdTarifa, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $costo_manejo, $referencia, $descripcion) {
+    function actualizarTarifas($IdTarifa, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $referencia, $descripcion) {
         $data = array(
             'tipo_tarifa' => $tipo_tarifa,
             'valor_tarifa' => $valor_tarifa,
@@ -150,7 +183,6 @@ class Tarifas extends CI_Model {
             'ancho' => $ancho,
             'alto' => $alto,
             'largo' => $largo,
-            'costo_manejo' => $costo_manejo,
             'referencia' => $referencia,
             'descripcion' => $descripcion
         );

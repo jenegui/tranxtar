@@ -767,7 +767,7 @@ class Usuario extends CI_Model {
     }
     
     //Obtiene todos los destinatarios del sistema 
-    function obtenerDestinatariosPagina($identificacion) {
+    function obtenerDestinatariosId($iddest) {
         $destinatarios = array();
         $this->load->model("control");
         $this->load->model("rol");
@@ -777,12 +777,53 @@ class Usuario extends CI_Model {
             FROM  txtar_admin_destinatarios a, txtar_param_tipodocs b 
             WHERE
             	id_tipodoc=tipo_identificacion ";
+                if($iddest !=0 ){
+                    $sql.= "AND id_destinatario= $iddest ";
+                } 
+                $sql.= " ORDER BY id_destinatario";
+
+            //echo $sql;
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            
+            foreach ($query->result() as $row) {
+                $destinatarios["id_destinatario"] = $row->id_destinatario;
+                $destinatarios["nro_identificacion"] = $row->nro_identificacion;
+                $destinatarios["tipo_identificacion"] = $row->tipo_identificacion;
+                $destinatarios["nom_tipodoc"] = $row->nom_tipodoc;
+                $destinatarios["nombre_destinatario"] = $row->nombre_destinatario;
+                $destinatarios["fk_depto"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
+                $destinatarios["fk_mpio"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
+                $destinatarios["ciudadDest"] = $row->ciudad_destinatario;
+                $destinatarios["direccion_destinatario"] = $row->direccion_destinatario;
+                $destinatarios["telefono_destinatario"] = $row->telefono_destinatario;
+                $destinatarios["contacto_destinatario"] = $row->contacto_destinatario;
+                $destinatarios["id_establecimiento"] = $row->id_establecimiento;
+
+               
+            }
+        }
+        $this->db->close();
+        return $destinatarios;
+    }
+
+    //Obtiene todos los destinatarios del sistema 
+    function obtenerDestinatariosPagina($identificacion) {
+        $destinatarios = array();
+        $this->load->model("control");
+        $this->load->model("rol");
+        $this->load->model("divipola");
+        $sql = "SELECT id_destinatario, nro_identificacion, tipo_identificacion, nom_tipodoc, nombre_destinatario, ciudad_destinatario, 
+            depto_destinatario, direccion_destinatario, telefono_destinatario, contacto_destinatario, id_establecimiento
+            FROM  txtar_admin_destinatarios a, txtar_param_tipodocs b 
+            WHERE
+                id_tipodoc=tipo_identificacion ";
                 if($identificacion !=0 ){
                     $sql.= "AND id_establecimiento= $identificacion ";
                 } 
                 $sql.= " ORDER BY id_destinatario";
 
-            
+            //echo $sql;
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $i = 0;

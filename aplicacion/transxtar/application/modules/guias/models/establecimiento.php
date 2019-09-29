@@ -121,23 +121,24 @@ class Establecimiento extends CI_Model {
                 WHERE id_establecimiento = $nro_establecimiento ";
                 
    	   $query = $this->db->query($sql);
+       //echo $sql."MMM<br>";
    		if ($query->num_rows()>0){
-			foreach($query->result() as $row){
-				$establecimiento["nro_establecimiento"] = $row->id_establecimiento;
-				$establecimiento["idnomcom"] = $row->idnomcom;
-                                $establecimiento["nit_establecimiento"] = $row->nit_establecimiento;
-				$establecimiento["iddirecc"] = $row->iddirecc;
-				$establecimiento["idtelno"] = $row->idtelno;
-				$establecimiento["idfaxno"] = $row->idfaxno;
-				$establecimiento["idcorreo"] = $row->idcorreo;
-				$establecimiento["nom_contacto"] = $row->nom_contacto;
-                                $establecimiento["fk_depto"] = $row->fk_depto;
-				$establecimiento["fk_mpio"] = $row->fk_mpio;
-				$establecimiento["estado"] = $row->estado_establecimiento;
-                                $establecimiento["nom_estado"] = $row->nom_estado_establecimiento;
-                                $establecimiento["observaciones"] = $row->observaciones;
-			}
-		}
+  			foreach($query->result() as $row){
+  				$establecimiento["nro_establecimiento"] = $row->id_establecimiento;
+  				$establecimiento["idnomcom"] = $row->idnomcom;
+          $establecimiento["nit_establecimiento"] = $row->nit_establecimiento;
+  				$establecimiento["iddirecc"] = $row->iddirecc;
+  				$establecimiento["idtelno"] = $row->idtelno;
+  				$establecimiento["idfaxno"] = $row->idfaxno;
+  				$establecimiento["idcorreo"] = $row->idcorreo;
+  				$establecimiento["nom_contacto"] = $row->nom_contacto;
+          $establecimiento["fk_depto"] = $row->fk_depto;
+  				$establecimiento["fk_mpio"] = $row->fk_mpio;
+          $establecimiento["estado"] = $row->estado_establecimiento;
+          $establecimiento["nom_estado"] = $row->nom_estado_establecimiento;
+          $establecimiento["observaciones"] = $row->observaciones;
+  			}
+		  }
                  
 		$this->db->close();
 		return $establecimiento;

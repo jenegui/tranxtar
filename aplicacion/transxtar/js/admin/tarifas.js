@@ -61,6 +61,9 @@ jQuery(function () {
                 ancho: {
                     required: true
                 },
+                costomanejo: {
+                    required: true
+                },
                 referencia: {
                     required: true
                 }
@@ -93,6 +96,9 @@ jQuery(function () {
                 alto: {
                     required: "El campo alto es obligatorio."
                 },
+                costomanejo: {
+                    required: "El campo costo de manejo es obligatorio."
+                },
                 referencia: {
                     required: "El campo referencia obligatorio."
                 }
@@ -123,12 +129,12 @@ jQuery(function () {
 	            //alert (tipoTarifa);
 	            if(tipoTarifa=='1'){
 	               // $("#formularioRubros").css("display", "block");
-	                $(".valor_tarifa").hide();
+	                //$(".valor_tarifa").hide();
 	                $(".factor_conversion").hide();
 	                //$("#formularioAplicara").hide();
 	            }else{
 	                //$("#formularioRubros").css("display", "none");
-	                $(".valor_tarifa").show();
+	                //$(".valor_tarifa").show();
 	                $(".factor_conversion").show();
 	                //$("#formularioAplicara").show();
 	             }

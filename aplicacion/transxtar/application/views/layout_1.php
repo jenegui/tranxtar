@@ -16,7 +16,7 @@ if ($controller == "miniencuesta") {
         <!--[if lte IE 9]>
             <link rel="stylesheet" href="<?php echo base_url("css/ie.css"); ?>" type="text/css" media="screen" /><![endif]-->
             <link rel="stylesheet" href="<?php echo base_url("css/1140.css"); ?>" type="text/css" media="screen" />
-            <!--link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url("css/custom-theme/jquery-ui-1.8.18.custom.css"); ?>" /-->
+            <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url("css/custom-theme/jquery-ui-1.8.18.custom.css"); ?>"/>
             <link rel="stylesheet" href="<?php echo base_url("css/styles.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/select2.css"); ?>" type="text/css" media="screen" />
             <!--link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
@@ -24,6 +24,8 @@ if ($controller == "miniencuesta") {
             <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" /-->
             <link href="<?php echo base_url("/css/bootstrap/bootstrap.min.css"); ?>" rel="stylesheet"/>
             <link href="<?php echo base_url("/css/bootstrap/sticky-footer-navbar.css"); ?>" rel="stylesheet"/>
+            
+
 
             <script type="text/javascript" src="<?php echo base_url("js/general/jquery-3.3.1.min.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/bootstrap/bootstrap.min.js");  ?>"></script>
@@ -39,6 +41,8 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/guias/guias.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2_locale_es.js"); ?>"></script>
+            <!--script type="text/javascript" src="<?php echo base_url("js/general/jquery-ui-1.8.18.custom.min.js"); ?>"></script-->
+            <script type="text/javascript" src="<?php echo base_url("js/general/jqueryui.js"); ?>"></script>
            
             <?php 
             

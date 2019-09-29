@@ -157,7 +157,6 @@ class Administrador extends MX_Controller {
         $this->load->model("directorio");        
         $data["controller"] = "administrador";
         $data["view"] = "detalle";
-        
         //$data["view"] = "ajxfuentesadd";
         $nom_usuario = $this->session->userdata("nombre");
         $tipo_usuario = $this->session->userdata("tipo_usuario");
@@ -170,8 +169,9 @@ class Administrador extends MX_Controller {
         
         $this->load->view("layout_1", $data);
     }
-       
-     //function para editar los datos de la fuente en el directorio de fuentes
+
+      
+   //function para editar los datos de la fuente en el directorio de fuentes
     public function editarFuente($nro_establecimiento) {
         $this->load->model("divipola");
         $this->load->model("empresa");
@@ -233,7 +233,7 @@ class Administrador extends MX_Controller {
         }else{
            
             //Actualizar los datos del destinatario
-            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $referencia, $descripcion);
+            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $costomanejo, $referencia, $descripcion);
         }
         redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
     }
@@ -267,7 +267,7 @@ class Administrador extends MX_Controller {
             $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
             eval($asignacion);
         }
-        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_carga_ed, $valor_tarifa_ed, $factor_conversion_ed, $valor_minima_ed, $peso_ed, $ancho_ed, $alto_ed, $largo_ed, $referencia_ed, $descripcion_ed);
+        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_carga_ed, $valor_tarifa_ed, $factor_conversion_ed, $valor_minima_ed, $peso_ed, $ancho_ed, $alto_ed, $largo_ed, $costomanejo_ed, $referencia_ed, $descripcion_ed);
         redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
     }
 

@@ -49,6 +49,9 @@ $url = site_url();
                     largo_ed: {
                         required: true
                     },
+                    costomanejo_ed: {
+                        required: true
+                    },
                     referencia_ed: {
                         required: true
                     },
@@ -83,6 +86,9 @@ $url = site_url();
                     },
                     largo_ed: {
                         required: "El campo largo es obligatorio."
+                    },
+                    costomanejo_ed: {
+                        required: "El campo costo de manejo es obligatorio."
                     },
                     referencia_ed: {
                         required: "El campo referencia es obligatorio."
@@ -183,6 +189,10 @@ $url = site_url();
                 <tr>
                     <td>Alto: </td>
                     <td><input type="text" id="alto_ed" name="alto_ed" value="<?php echo $tarifa["alto"]; ?>" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
+                    <td>Costo de manejo: </td>
+                    <td><input type="text" id="costomanejo_ed" name="costomanejo_ed" value="<?php echo $tarifa["costo_manejo"]; ?>" size="25" class="textbox"/></td>
                 </tr>    
                 <tr>
                     <td>Referencia: </td>
