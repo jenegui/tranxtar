@@ -190,4 +190,98 @@ class Tarifas extends CI_Model {
         $this->db->update("txtar_admin_tarifas", $data);
         $this->db->close();
     }
+
+    //Función para registrar las tarifas que se registran en las guis
+    function registrarCtrlTarifas($idguia, $idtarifa, $cantidad, $valor_tarifa, $total) {
+        $data = array(
+            'id_ctrl_tarifas_numguia' => $idguia,
+            'id_ctrl_tarifas_referencia' => $idtarifa,
+            'id_ctrl_tarifas_valor' => $valor_tarifa,
+            'id_ctrl_tarifas_cantidad' => $cantidad,
+            'id_ctrl_total ' => $total,
+        );
+        $this->db->insert("txtar_admin_ctrl_tarifas", $data);
+        $this->db->close();
+        //echo $this->db->last_query();
+    }
+
+    //Función para obtener las tarifas registradas en la guias por establecimiento 
+    function obtenerCtrlTarifas($idguia, $idtarifa) {
+        $tarctrl = array();
+        $sql = "SELECT id_ctrl_tarifas_numguia, id_ctrl_tarifas_referencia, 
+        id_ctrl_tarifas_valor, id_ctrl_tarifas_cantidad, id_ctrl_total
+                FROM txtar_admin_ctrl_tarifas
+                WHERE  id_ctrl_tarifas_numguia = $idguia
+                AND  id_ctrl_tarifas_referencia=$idtarifa
+                 ";
+        $query = $this->db->query($sql);
+        
+        if ($query->num_rows() > 0) {
+            
+            foreach ($query->result() as $row) {
+                $tarctrl["idnumguia"] = $row->id_ctrl_tarifas_numguia;
+                $tarctrl["idtarifa"] = $row->id_ctrl_tarifas_referencia;
+                $tarctrl["tarifas_valor"] = $row->id_ctrl_tarifas_valor;
+                $tarctrl["tarifas_cantidad"] = $row->id_ctrl_tarifas_cantidad;
+                $tarctrl["ctrl_total"] = $row->id_ctrl_total;
+               
+            }
+        }
+        
+        $this->db->close();
+        return $tarctrl;
+    }
+
+    //Función para obtener las tarifas registradas en la guias por establecimiento 
+    function obtenerCtrlTarifasId($idguia) {
+        $tarctrl = array();
+        $sql = "SELECT id_ctrl_tarifas_numguia, id_ctrl_tarifas_referencia, 
+        id_ctrl_tarifas_valor, id_ctrl_tarifas_cantidad, id_ctrl_total, referencia
+                FROM txtar_admin_ctrl_tarifas
+                INNER JOIN txtar_admin_tarifas ON id_tarifa=id_ctrl_tarifas_referencia
+                WHERE  id_ctrl_tarifas_numguia = $idguia
+
+                ";
+        $query = $this->db->query($sql);
+        
+        if ($query->num_rows() > 0) {
+            $i=0;
+            foreach ($query->result() as $row) {
+                $tarctrl[$i]["idnumguia"] = $row->id_ctrl_tarifas_numguia;
+                $tarctrl[$i]["idtarifa"] = $row->id_ctrl_tarifas_referencia;
+                $tarctrl[$i]["tarifas_valor"] = $row->id_ctrl_tarifas_valor;
+                $tarctrl[$i]["tarifas_cantidad"] = $row->id_ctrl_tarifas_cantidad;
+                $tarctrl[$i]["ctrl_total"] = $row->id_ctrl_total;
+                $tarctrl[$i]["referencia"] = $row->referencia;
+            $i++;   
+            }
+        }
+        
+        $this->db->close();
+        return $tarctrl;
+    } 
+
+    //Función para obtener la suma de las tarifas por guia
+    function obtenerSumaCtrlTar($idguia) {
+        $tarctrl = array();
+        $sql = "SELECT SUM(id_ctrl_total) as sumaTotal
+                FROM txtar_admin_ctrl_tarifas
+                WHERE  id_ctrl_tarifas_numguia = $idguia
+                
+                ";
+
+        $query = $this->db->query($sql);
+        
+        if ($query->num_rows() > 0) {
+            
+            foreach ($query->result() as $row) {
+                $tarctrl["sumaTotal"] = $row->sumaTotal;
+                
+            
+            }
+        }
+        
+        $this->db->close();
+        return $tarctrl;
+    }   
 }    

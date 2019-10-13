@@ -113,7 +113,7 @@ class Establecimiento extends CI_Model {
    	function obtenerDatosEstablecimiento($nro_establecimiento){
    		$establecimiento = array();
    		$sql = "SELECT id_establecimiento, idnomcom, nit_establecimiento, iddirecc, nom_contacto, idtelno, idfaxno, idcorreo, nom_contacto, 
-   		               fk_depto, fk_mpio, estado_establecimiento,
+   		               fk_depto, fk_mpio, costo_manejo, estado_establecimiento,
                                CASE WHEN estado_establecimiento = 1 THEN 'Activo'
                                ELSE 'Inactivo' END AS nom_estado_establecimiento, 
                                observaciones
@@ -125,17 +125,18 @@ class Establecimiento extends CI_Model {
 			foreach($query->result() as $row){
 				$establecimiento["nro_establecimiento"] = $row->id_establecimiento;
 				$establecimiento["idnomcom"] = $row->idnomcom;
-                                $establecimiento["nit_establecimiento"] = $row->nit_establecimiento;
+        $establecimiento["nit_establecimiento"] = $row->nit_establecimiento;
 				$establecimiento["iddirecc"] = $row->iddirecc;
 				$establecimiento["idtelno"] = $row->idtelno;
 				$establecimiento["idfaxno"] = $row->idfaxno;
 				$establecimiento["idcorreo"] = $row->idcorreo;
 				$establecimiento["nom_contacto"] = $row->nom_contacto;
-                                $establecimiento["fk_depto"] = $row->fk_depto;
+        $establecimiento["fk_depto"] = $row->fk_depto;
 				$establecimiento["fk_mpio"] = $row->fk_mpio;
+        $establecimiento["costomanejo"] = $row->costo_manejo;
 				$establecimiento["estado"] = $row->estado_establecimiento;
-                                $establecimiento["nom_estado"] = $row->nom_estado_establecimiento;
-                                $establecimiento["observaciones"] = $row->observaciones;
+        $establecimiento["nom_estado"] = $row->nom_estado_establecimiento;
+        $establecimiento["observaciones"] = $row->observaciones;
 			}
 		}
                  
@@ -143,19 +144,20 @@ class Establecimiento extends CI_Model {
 		return $establecimiento;
    	}
    	
-   	function insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $cmbComercial, $nom_contacto,$observaciones){
+   	function insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab,$idtelefono,$idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $costomanejo, $cmbComercial, $nom_contacto,$observaciones){
    		$data = array('id_establecimiento' => $txtNumEstab, 
    		              'idnomcom' => $txtNomEstab,
-                               'nit_establecimiento' => $txtNitEmpresa,
+                     'nit_establecimiento' => $txtNitEmpresa,
    		              'iddirecc' => $txtDirEstab, 
    		              'idtelno' => $idtelefono, 
    		              'idcorreo' => $idcorreo,
-                              'nom_contacto' => $nom_contacto,
+                    'nom_contacto' => $nom_contacto,
    		              'fk_depto' => $cmbDeptoEstab, 
    		              'fk_mpio' => $cmbMpioEstab, 
+                    'costo_manejo' => $costomanejo, 
    		              'id_comercial' => $cmbComercial, 
    		              'estado_establecimiento' => 1,
-                              'observaciones' => $observaciones);
+                    'observaciones' => $observaciones);
    		$this->db->insert('txtar_admin_establecimientos', $data); 
    		
    	}

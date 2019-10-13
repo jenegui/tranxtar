@@ -118,7 +118,8 @@ class Tarifas extends CI_Model {
         return $tarifas;
     } 
     //Función para registrar las tarifas
-    function registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $costo_manejo, $largo, $referencia, $descripcion) {
+    function registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $costomanejo, $referencia, $descripcion) {
+                               
         $data = array(
             'id_establecimientos' => $IdEstablecimiento,
             'id_ciudad' => $cmbMpioTar,
@@ -130,7 +131,7 @@ class Tarifas extends CI_Model {
             'ancho' => $ancho,
             'alto' => $alto,
             'largo' => $largo,
-            'costo_manejo' => $costo_manejo,
+            'costo_manejo' => $costomanejo,
             'referencia' => $referencia,
             'descripcion' => $descripcion
         );

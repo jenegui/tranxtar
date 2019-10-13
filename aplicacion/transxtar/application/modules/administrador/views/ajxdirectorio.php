@@ -14,6 +14,7 @@ if (count($fuentes) > 0) {
             'Contacto' => $fuentes[$i]['nom_contacto'],
             'Departamento' => $fuentes[$i]['fk_depto'],
             'Municipio' => $fuentes[$i]['fk_mpio'],
+            'CostoManejo' => ($fuentes[$i]['costomanejo']*100).'%',
             'Comercial' => $fuentes[$i]['nom_comercial'],
             'Estado' => $fuentes[$i]['estado'],
             'editar' => $editar);
@@ -34,6 +35,7 @@ if (count($fuentes) > 0) {
         'Contacto' => "",
         'Departamento' => "",
         'Municipio' => "",
+        'CostoManejo' => "",
         'Comercial' => "",
         'Estado' => "",
         'editar' => "");

@@ -1,4 +1,5 @@
 <div class="form-group">
+    <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
         <form id="frmConsultarCliente" name="frmConsultarCliente" method="post" action="<?php //echo site_url("guias/index"); ?>" accept-charset="utf-8">
         <div class="form-group">
             Cliente: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -22,39 +23,143 @@
                 ?>
                 <select id="idestab" name="idestab" style="width:250px;" class="select guia">
                     <option value="-">Seleccione...</option>
-                    <?php for ($i = 0; $i < count($establecimiento); $i++) { ?>
-                        <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
-                    <?php } ?>
+                    <?php for ($i = 0; $i < count($establecimiento); $i++) { 
+                            if($establecimiento[$i]["id_establecimiento"]==$idestab){
+                            echo '<option value="'.$establecimiento[$i]["id_establecimiento"].'" selected="selected">'.$establecimiento[$i]["establecimiento"] .'</option>';
+                        }else{ 
+                        ?>
+                            <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
+                        <?php
+                        }
+                    } 
+                     ?>
                 </select>
                 <?php
+
             }
             ?>
         </div>
         <div class="form-group">
-            Destinatario:
+            Destinatario: 
             <select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
                 <option value="-">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < count($dest); $i++) {
+                    if($dest[$i]["id_destinatario"]==$iddestin){
+                        echo '<option value="'.$dest[$i]["id_destinatario"].'" selected="selected">'.$dest[$i]["nombre_destinatario"] .' - '.$dest[$i]["direccion_destinatario"].'</option>';
+                    }else{
                 ?>
                     <option value="<?php echo $dest[$i]["id_destinatario"]; ?>"><?php echo $dest[$i]["nombre_destinatario"] ." - ".$dest[$i]["direccion_destinatario"]; ?></option> 
-                <?php
+                    <?php
+                    }
                 }
             ?>
             </select>
-        </div>    
+        </div>
+        <div class="form-group">
+            Tipo de tarifa:
+            <select id="tipo_tarifa" name="tipo_tarifa" class="select1 tarifa_referencia">
+                <?php
+                    $selectd1 = '';
+                    $selectd2 = '';
+                    if ($tipTar == 1) {
+                        $selectd1 = 'selected="selected"';
+                    } elseif ($tipTar == 2) {
+                        $selectd2 = 'selected="selected"';
+                    }
+                ?>
+                <option value="-">Seleccione...</option>
+                <option value="1"<?php echo $selectd1; ?>>Referencia</option>
+                <option value="2"<?php echo $selectd2; ?>>General</option>
+            </select>
+        </div>     
         <div>
-            <button id="btnConsultarCliente" name="btnConsultarCliente" value="Consultar" class="btn btn-primary btn-xl text-uppercase" type="submit">Consultar Cliente</button>
+            <button id="btnConsultarCliente" name="btnConsultarCliente" value="Consultar" class="btn btn-primary btn-xl text-uppercase" type="submit">Consultar</button>
             <br/><br/>
         </div>
-    </form>
+        </form>
+    </fieldset>
 </div>
 
 <?php 
 if(!isset($_REQUEST['idestab'])){
     echo "";
 }else{
-?>    
+    if ($tipTar == 1) {        
+?>
+    <div class="form-group">
+        <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
+            <form id="frmRegTarifasGuias" name="frmRegTarifasGuias" method="post" action="" accept-charset="utf-8">
+                <div class="form-group">
+                    <?php 
+                    echo '<table>
+                            <tr> 
+                                <th>Referencia</td> 
+                                <th>Cantidad</td> 
+                                
+                            </tr>';
+                        if(count($ctrlTarifas)>0){
+                            for ($j = 0; $j < count($ctrlTarifas); $j++) {
+                                $html1='<tr>';
+                                    $html1.='<td>';
+                                        $html1.=$ctrlTarifas[$j]["referencia"].': ';
+                                    $html1.='</td>';
+                                    $html1.='<td valign="top">';
+                                        $html1.=$ctrlTarifas[$j]["tarifas_cantidad"];
+                                    $html1.='</td>';
+                                   
+                                $html1.='</tr>';
+                            
+                                echo  $html1;
+                            }
+                        }else{
+                            for ($i = 0; $i < count($IdTarifa); $i++) {
+                                $html='<tr>';
+                                    $html.='<td>';
+                                        $html.=$IdTarifa[$i]["referencia"].': ';
+                                    $html.='</td>';
+                                    $html.='<td valign="top" width="15%">';
+                                        $html.='<input type="checkbox" id="idtarifa'.$IdTarifa[$i]["id_tarifa"].'" name="idtarifa[]" value="'.$IdTarifa[$i]["id_tarifa"].'" class="tarifa"/>';
+                                    $html.='</td>';
+                                    $html.='<td valign="top">';
+                                        $html.='<input type="text" id="cantidad'.$IdTarifa[$i]["id_tarifa"].'" name="cantidad[]" value="" size="10" class="textbox cantidad" disabled="disabled"/>';
+                                    $html.='</td>';
+                                    $html.='<td valign="top">';
+                                        $html.='<input type="hidden" id="valor_tarifa'.$IdTarifa[$i]["id_tarifa"].'" name="valor_tarifa[]" value="'.$IdTarifa[$i]["valor_tarifa"].'" disabled="disabled"/>';
+                                    $html.='</td>';
+                                    $html.='<td valign="top">';
+                                        $html.='<input type="hidden" id="valor_minima'.$IdTarifa[$i]["id_tarifa"].'" name="valor_minima[]" value="'.$IdTarifa[$i]["valor_minima"].'" disabled="disabled"/>';
+                                    $html.='</td>';
+                                $html.='</tr>';
+                            
+                            echo  $html;
+                        }
+                    }
+                    echo '</table>';
+                    ?>
+                </div>
+                <div>
+                    <?php 
+                    if(count($ctrlTarifas)>0){
+                        echo "";    
+                    }else{
+                    ?>
+                        <button id="btnGuardarTarifasGuia" name="btnGuardarTarifasGuia" value="Enviar" class="btn btn-primary btn-xl text-uppercase" type="submit">Enviar</button>
+                        <input type="hidden" id="idestab" name="idestab" value="<?php echo $idestab; ?>"/>
+                        <input type="hidden" id="iddestinatario" name="iddestinatario" value="<?php echo $iddestin; ?>"/>
+                        <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="1"/>
+                    <?php 
+                    }
+                    ?>
+                    <br/>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+    <?php 
+    }else{
+        echo "";
+    }?>
     <form id="frmRegistrarGuia" name="frmRegistrarGuia" method="post" action="">
         <br/>
         <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
@@ -70,7 +175,7 @@ if(!isset($_REQUEST['idestab'])){
                 </tr>
                 <tr>
                     <td>Tipo de tarifa: </td>
-                    <td><select id="tipo_tarifa" name="tipo_tarifa" class="select1">
+                    <td><select id="tipo_tarifa" name="tipo_tarifa" class="select1 tarifa_referencia">
                             <option value="-">Seleccione...</option>
                             <option value="1">Referencia</option>
                             <option value="2">General</option>
@@ -116,85 +221,50 @@ if(!isset($_REQUEST['idestab'])){
                         </select>
                     </td>    
                 </tr>
-                <tr>
-                    <td class="referencia" colspan="2" style="display: none;">
-                        <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
-                        <?php 
-                            echo '<table>
-                                    <tr> 
-                                        <td>Referencia</td> 
-                                        <td></td> 
-                                        <td>Cantidad</td> 
-                                    </tr>';
-
-                            for ($i = 0; $i < count($IdTarifa); $i++) {
-                                
-                                    $html='<tr>';
-                                        $html.='<td>';
-                                            $html.=$IdTarifa[$i]["referencia"].': ';
-                                        $html.='</td>';
-                                        $html.='<td valign="top" width="15%">';
-                                            $html.='<input type="checkbox" id="idtarifa'.$IdTarifa[$i]["id_tarifa"].'" name="idtarifa" value="'.$IdTarifa[$i]["id_tarifa"].'" class="tarifa"/>';
-                                        $html.='</td>';
-                                        $html.='<td valign="top">';
-                                            $html.='<input type="text" id="cantidad'.$IdTarifa[$i]["id_tarifa"].'" name="cantidad" value="" size="10" class="textbox cantidad"/>';
-                                        $html.='</td>';
-                                        $html.='<td valign="top">';
-                                            $html.='<input type="hidden" id="valor'.$IdTarifa[$i]["id_tarifa"].'" name="valor" value="'.$IdTarifa[$i]["valor_tarifa"].'" size="10" class="textbox cantidad"/>';
-                                        $html.='</td>';
-                                    $html.='</tr>';
-                                
-                                echo  $html;
-                            }
-                            echo '</table>';
-                              
-                        ?>
-                    </fieldset>
-                    <div id="consolaerror" class="consola"></div>
-                    </td>
-                </tr>    
-                <tr class="normal" style="display: none;" style="display: none;>
+                <?php
+                    if ($tipTar == 2) {
+                ?> 
+                <tr class="normal"> 
                     <td>Peso (Kgs): </td>
                     <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox normal"/></td>
                 </tr>
-                <tr class="normal" style="display: none;">
+                <tr class="normal">
                     <td>Alto (cm): </td>
                     <td><input type="text" id="alto" name="alto" value="" size="5" class="textbox normal"/></td>
                 </tr>
-                <tr class="normal" style="display: none;">
+                <tr class="normal">
                     <td>Ancho (cm): </td>
                     <td><input type="text" id="ancho" name="ancho" value="" size="5" class="textbox normal"/></td>
                 </tr>
-                <tr class="normal" style="display: none;">
+                <tr class="normal">
                     <td>Largo (cm): </td>
                     <td><input type="text" id="largo" name="largo" value="" size="5" class="textbox normal"/></td>
                 </tr>
-                <tr class="normal" style="display: none;">
+                <tr class="normal">
                     <td>Unidades: </td>
                     <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox normal totalFlete"/></td>
                 </tr>
-                <tr class="normal" style="display: none;">
+                <?php
+                    }
+                ?> 
+                <!--tr class="normal">
                     <td>Valor unitario: </td>
                     <td><input type="text" id="pesocobrar" name="pesocobrar" value="" size="15" class="textbox normal"/></td>
-                </tr>
+                </tr-->
                 <tr>
                     <td>Valor declarado: </td>
-                    <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="" size="15" class="textbox guia totalFlete"/></td>
+                    <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="" size="15" class="textbox tarifa_referencia totalFlete"/></td>
                 </tr>
                 <tr>
                     <td>Flete: </td>
-                    <td><input type="text" id="flete" name="flete" value="" size="15" class="textbox guia totalFlete"/></td>
-                </tr>
-                <tr>
-                    <td>Costo manejo</td>
-                    <td>
-                        <select id="costomanejo" name="costomanejo" class="select guia totalFlete">
-                            <option value="-">Seleccione...</option>
-                            <option value="0.01">1%</option>
-                            <option value="0.03">3%</option>
-                            <option value="0.05">5%</option>
-                        </select>
-                    </td>    
+                    <?php 
+                    if(count($ctrlTarifas)>0){ 
+                        echo '<td><input type="text" id="flete" name="flete" value="'.$sumaTarifas["sumaTotal"].'" size="15" class="textbox guia totalFlete"/></td>';
+                    }else{
+                        echo '<td><input type="text" id="flete" name="flete" value="" size="15" class="textbox guia totalFlete"/></td>';
+                    }
+                    ?>
+                   
                 </tr>
                 <tr>
                     <td>Total Flete: </td>

@@ -95,7 +95,7 @@ class Directorio extends CI_Model {
 	    
 	    $fuentes = array();	    	
 	    $sql = "SELECT ES.id_establecimiento, UPPER(ES.idnomcom) as idnomcom, nit_establecimiento, ES.iddirecc, ES.idtelno,
-    	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, ES.id_comercial, US.nom_usuario,
+    	               ES.idfaxno, ES.idcorreo, UPPER(ES.nom_contacto) as nom_contacto, ES.fk_depto, ES.fk_mpio, ES.costo_manejo, ES.id_comercial, US.nom_usuario,
                        CASE WHEN ES.estado_establecimiento = 1 THEN 'Activa'
             WHEN ES.estado_establecimiento = 0 THEN 'Inactiva'
             END AS estado_establecimiento	 
@@ -109,14 +109,15 @@ class Directorio extends CI_Model {
 	    	foreach($query->result() as $row){
 	    		$fuentes[$i]["nro_establecimiento"] = $row->id_establecimiento;
 	    		$fuentes[$i]["idnomcom"] = $row->idnomcom;
-                        $fuentes[$i]["nit_establecimiento"] = $row->nit_establecimiento;
+          $fuentes[$i]["nit_establecimiento"] = $row->nit_establecimiento;
 	    		$fuentes[$i]["iddirecc"] = $row->iddirecc;
 	    		$fuentes[$i]["idtelno"] = $row->idtelno;
 	    		$fuentes[$i]["idfaxno"] = $row->idfaxno;	    		
 	    		$fuentes[$i]["idcorreo"] = $row->idcorreo;
-                        $fuentes[$i]["nom_contacto"] = $row->nom_contacto;
+          $fuentes[$i]["nom_contacto"] = $row->nom_contacto;
 	    		$fuentes[$i]["fk_depto"] = $this->divipola->nombreDepartamento($row->fk_depto);
 	    		$fuentes[$i]["fk_mpio"] = $this->divipola->nombreMunicipio($row->fk_mpio);
+          $fuentes[$i]["costomanejo"] = $row->costo_manejo;
 	    		$fuentes[$i]["nom_comercial"] = $row->nom_usuario;
 	    		$fuentes[$i]["estado"] = $row->estado_establecimiento;
                        $i++;    			

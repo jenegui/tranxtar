@@ -58,6 +58,7 @@
   <th>Contacto</th>
   <th>Depto</th>
   <th>Municipio</th>
+  <th>Costo majeno</th>
   <th>Comercial</th>
   <th>Estado</th>
   <th>Editar</th>
@@ -69,6 +70,7 @@ for ($i=0; $i<count($fuentes); $i++){
     $class = (($i%2)==0)?"row1":"row2";
 ?>
 <tr>
+    <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 

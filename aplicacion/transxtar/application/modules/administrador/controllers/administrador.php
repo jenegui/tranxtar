@@ -1265,7 +1265,7 @@ class Administrador extends MX_Controller {
 
         //Validar que el establecimiento no estÃ¯Â¿Â½ registrado ya
         if (!$this->usuario->validaRegistroEstablecimiento($txtNitEmpresa)) {
-            $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab, $idtelefono, $idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $cmbComercial, $nom_contacto, $observaciones);
+            $this->establecimiento->insertarEstablecimiento($txtNumEstab, $txtNitEmpresa, $txtNomEstab, $txtDirEstab, $idtelefono, $idcorreo, $cmbDeptoEstab, $cmbMpioEstab, $costomanejo, $cmbComercial, $nom_contacto, $observaciones);
             $data['mensaje'] = 'Registro exitoso!';
         } else {
             $data['mensaje'] = 'El cliente ya se encuentra registrado!';

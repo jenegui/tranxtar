@@ -501,6 +501,10 @@ $(function () {
                     required: true,
                     comboBox: '-'
                 },
+                costomanejo: {
+                    required: true,
+                    comboBox: '-'
+                },
                 nom_contacto: {
                     required: true
                 },
@@ -554,6 +558,10 @@ $(function () {
                 cmbSubSedeEstab: {
                     required: "Debe indicar la sub - sede",
                     comboBox: "Debe indicar la sub - sede"
+                },
+                costomanejo: {
+                    required: "Debe seleccionar costo de manejo",
+                    comboBox: "Debe seleccionar costo de manejo"
                 },
                 nom_contacto: {
                     required: "Debe ingrear el nombre del contacto",
@@ -3197,6 +3205,7 @@ $(document).ready(function(){
                             { mData: 'Contacto' },
                             { mData: 'Departamento' },
                             { mData: 'Municipio' },
+                            { mData: 'CostoManejo' },
                             { mData: 'Comercial' },
                             { mData: 'Estado' },
                             { mData: 'editar' } 

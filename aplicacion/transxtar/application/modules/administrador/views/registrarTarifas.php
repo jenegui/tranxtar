@@ -117,10 +117,19 @@ $url = site_url();
                     <td class="referencia">Alto: </td>
                     <td><input type="text" id="alto" name="alto" value="" size="25" class="textbox referencia"/></td>
                 </tr>
-                <tr>
-                    <td class="referencia">Costo de manejo: </td>
-                    <td><input type="text" id="costomanejo" name="costomanejo" value="" size="25" class="textbox"/></td>
-                </tr>     
+                <!--tr>
+                    <td>Costo manejo</td>
+                    <td>
+                        <select id="costomanejo" name="costomanejo" class="select guia totalFlete">
+                            <option value="-">Seleccione...</option>
+                            <option value="0.005">0.5%</option>
+                            <option value="0.01">1%</option>
+                            <option value="0.01">1%</option>
+                            <option value="0.03">3%</option>
+                            <option value="0.05">5%</option>
+                        </select>
+                    </td>    
+                </tr-->    
                 <tr>
                     <td>Descripci&oacute;n: </td>
                     <td><input type="text" id="descripcion" name="descripcion" value="" size="25" class="textbox"/></td>
@@ -133,6 +142,7 @@ $url = site_url();
         <input type="submit" id="btnRegTarifas" name="btnRegTarifas" value="Registar tarifas" class="button"/>
         <br/><br/>
         <input type="hidden" id="IdEstablecimiento" name="IdEstablecimiento" value="<?php echo $establecimiento["nro_establecimiento"]; ?>"/>
+        <input type="hidden" id="costomanejo" name="costomanejo" value="0"/>
     </form>
 </div>
 <div id="divDirectorio" class="table-responsive">
@@ -148,7 +158,6 @@ $url = site_url();
                 <th>Ancho</th>
                 <th>Largo</th>
                 <th>Alto</th>
-                <th>Costo de manejo</th>
                 <th>Referencia</th>
                 <th>Descripci&oacute;n</th>
                 <th>Editar</th>
@@ -169,7 +178,6 @@ $url = site_url();
                     <td><?php echo $tarifas[$i]['ancho']; ?></td> 
                     <td><?php echo $tarifas[$i]['largo']; ?></td> 
                     <td><?php echo $tarifas[$i]['alto']; ?></td> 
-                    <td><?php echo $tarifas[$i]['costo_manejo']; ?></td> 
                     <td><?php echo $tarifas[$i]['referencia']; ?></td>
                     <td><?php echo $tarifas[$i]['descripcion']; ?></td>
                     <td><a href="<?php echo site_url("administrador/formEditarTarifas/".$tarifas[$i]["id_tarifa"].""); ?>"><img src="<?php echo base_url("images/edit.png"); ?>"/></a>

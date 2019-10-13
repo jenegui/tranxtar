@@ -190,10 +190,38 @@ $url = site_url();
                     <td>Alto: </td>
                     <td><input type="text" id="alto_ed" name="alto_ed" value="<?php echo $tarifa["alto"]; ?>" size="25" class="textbox"/></td>
                 </tr>
-                <tr>
-                    <td>Costo de manejo: </td>
-                    <td><input type="text" id="costomanejo_ed" name="costomanejo_ed" value="<?php echo $tarifa["costo_manejo"]; ?>" size="25" class="textbox"/></td>
-                </tr>    
+                
+                <!--tr>
+                    <td>Costo manejo</td>
+                    <td>
+                        <?php
+                        $selectd005 = '';
+                        $selectd1 = '';
+                        $selectd0015 = '';
+                        $selectd3 = '';
+                        $selectd5 = '';
+                        /*if ($tarifa["costo_manejo"] == 0.005) {
+                            $selectd005 = 'selected="selected"';
+                        } elseif ($tarifa["costo_manejo"] == 0.01) {
+                            $selectd1 = 'selected="selected"';
+                        } elseif ($tarifa["costo_manejo"] == 0.015) {
+                            $selectd0015 = 'selected="selected"';
+                        }elseif ($tarifa["costo_manejo"] == 0.03) {
+                            $selectd3 = 'selected="selected"';
+                        }elseif ($tarifa["costo_manejo"] == 5) {
+                            $selectd5 = 'selected="selected"';
+                        }*/
+                        ?>
+                        <select id="costomanejo_ed" name="costomanejo_ed" class="select guia totalFlete">
+                            <option value="-">Seleccione...</option>
+                            <option value="0.005" <?php //echo $selectd005; ?>>0.5%</option>
+                            <option value="0.01" <?php //echo $selectd1; ?>>1%</option>
+                            <option value="0.015" <?php// echo $selectd0015; ?>>1.5%</option>
+                            <option value="0.03" <?php //echo $selectd3; ?>>3%</option>
+                            <option value="0.05" <?php //echo $selectd5; ?>>5%</option>
+                        </select>
+                    </td>    
+                </tr-->     
                 <tr>
                     <td>Referencia: </td>
                     <td><input type="text" id="referencia_ed" name="referencia_ed" value="<?php echo $tarifa["referencia"]; ?>" size="25" class="textbox"/></td>
@@ -211,5 +239,6 @@ $url = site_url();
         <br/><br/>
         <input type="hidden" id="IdTarifa" name="IdTarifa" value="<?php echo $tarifa["id_tarifa"]; ?>"/>
         <input type="hidden" id="IdEstablecimiento" name="IdEstablecimiento" value="<?php echo $tarifa["id_establecimientos"]; ?>"/>
+        <input type="hidden" id="costomanejo_ed" name="costomanejo_ed" value="0"/>
     </form>
 </div>
