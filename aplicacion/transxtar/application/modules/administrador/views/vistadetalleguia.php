@@ -5,9 +5,11 @@
     if($tipo_usuario!=8){
         $telefonoOperarioInterno="No. tel&eacute;fono conductor interno: ". $guia['nroTelefono'];
         $telefonoOperarioExterno="No. tel&eacute;fono conductor externo: ". $guia['telOperario'];
+        $observaciones=$guia['observaciones'];
     }else{
         $telefonoOperarioInterno="";
         $telefonoOperarioExterno="";
+        $observaciones=$guia['observaciones'];
     }
     echo $tipo_usuario;
 ?>
@@ -37,6 +39,9 @@
     <div>
         <?php echo $telefonoOperarioExterno; ?>
     </div> 
+    <div>
+        Observaciones de la guía: <?php echo $observaciones; ?>
+    </div> 
     <hr>Registros de status</hr>
     <div id="divDirectorio" class="alert alert-warning">
         <table width="100%" class="table" style="font-size: 11px;">
@@ -46,7 +51,7 @@
                     <th>No. Guia</th>
                     <th>Fecha registro</th>
                     <th>Estado carga</th>
-                    <th>Observaciones</th>
+                    <th>Bitácora</th> 
                     <th>Usuario</th>
                 </tr>
             </thead>
@@ -54,13 +59,14 @@
                 <?php
                 for ($i = 0; $i < count($estados); $i++) {
                     $class = (($i % 2) == 0) ? "row1" : "row2";
+                    //generalmente de carácter personal, con una estructura cronológica que se actualiza regularmente y que se suele dedicar a tratar un tema concreto.
                     ?>
                     <tr class="<?php echo $class; ?>">
                         <td><?php echo $estados[$i]["id_estados"]; ?></td>
                         <td><?php echo $estados[$i]["num_guia"]; ?></td>
                         <td><?php echo $estados[$i]["fechaRegistro"]; ?></td>
                         <td><?php echo $estados[$i]["nomestado"]; ?></td>
-                        <td><?php echo $estados[$i]["observaciones"]; ?></td>
+                        <td><?php echo $estados[$i]["observaciones"]; ?></td> 
                         <td><?php echo $estados[$i]["nom_usuario"]; ?></td>
                     </tr>
                 <?php } ?>

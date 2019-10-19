@@ -35,7 +35,9 @@
     <div class="row">       
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 text-center">
             <?php
-            echo date("m/d/Y H:i:s");
+            //echo date("m/d/Y H:i:s"); //Se quita por solicitud enviada por correo 15/10/2019 desde el correo de Maryuri Acuña 
+            $hora = strtotime($guia['fechaRegistro']);
+            echo date('d-m-Y H:i:s',$hora);
             ?>   
         </div>
     </div>

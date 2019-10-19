@@ -183,7 +183,7 @@ class Control extends CI_Model {
                        OP.nombre_operario,
                     OP.nro_identificacion,
                     OP.nro_placa as placa_ext,
-                    OP.telefono_operario
+                    OP.telefono_operario, C.fecha_registro, C.observaciones
                 FROM txtar_admin_control C
                 INNER JOIN txtar_admin_establecimientos EST ON C.id_establecimientos=EST.id_establecimiento 
                 INNER JOIN txtar_admin_destinatarios DEST ON C.id_destinatario=DEST.id_destinatario
@@ -247,6 +247,8 @@ class Control extends CI_Model {
                 $control["telefono_operario"] = $row->telefono_operario;
                 $control["placa_ext"] = $row->placa_ext;
                 $control["telOperario"] = $row->telefono_operario;
+                $control["fechaRegistro"] = $row->fecha_registro;
+                $control["observaciones"] = $row->observaciones;
                 $i++;
             }
         }

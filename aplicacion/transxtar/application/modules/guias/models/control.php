@@ -50,7 +50,7 @@ class Control extends CI_Model {
 
    	//Crea los registros de control cuando se realiza el cargue masivo del directorio
     function registrarGuia($ulimoIdGuia, $numremesa, $idestablecimiento, $iddestinatario, $formaPago, $pesokg, $alto, $ancho, $largo, $unidades, $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro) {
-        $data = array('id_control' => $ulimoIdGuia,
+       		 $data = array('id_control' => $ulimoIdGuia,
         	'nro_remesa' => $numremesa,
             'id_establecimientos' => $idestablecimiento,
             
@@ -65,6 +65,61 @@ class Control extends CI_Model {
             'valor_declarado' => $valorDeclarado,
             'flete' => $flete,
             'costo_manejo' => $costomanejo,
+            'total_fletes' => $totalflete,
+            'tipo_carga' => $tipocarga,
+            'id_usuario_operario' => $idoperario,
+            'nro_placa' => $numplaca,
+            'id_operario' => $idoperarioext,
+            'estado_carga' => $estadocarga,
+            'estado_control' => $estadoRecogida,
+            'observaciones' => $observaciones,
+            'estado_contable' => 0,
+            'id_usuario' => $idusaurio,
+            'fecha_registro' => $fechaRegistro);
+        $this->db->insert('txtar_admin_control', $data);
+        $this->db->close();
+        //echo $this->db->last_query();
+    }
+
+    //Actualiza la guia con los datos del greistro de la guiA
+    function actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro) {
+       		 $data = array(
+        	'nro_remesa' => $numremesa,
+            'forma_pago' => $formaPago,
+            'fecha_recogida' => $fecharecog,
+            'valor_declarado' => $valorDeclarado,
+            'flete' => $flete,
+            'total_fletes' => $totalflete,
+            'tipo_carga' => $tipocarga,
+            'id_usuario_operario' => $idoperario,
+            'nro_placa' => $numplaca,
+            'id_operario' => $idoperarioext,
+            'estado_carga' => $estadocarga,
+            'estado_control' => $estadoRecogida,
+            'observaciones' => $observaciones,
+            'estado_contable' => 0,
+            'id_usuario' => $idusaurio,
+            'fecha_registro' => $fechaRegistro);
+        $this->db->where("id_control", $id_guia);
+        $this->db->update("txtar_admin_control", $data);
+        
+        echo $this->db->last_query();
+        $this->db->close();
+    }
+
+    //Crea los registros de control cuando se realiza el cargue masivo del directorio
+    function insertarControlGuia($numremesa, $idestablecimiento, $txtFecRecogida, $iddestinatario, $formaPago, $alto, $ancho, $largo, $unidades, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro) {
+        $data = array('nro_remesa' => $numremesa,
+            'id_establecimientos' => $idestablecimiento,
+            'fecha_recogida' => $txtFecRecogida,
+            'id_destinatario' => $iddestinatario,
+            'forma_pago' => $formaPago,
+            'unidades' => $unidades,
+            'pv_alto' => $alto,
+            'pv_ancho' => $ancho,
+            'pv_largo' => $largo,
+            'valor_declarado' => $valorDeclarado,
+            'flete' => $flete,
             'total_fletes' => $totalflete,
             'tipo_carga' => $tipocarga,
             'id_usuario_operario' => $idoperario,

@@ -30,6 +30,7 @@ class Guias extends MX_Controller {
 		    	$data["tipTar"]=$this->input->post("tipo_tarifa");
 
 		    	$data["estab"] = $this->establecimiento->obtenerDatosEstablecimiento($data["idestab"]);
+		    	
 		    	$data["dest"] = $this->usuario->obtenerDestinatariosId($data["iddestin"]);
 		    	$ciudadDest=$data["dest"]["ciudadDest"];
 		    	$nroIdentificacion= $data["dest"]["nro_identificacion"];
@@ -87,8 +88,16 @@ class Guias extends MX_Controller {
 	    		
 		        $idusaurio = $this->session->userdata('id');
 		        $fechaRegistro = date("Y-m-d H:i:s");
-	         	//$this->control->registrarGuia($ulimoIdGuia, 0, $_POST['idestab'], $_POST['iddestinatario'], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', $idusaurio, $fechaRegistro);
-		    	//var_dump($_REQUEST); 
+		        if(isset($_REQUEST['btnGuardarTarifasGuia'])){
+		        	$this->control->registrarGuia($ulimoIdGuia, 0, $_POST['idestab'], $_POST['iddestinatario'], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', $idusaurio, $fechaRegistro);
+		        }
+		        if($_REQUEST["tipo_tarifa"]==2){
+		        $tipoTarifa=$_REQUEST["tipo_tarifa"];	
+		        $data["tarifaGeneral"]= $this->tarifas->obtenerTarifasGeneralId($data["idestab"], $ciudadDest, $tipoTarifa);	
+	         	
+	         	//$data["ctrlTarifas"] 
+	         	}
+
 		    }else{
 		    	$data["datosEstab="]=0;
 		    }
@@ -110,29 +119,51 @@ class Guias extends MX_Controller {
              $this->load->view("layout_1", $data);
 	}
 
-	//Obtiene la información del cliente para completar el formulario de registro guias
-	public function obtenerGuiaCliente() {
-        	$this->load->model("control");
-            $this->load->model("usuario");
-         	$this->load->model("establecimiento");
-		    $this->load->model("usuario");
-		    $this->load->model("estado");
-		    $this->load->model("tipodocs");
-		    $this->load->model("divipola");
-		    $data["controller"] = $this->session->userdata("controlador");
-           	$data["tipo_usuario"] = $this->session->userdata("tipo_usuario");
-		    $data["id_usuario"] = $this->session->userdata('num_identificacion');
-		    $data["establecimiento"] = $this->establecimiento->obtenerEstablecimientos();
-		    $data["destinatario"] = $this->usuario->obtenerDestinatarios();
-		    $data["operarios"] = $this->usuario->obtenerOperariosInternos();
-		    $data["operariosExt"] = $this->usuario->obtenerOperariosExternos();
-		    $data["estadocarga"] = $this->estado->estadoCarga();
-		    $data["departamentos"] = $this->divipola->obtenerDepartamentos();
-    		$data["municipios"] = $this->divipola->obtenerMunicipios(0);
-		    $data["usuario"] = $this->session->userdata("tipo_usuario");
-            $data["view"] = "ajxregistroGuias";
-            $data["menu"] = "administrador/adminmenu";
-           echo $data["view"];
+	//Función para registar las guias de tarifa por referencia
+	public function registrarGuia() {
+    	$this->load->model("control");
+        foreach ($_POST as $nombre_campo => $valor) {
+            //echo $nombre_campo ."=>". $valor;
+            if(!isset($valor)){
+                $valor1=0;
+            }else{
+                $valor1=$valor;
+            }
+            $asignacion = "\$" . $nombre_campo . "='" . $valor1 . "';";
+            eval($asignacion);
+        }
+        $idusaurio = $this->session->userdata('id');
+        $fechaRegistro = date("Y-m-d H:i:s");
+        $fecharec = explode("/", $txtFecRecogida);
+        $fecharecog = $fecharec[2] . '-' . $fecharec[1] . '-' . $fecharec[0];
+		$query=$this->control->actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro); 
+
+		
+		redirect('/guias/index', 'refresh');
+    }
+
+    //Función para registar las guias de tarifa general
+	public function registrarGuiaG() {
+		echo "MMM";
+    	$this->load->model("control");
+        foreach ($_POST as $nombre_campo => $valor) {
+            //echo $nombre_campo ."=>". $valor;
+            if(!isset($valor)){
+                $valor1=0;
+            }else{
+                $valor1=$valor;
+            }
+            $asignacion = "\$" . $nombre_campo . "='" . $valor1 . "';";
+            eval($asignacion);
+        }
+        $idusaurio = $this->session->userdata('id');
+        $fechaRegistro = date("Y-m-d H:i:s");
+        $fecharec = explode("/", $txtFecRecogida);
+        $fecharecog = $fecharec[2] . '-' . $fecharec[1] . '-' . $fecharec[0];
+		$query=$this->control->insertarControlGuia($numremesa, $idestab, $fecharecog, $iddestinatario, $formaPago, $alto, $ancho, $largo, $unidades, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro); 
+
+		
+		redirect('/guias/index', 'refresh');
     }
 	
 	 //Actualiza un combo de Municipios con base en un combo de departamentos

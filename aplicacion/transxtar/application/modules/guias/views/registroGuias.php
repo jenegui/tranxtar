@@ -89,7 +89,14 @@ if(!isset($_REQUEST['idestab'])){
 ?>
     <div class="form-group">
         <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
-            <form id="frmRegTarifasGuias" name="frmRegTarifasGuias" method="post" action="" accept-charset="utf-8">
+            <?php 
+            if($tipTar == 1){
+            echo '<form id="frmRegTarifasGuias" name="frmRegTarifasGuias" method="post" action="" accept-charset="utf-8">';
+            }elseif($tipTar == 2){
+            echo '<form id="frmRegTarifasGuiasG" name="frmRegTarifasGuiasG" method="post" action="" accept-charset="utf-8">';
+            }
+            ?>
+    
                 <div class="form-group">
                     <?php 
                     echo '<table>
@@ -107,9 +114,8 @@ if(!isset($_REQUEST['idestab'])){
                                     $html1.='<td valign="top">';
                                         $html1.=$ctrlTarifas[$j]["tarifas_cantidad"];
                                     $html1.='</td>';
-                                   
                                 $html1.='</tr>';
-                            
+                                
                                 echo  $html1;
                             }
                         }else{
@@ -159,29 +165,23 @@ if(!isset($_REQUEST['idestab'])){
     <?php 
     }else{
         echo "";
-    }?>
-    <form id="frmRegistrarGuia" name="frmRegistrarGuia" method="post" action="">
+    }
+    if(isset($ctrlTarifas[0]["idnumguia"])){
+         echo '<div class="alert alert-warning alert-dismissable">
+            <strong>¡Atento!</strong> Por favor registre la guia.
+        </div>';
+    }
+    if($tipTar == 1){
+        echo '<form id="frmRegistrarGuia" name="frmRegistrarGuia" method="post" action="">';
+    }elseif($tipTar == 2){
+        echo '<form id="frmRegistrarGuiaG" name="frmRegistrarGuiaG" method="post" action="">';
+    }    
+        
+    ?>
+    
         <br/>
         <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
             <table>
-                <tr>
-                    <td>Cliente: </td>
-                    <td>
-                        <?php
-                            echo $estab["nit_establecimiento"]." - ".$estab["idnomcom"];
-                        ?>
-
-                    </td>   
-                </tr>
-                <tr>
-                    <td>Tipo de tarifa: </td>
-                    <td><select id="tipo_tarifa" name="tipo_tarifa" class="select1 tarifa_referencia">
-                            <option value="-">Seleccione...</option>
-                            <option value="1">Referencia</option>
-                            <option value="2">General</option>
-                        </select>
-                    </td>
-                </tr>
                 <tr>
                     <td>Nro. de remesa: </td>
                     <td>
@@ -224,9 +224,9 @@ if(!isset($_REQUEST['idestab'])){
                 <?php
                     if ($tipTar == 2) {
                 ?> 
-                <tr class="normal"> 
-                    <td>Peso (Kgs): </td>
-                    <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox normal"/></td>
+               <tr class="normal">
+                    <td>Unidades: </td>
+                    <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox normal totalFlete"/></td>
                 </tr>
                 <tr class="normal">
                     <td>Alto (cm): </td>
@@ -240,10 +240,7 @@ if(!isset($_REQUEST['idestab'])){
                     <td>Largo (cm): </td>
                     <td><input type="text" id="largo" name="largo" value="" size="5" class="textbox normal"/></td>
                 </tr>
-                <tr class="normal">
-                    <td>Unidades: </td>
-                    <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox normal totalFlete"/></td>
-                </tr>
+                
                 <?php
                     }
                 ?> 
@@ -253,7 +250,7 @@ if(!isset($_REQUEST['idestab'])){
                 </tr-->
                 <tr>
                     <td>Valor declarado: </td>
-                    <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="" size="15" class="textbox tarifa_referencia totalFlete"/></td>
+                    <td><input type="text" id="valorDeclarado" name="valorDeclarado" value="" size="15" class="textbox guia totalFlete"/></td>
                 </tr>
                 <tr>
                     <td>Flete: </td>
@@ -362,7 +359,7 @@ if(!isset($_REQUEST['idestab'])){
                     </td>  
                 </tr>
                 <tr>
-                    <td>Estado del control:</td>
+                    <td>Aprobar guia:</td>
                     <td>
                         <?php
                         if ($usuario == 5 || $usuario == 7 || $usuario == 8) {
@@ -388,7 +385,30 @@ if(!isset($_REQUEST['idestab'])){
         <br/>
         <!--input type="submit" id="btnRegistrarGuias" name="btnRegistrarGuias" value="Registrar Guia" class="button"/-->
         <div>
-            <button id="btnRegistrarGuias" name="btnRegistrarGuias" value="Registrar Guia" class="btn btn-primary btn-xl text-uppercase" type="submit">Consultar Cliente</button>
+            <?php 
+            if($tipTar == 1){
+                if(isset($ctrlTarifas[0]["idnumguia"])){
+                    ?>   
+                    <button id="btnRegistrarGuias" name="btnRegistrarGuias" value="btnRegistrarGuias" class="btn btn-primary btn-xl text-uppercase" type="submit">Registrar Guia</button>
+                    <input type="hidden" id="costo_manejo" name="costo_manejo" value="<?php echo $estab["costoManejo"]; ?>"/>
+                    <input type="hidden" id="id_guia" name="id_guia" value="<?php echo isset($ctrlTarifas[0]["idnumguia"])?$ctrlTarifas[0]["idnumguia"]:''; ?>"/>
+                    <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="1"/>
+                    <?php 
+                }
+            }
+            elseif($tipTar == 2){
+                ?> 
+                 <button id="btnRegistrarGuiasG" name="btnRegistrarGuiasG" value="btnRegistrarGuiasG" class="btn btn-primary btn-xl text-uppercase" type="submit">Registrar Guia</button>
+                <input type="hidden" id="costo_manejo" name="costo_manejo" value="<?php echo $estab["costoManejo"]; ?>"/>
+                <input type="hidden" id="idestab" name="idestab" value="<?php echo $idestab; ?>"/>
+                <input type="hidden" id="iddestinatario" name="iddestinatario" value="<?php echo $iddestin; ?>"/>
+                <input type="hidden" id="factor_conversion" name="factor_conversion" value="<?php echo $tarifaGeneral["factor_conversion"]; ?>"/>
+                <input type="hidden" id="valor_tarifa" name="valor_tarifa" value="<?php echo $tarifaGeneral["valor_tarifa"]; ?>"/>
+                <input type="hidden" id="valor_minima" name="valor_minima" value="<?php echo $tarifaGeneral["valor_minima"]; ?>"/>
+                <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="2"/>
+                <?php     
+            }    
+            ?> 
             <br/><br/>
         </div>
     </form>

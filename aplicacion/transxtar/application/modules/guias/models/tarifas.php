@@ -116,6 +116,45 @@ class Tarifas extends CI_Model {
         return $tarifas;
     } 
 
+    //Función para obtener las tarifas por establecimiento, ciudad y tipod de tarifa
+    function obtenerTarifasGeneralId($IdEstablecimiento, $ciudadDest, $tipoTarifa) {
+        $tarifas = array();
+        $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, 
+        CASE
+        WHEN tipo_tarifa = 1 THEN 'Referencia'
+        WHEN tipo_tarifa = 2 THEN 'General'
+        END as tipoTarifa,
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, referencia, descripcion
+                FROM txtar_admin_tarifas
+                WHERE  id_establecimientos = $IdEstablecimiento
+                AND id_ciudad=$ciudadDest 
+                AND tipo_tarifa=$tipoTarifa";
+        //echo $sql;        
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+           
+            foreach ($query->result() as $row) {
+                $tarifas["id_tarifa"] = $row->id_tarifa;
+                $tarifas["id_establecimientos"] = $row->id_establecimientos;
+                $tarifas["id_ciudad"] = $row->id_ciudad;
+                $tarifas["tipo_tarifa"] = $row->tipo_tarifa;
+                $tarifas["valor_tarifa"] = $row->valor_tarifa;
+                $tarifas["factor_conversion"] = $row->factor_conversion;
+                $tarifas["valor_minima"] = $row->valor_minima;
+                $tarifas["peso"] = $row->peso;
+                $tarifas["ancho"] = $row->ancho;
+                $tarifas["alto"] = $row->alto;
+                $tarifas["largo"] = $row->largo;
+                $tarifas["referencia"] = $row->referencia;
+                $tarifas["descripcion"] = $row->descripcion;
+               
+            }
+        }
+        
+        $this->db->close();
+        return $tarifas;
+    } 
+
     //Función para obtener las tarifas por establecimiento 
     function obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia) {
         $tarifas = array();

@@ -116,7 +116,7 @@ class Establecimiento extends CI_Model {
    		               fk_depto, fk_mpio, estado_establecimiento,
                                CASE WHEN estado_establecimiento = 1 THEN 'Activo'
                                ELSE 'Inactivo' END AS nom_estado_establecimiento, 
-                               observaciones
+                               observaciones, costo_manejo
                 FROM txtar_admin_establecimientos
                 WHERE id_establecimiento = $nro_establecimiento ";
                 
@@ -137,6 +137,7 @@ class Establecimiento extends CI_Model {
           $establecimiento["estado"] = $row->estado_establecimiento;
           $establecimiento["nom_estado"] = $row->nom_estado_establecimiento;
           $establecimiento["observaciones"] = $row->observaciones;
+          $establecimiento["costoManejo"] = $row->costo_manejo;
   			}
 		  }
                  
