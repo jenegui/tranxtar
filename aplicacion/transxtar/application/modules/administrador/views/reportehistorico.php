@@ -88,20 +88,15 @@
             <tr>
                 <th>No. Guia</th>
                 <th>No. Remesa</th>
-                <th>No. Identificaci&oacute;n cliente</th>
                 <th>Nombre cliente</th>
                 <th>Ciudad cliente</th>
                 <th>Fecha recogida</th>
                 <th>Fecha entrega</th>
                 <th>Nombre destinatario</th>
                 <th>Ciudad Destinatario</th>
-                <th>Departamento Destinatario</th>
-                <th>Direcci&oacute;n Destinatario</th>
-                <th>Forma de pago</th>
-                <th>Unidades</th>
-                <th>Valor flete</th>
                 <th>Tipo de carga</th>
                 <th>Estatus de la carga</th>
+                <th width="55%">Observaciones</th>
             </tr>
         </thead>
         <tbody>
@@ -119,20 +114,16 @@
                 <tr>
                     <td><?php echo $control[$i]['id_control']; ?></td> 
                     <td><?php echo $control[$i]['nroRemesa']; ?></td> 
-                    <td><?php echo $control[$i]['id_establecimientos']; ?></td> 
                     <td><?php echo $control[$i]['idnomcom']; ?></td> 
                     <td><?php echo $control[$i]['ciudadOrigen']; ?></td> 
                     <td><?php echo $control[$i]['fecha_recogida']; ?></td> 
                     <td><?php echo $control[$i]['fecha_entrega']; ?></td> 
                     <td><?php echo $control[$i]['nombre_destinatario']; ?></td> 
                     <td><?php echo $control[$i]['ciudadDest']; ?></td> 
-                    <td><?php echo $control[$i]['deptoDest']; ?></td> 
-                    <td><?php echo $control[$i]['direccion_destinatario']; ?></td> 
-                    <td><?php echo $forma_pago; ?></td> 
-                    <td><?php echo $control[$i]['unidades']; ?></td> 
-                    <td><?php echo $control[$i]['total_fletes']; ?></td> 
                     <td><?php echo $control[$i]['tipoCarga']; ?></td> 
                     <td><?php echo $control[$i]['nom_estado']; ?></td> 
+                    <td><?php echo $control[$i]['observaciones']; ?></td> 
+
                 </tr>
             <?php } ?>
 

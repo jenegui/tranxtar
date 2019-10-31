@@ -15,7 +15,7 @@
 |
 */
 //$config['base_url']	= 'http://192.168.1.200/dimpe/servicios/ema/';
-$config['base_url']	= 'http://localhost/transxtar_final/aplicacion/transxtar/';
+$config['base_url']	= 'http://192.168.0.4/transxtar_final/aplicacion/transxtar/';
 //$config['base_url']	= 'http://transxtar.israelmartinezpublicidad.com/aplicacion/tranxtar/';
 
 /*

@@ -34,6 +34,7 @@ class Guias extends MX_Controller {
 		    	$data["dest"] = $this->usuario->obtenerDestinatariosId($data["iddestin"]);
 		    	$ciudadDest=$data["dest"]["ciudadDest"];
 		    	$nroIdentificacion= $data["dest"]["nro_identificacion"];
+		    	//echo "MMMM".$nroIdentificacion;
 		    	$this->session->set_userdata("nro_identificacion", $nroIdentificacion);
 		    	$data["IdTarifa"]= $this->tarifas->obtenerTarifasEstablecimiento($data["idestab"], $ciudadDest);
 		    	//echo count($data["dest"])."MMM";

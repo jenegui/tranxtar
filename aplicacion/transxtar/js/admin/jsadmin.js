@@ -29,7 +29,8 @@ $(function () {
     var numest = $("#hddNroEstablecimiento").val();
 
 
-    $("#inalii").hint("Catering (Producci&oacute;n de servicio de comida en el lugar se&ntilde;alado por el cliente).");
+    $("#observ0").hint("Catering (Producci&oacute;n de servicio de comida en el lugar se&ntilde;alado por el cliente).");
+    $("#observ1").hint("Catering (Producci&oacute;n de servicio de comida en el lugar se&ntilde;alado por el cliente).");
     $("#inoee").hint("MICE (Meeting, incentives, congresses, exhibitions). Incluya todo lo referente a alquiler; log&iacute;stica, alimentaci&oacute;n, promoci&oacute;n y venta  de eventos empresariales.");
     $("#inoioo").hint("Incluya todo lo referente a comunicaciones, lavander&iacute;a, peluquer&iacute;a, arrendamientos,  etc.");
     $("#insrr").hint("City tours, gu&iacute;as tur&iacute;sticos, pasad&iacute;as, organizaci&oacute;n de viajes, operadores y servicios similares y conexos.");
@@ -659,14 +660,6 @@ $(function () {
                 totalflete: {
                     required: true
                 },
-                idoperario: {
-                    required: true,
-                    comboBox: '-'
-                },
-                 numplaca: {
-                    required: true
-                },
-                
                 estadocarga: {
                     required: true,
                     comboBox: '-',
@@ -727,13 +720,6 @@ $(function () {
                 },
                 totalflete: {
                     required: "Debe registrar el valor total del flete"
-                },
-                idoperario: {
-                    required: "Debe seleccionar una opción",
-                    comboBox: "Debe seleccionar una opción"
-                },
-                 numplaca: {
-                    required: "Debe registrar el número de placa del veh&iacute;culo",
                 },
                 
                 cmbSedeEstab: {

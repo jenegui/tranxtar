@@ -782,7 +782,6 @@ class Usuario extends CI_Model {
                 } 
                 $sql.= " ORDER BY id_destinatario";
 
-            //echo $sql;
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             
@@ -889,6 +888,7 @@ class Usuario extends CI_Model {
                 $i++;
             }
         }
+        //echo $sql."MMMM";
         $this->db->close();
         return $ciudadDestinatario;
     }

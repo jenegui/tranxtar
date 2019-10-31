@@ -114,7 +114,7 @@ class Control extends CI_Model {
             C.estado_carga, E.nom_estado, 
             CASE WHEN C.estado_control = 1 THEN 'Aprobado'
             WHEN C.estado_control = 0 THEN 'Sin aprobar'
-            END AS estado_control
+            END AS estado_control, C.observaciones
                 FROM txtar_admin_control C,  txtar_admin_establecimientos EST, txtar_admin_destinatarios DEST, txtar_param_estados E
                 WHERE C.id_establecimientos=EST.id_establecimiento
                 AND C.id_destinatario=DEST.id_destinatario
@@ -161,6 +161,7 @@ class Control extends CI_Model {
                 $control[$i]["estado_carga"] = $row->estado_carga;
                 $control[$i]["nom_estado"] = $row->nom_estado;
                 $control[$i]["estado_control"] = $row->estado_control;
+                $control[$i]["observaciones"] = $row->observaciones;
                 $i++;
             }
         }

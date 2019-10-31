@@ -511,10 +511,11 @@
                 alto=$('#alto').val()/100;
                 ancho=$('#ancho').val()/100;
                 largo=$('#largo').val()/100;
-                
-                valorTarifaKilo=parseInt($('#valor_tarifa').val())*parseInt($('#unidades').val());
-                valorTarifaVol=((alto*ancho*largo)*parseInt($('#factor_conversion').val()))*(parseInt($('#unidades').val()));
-                
+                //alert(pesoKg+"MMM");
+                valorTarifaKilo=parseInt($('#valor_tarifa').val())*pesoKg;
+                valorTarifaVol=((alto*ancho*largo)*parseInt($('#factor_conversion').val()))*(pesoKg)*100;
+                $("#valorkilo").val(valorTarifaKilo);
+                $("#valorvolumen").val((valorTarifaVol).toFixed(2));
                 if(valorTarifaVol > valorTarifaKilo){
                     if(valorTarifaVol < $('#valor_minima').val()){
                         flete=parseInt($('#valor_minima').val());
@@ -528,12 +529,13 @@
                         flete=valorTarifaKilo;
                     }
                 }
+                //alert("mmm"+flete);
                 if(parseInt($('#tipo_tarifa').val())==2){
                // $("#pesocobrar").val(pesocobrar);
-                    valorflete=$("#flete").val(flete);
+                    valorflete=$("#flete").val((flete).toFixed(2));
                 }  
                 //alert("mmm"+$('#costo_manejo').val());
-                totalflete=($('#valorDeclarado').val()*$('#costo_manejo').val())+parseInt($('#flete').val());
+                totalflete=(($('#valorDeclarado').val()*$('#costo_manejo').val())+parseInt($('#flete').val()))*parseInt($('#unidades').val());
                 $("#totalflete").val(totalflete);
                 
             });

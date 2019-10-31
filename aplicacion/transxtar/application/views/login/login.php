@@ -63,12 +63,13 @@
                             <div class="clearfix">
                                 <?php
                                 if ($this->session->userdata("si") == 1) {
+                                    /*strtoupper($this->session->userdata("placa")) */
                                     echo '<div class="alert alert-success">';
-                                    echo "<p style = 'font-size:12 px'> Estimado Cliente, su carga est&aacute; en estado " . strtoupper($this->session->userdata("guia")) . ", veh&iacute;culo asignado con placa No. " . strtoupper($this->session->userdata("placa")) . ".</p>";
+                                    echo "<p style = 'font-size:12 px'> Estimado Cliente, su carga est&aacute; en  estatus: " . strtoupper($this->session->userdata("guia")) . ".</p>";
                                     echo '</div>';
                                 } else {
                                      echo '<div class="alert alert-success">';
-                                    echo "<p style = 'font-size:12 px'> Estimado Cliente, este sitio se encuentra en construcci&oacute;n.</p>";
+                                    echo "<p style = 'font-size:12 px'> Estimado Cliente, digite el n&uacute;mero de guia y haga click en 'CONSULTAR'.</p>";
                                     echo '</div>';
                                 }
                                 ?>

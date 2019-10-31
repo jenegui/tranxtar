@@ -7,12 +7,12 @@
             if ($tipo_usuario == 8) {
                 ?>
                 <select id="idestab" name="idestab" style="width:250px;" class="select guia">
-                    <option value="-">Seleccione...</option>
+                    <option value="-" selected="selected">Seleccione...</option>
                     <?php
                     for ($i = 0; $i < count($establecimiento); $i++) {
                         if ($establecimiento[$i]["nit_establecimiento"] == $id_usuario) {
                             ?>
-                            <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>" selected="selected"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
+                            <option value="<?php echo $establecimiento[$i]["id_establecimiento"]; ?>"><?php echo $establecimiento[$i]["establecimiento"]; ?></option> 
                             <?php
                         }
                     }
@@ -40,8 +40,31 @@
             ?>
         </div>
         <div class="form-group">
-            Destinatario: 
-            <select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
+            Destinatario:
+             <?php
+            if ($tipo_usuario == 8) {
+                ?>  
+                <select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
+                <option value="-">Seleccione...</option>
+                <?php
+                for ($i = 0; $i < count($dest); $i++) {
+                    if($dest[$i]["id_establecimiento"]==$id_usuario){
+                        echo '<option value="'.$dest[$i]["id_destinatario"].'" selected="selected">'.$dest[$i]["nombre_destinatario"] .' - '.$dest[$i]["fk_mpio"].' - '.$dest[$i]["direccion_destinatario"].'</option>';
+                    }
+                    //else{
+                        ?>
+                        <!--<option value="<?php //echo $dest[$i]["id_destinatario"]; ?>"><?php //echo $dest[$i]["nombre_destinatario"] ."mmmm - ".$dest[$i]["direccion_destinatario"]; ?>-->
+                        
+                    </option> 
+                    <?php
+                   //}
+                }
+                ?>
+                </select>
+                <?php
+            }else{
+                ?> 
+                <select id="iddestinatario" name="iddestinatario" style="width:250px;" class="select guia">
                 <option value="-">Seleccione...</option>
                 <?php
                 for ($i = 0; $i < count($dest); $i++) {
@@ -53,8 +76,12 @@
                     <?php
                     }
                 }
+                ?>
+                </select>
+                <?php    
+            } 
             ?>
-            </select>
+            
         </div>
         <div class="form-group">
             Tipo de tarifa:
@@ -213,7 +240,8 @@ if(!isset($_REQUEST['idestab'])){
                
                 <tr>
                     <td>Ciudad destino: </td>
-                    <td><select id="idmpioDest" name="idmpioDest" style="width:250px;" class="select">
+                    <td>
+                        <select id="idmpioDest" name="idmpioDest" style="width:250px;" class="select">
                             <option value="-">Seleccione...</option>
                             <?php for ($i = 0; $i < count($municipios); $i++) { ?>
                                 <option value="<?php echo $municipios[$i]["codigo"]; ?>"><?php echo $municipios[$i]["nombre"]; ?></option> 
@@ -223,24 +251,35 @@ if(!isset($_REQUEST['idestab'])){
                 </tr>
                 <?php
                     if ($tipTar == 2) {
-                ?> 
+                ?>
+                <tr>
+                    <td>Peso (Kgs): </td>
+                    <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox normal guia totalFlete"/></td>
+                </tr> 
                <tr class="normal">
                     <td>Unidades: </td>
-                    <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox normal totalFlete"/></td>
+                    <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox normal guia totalFlete"/></td>
                 </tr>
                 <tr class="normal">
                     <td>Alto (cm): </td>
-                    <td><input type="text" id="alto" name="alto" value="" size="5" class="textbox normal"/></td>
+                    <td><input type="text" id="alto" name="alto" value="" size="5" class="textbox normal guia totalFlete"/></td>
                 </tr>
                 <tr class="normal">
                     <td>Ancho (cm): </td>
-                    <td><input type="text" id="ancho" name="ancho" value="" size="5" class="textbox normal"/></td>
+                    <td><input type="text" id="ancho" name="ancho" value="" size="5" class="textbox normal guia totalFlete"/></td>
                 </tr>
                 <tr class="normal">
                     <td>Largo (cm): </td>
-                    <td><input type="text" id="largo" name="largo" value="" size="5" class="textbox normal"/></td>
+                    <td><input type="text" id="largo" name="largo" value="" size="5" class="textbox normal guia totalFlete"/></td>
                 </tr>
-                
+                <tr class="normal">
+                    <td>Valor Kilo: </td>
+                    <td><input type="text" id="valorkilo" name="valorkilo" value="" size="5" class="textbox normal" disabled="disabled"/></td>
+                </tr>
+                <tr class="normal">
+                    <td>Valor Volumen: </td>
+                    <td><input type="text" id="valorvolumen" name="valorvolumen" value="" size="5" class="textbox normal" disabled="disabled"/></td>
+                </tr>
                 <?php
                     }
                 ?> 
