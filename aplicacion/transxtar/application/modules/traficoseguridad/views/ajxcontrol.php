@@ -31,13 +31,13 @@ if (count($control) > 0) {
             $placa=$control[$i]['placa_ext'];
         }
         $datas[] = array('NumGuia' => "G-".$control[$i]['id_control'],
+            'numRemesa' => $control[$i]['nro_remesa'],
             'nomCliente' => $control[$i]['idnomcom'],
             'ciudadOrigen' => $control[$i]['ciudad_origen'],
             'fecRecogida' => $control[$i]['fecha_recogida'],
             'fecEntrega' => $control[$i]['fecha_entrega'],
             'nomDestinatario' => $control[$i]['nombre_destinatario'],
             'ciudadDest' => $control[$i]['ciudadDest'],
-            'noPlacaI' => $control[$i]['nro_placa'],
             'noPlacaE' => $control[$i]['placa_ext'],
             'fecRegistro' => $campo2,
             'estadoCarga' => $control[$i]['nom_estado'],
@@ -46,6 +46,7 @@ if (count($control) > 0) {
     }
 } else {
     $datas[] = array('NumGuia' => "",
+        'NumRemesa' => "",
         'IdCliente' => "",
         'nomCliente' => "",
         'fecRecogida' => "",

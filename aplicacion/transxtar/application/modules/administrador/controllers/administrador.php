@@ -356,7 +356,7 @@ class Administrador extends MX_Controller {
         //var_dump($data["control"])."-----";
         $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
         $data["links"] = $this->pagination->create_links();
-        $this->load->view("layout", $data);
+        $this->load->view("layout_2", $data);
     }
     //Ejecuta la funcion del control de guias por ciudad
     public function reporteHistorico() {

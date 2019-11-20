@@ -20,6 +20,7 @@ if ($controller == "miniencuesta") {
             <link rel="stylesheet" href="<?php echo base_url("css/select2.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables_themeroller.css"); ?>" type="text/css" media="screen" />
             <link rel="stylesheet" href="<?php echo base_url("css/dataTable/jquery.dataTables.css"); ?>" type="text/css" media="screen" />
+            <link rel="stylesheet" href="<?php echo base_url("css/dataTable/buttons.dataTables.min.css"); ?>" type="text/css" media="screen" />
             <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" /-->
             <link href="<?php echo base_url("/css/bootstrap/bootstrap.min.css"); ?>" rel="stylesheet"/>
             <link href="<?php echo base_url("/css/bootstrap/sticky-footer-navbar.css"); ?>" rel="stylesheet"/>
@@ -37,6 +38,10 @@ if ($controller == "miniencuesta") {
             <script type="text/javascript" src="<?php echo base_url("js/general/danevalidator.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/dataTable/jquery.dataTables.min.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/dataTable/buttons.html5.min.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/dataTable/dataTables.buttons.min.js"); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url("js/dataTable/buttons.flash.min.js"); ?>"></script>
+
             <script type="text/javascript" src="<?php echo base_url("js/general/ready.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2.js"); ?>"></script>
             <script type="text/javascript" src="<?php echo base_url("js/general/select2_locale_es.js"); ?>"></script>

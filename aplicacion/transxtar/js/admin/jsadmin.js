@@ -3182,14 +3182,12 @@ $(document).ready(function(){
                     "bProcessing": true,
                     "sAjaxSource": base_url +"administrador/directorioClientes",
                      "aoColumns": [
-                            { mData: 'NumEstabl' } ,
                             { mData: 'NombreEstabl' },
                             { mData: 'idEstablecimiento' },
                             { mData: 'Dierccion' },
                             { mData: 'telefono' },
                             { mData: 'email' },
                             { mData: 'Contacto' },
-                            { mData: 'Departamento' },
                             { mData: 'Municipio' },
                             { mData: 'CostoManejo' },
                             { mData: 'Comercial' },
@@ -3308,13 +3306,13 @@ $(document).ready(function(){
                     "sAjaxSource": base_url +"traficoseguridad/directorioControl",
                      "aoColumns": [
                             { mData: 'NumGuia' } ,
+                            { mData: 'numRemesa' } ,
                             { mData: 'nomCliente' },
                             { mData: 'ciudadOrigen' },
                             { mData: 'fecRecogida' },
                             { mData: 'fecEntrega' },
                             { mData: 'nomDestinatario' },
                             { mData: 'ciudadDest' },
-                            { mData: 'noPlacaI' },
                             { mData: 'noPlacaE' },
                             { mData: 'fecRegistro' },
                             { mData: 'estadoCarga' },
@@ -3409,7 +3407,8 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $('#tablaControlCiudad').dataTable( {
+    $('#tablaControlCiudad1').dataTable( {
+                      
                     "sPaginationType": "full_numbers",
                     "aaSorting": [[0, "asc" ]],
                     "bPaginate": true,
@@ -3423,6 +3422,7 @@ $(document).ready(function(){
                     "serverSide": true,
                     "responsive": true,
                     "bProcessing": true,
+                    "stateSave": true,
                     "sAjaxSource": base_url +"administrador/dirControlCiudad",
                      "aoColumns": [
                             { mData: 'NumGuia' } ,
@@ -3445,6 +3445,8 @@ $(document).ready(function(){
      } );
  
 });
+
+
 $(document).ready(function(){
     $('#tablaDestinatarios').dataTable( {
                 dom: 'Bfrtip',

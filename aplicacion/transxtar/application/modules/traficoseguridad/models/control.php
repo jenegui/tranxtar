@@ -16,7 +16,7 @@ class Control extends CI_Model {
         $this->load->model("sede");
         $this->load->model("subsede");
         $control = array();
-        $sql = "SELECT C.id_control, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.fk_depto, EST.fk_mpio,
+        $sql = "SELECT C.id_control, C.nro_remesa, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.fk_depto, EST.fk_mpio,
                         C.fecha_recogida, C.fecha_entrega,
                         C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
     	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, 
@@ -51,6 +51,7 @@ class Control extends CI_Model {
             $i = 0;
             foreach ($query->result() as $row) {
                 $control[$i]["id_control"] = $row->id_control;
+                $control[$i]["nro_remesa"] = $row->nro_remesa;
                 $control[$i]["id_establecimiento"] = $row->id_establecimientos;
                 $control[$i]["id_establecimientos"] = $row->nit_establecimiento;
                 $control[$i]["idnomcom"] = $row->idnomcom;

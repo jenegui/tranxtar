@@ -1,5 +1,6 @@
 <div class="form-group">
-    <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
+    <fieldset style="border: 1px solid #CCCCCC; padding: 8px;">
+        <legend>Seleccione destinatario y tipo de tarifa</legend>
         <form id="frmConsultarCliente" name="frmConsultarCliente" method="post" action="<?php //echo site_url("guias/index"); ?>" accept-charset="utf-8">
         <div class="form-group">
             Cliente: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -116,6 +117,7 @@ if(!isset($_REQUEST['idestab'])){
 ?>
     <div class="form-group">
         <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
+            <legend>&nbsp;Seleccione referencia y cantidad</legend>
             <?php 
             if($tipTar == 1){
             echo '<form id="frmRegTarifasGuias" name="frmRegTarifasGuias" method="post" action="" accept-charset="utf-8">';
@@ -126,19 +128,23 @@ if(!isset($_REQUEST['idestab'])){
     
                 <div class="form-group">
                     <?php 
-                    echo '<table>
+                    echo '<table style="padding: 10px; border: 1px solid #CCCCCC">
                             <tr> 
-                                <th>Referencia</td> 
-                                <th>Cantidad</td> 
+                                <th style="border-right: 1px solid #CCCCCC; background-color: #282963; color:#fff" align="center">REFERENCIA</td>
+                                <th style="border-right: 1px solid #CCCCCC; background-color: #282963; color:#fff" align="center">&nbsp;</td> 
+                                <th style="border-right: 1px solid #CCCCCC; background-color: #282963; color:#fff" align="center">CANTIDAD</td> 
                                 
                             </tr>';
                         if(count($ctrlTarifas)>0){
                             for ($j = 0; $j < count($ctrlTarifas); $j++) {
                                 $html1='<tr>';
-                                    $html1.='<td>';
+                                    $html1.='<td style="text-align:left; border: 1px solid #CCCCCC;">';
                                         $html1.=$ctrlTarifas[$j]["referencia"].': ';
                                     $html1.='</td>';
-                                    $html1.='<td valign="top">';
+                                    $html1.='<td style="text-align:left; border: 1px solid #CCCCCC;">';
+                                    $html1.='&nbsp;';
+                                    $html1.='</td>';
+                                    $html1.='<td style="text-align:left; border: 1px solid #CCCCCC; text-align:center;">';
                                         $html1.=$ctrlTarifas[$j]["tarifas_cantidad"];
                                     $html1.='</td>';
                                 $html1.='</tr>';
@@ -148,13 +154,13 @@ if(!isset($_REQUEST['idestab'])){
                         }else{
                             for ($i = 0; $i < count($IdTarifa); $i++) {
                                 $html='<tr>';
-                                    $html.='<td>';
+                                    $html.='<td style="text-align:left; border: 1px solid #CCCCCC;">';
                                         $html.=$IdTarifa[$i]["referencia"].': ';
                                     $html.='</td>';
-                                    $html.='<td valign="top" width="15%">';
+                                    $html.='<td style="text-align:left; border: 1px solid #CCCCCC;">';
                                         $html.='<input type="checkbox" id="idtarifa'.$IdTarifa[$i]["id_tarifa"].'" name="idtarifa[]" value="'.$IdTarifa[$i]["id_tarifa"].'" class="tarifa"/>';
                                     $html.='</td>';
-                                    $html.='<td valign="top">';
+                                    $html.='<td style="text-align:left; border: 1px solid #CCCCCC;">';
                                         $html.='<input type="text" id="cantidad'.$IdTarifa[$i]["id_tarifa"].'" name="cantidad[]" value="" size="10" class="textbox cantidad" disabled="disabled"/>';
                                     $html.='</td>';
                                     $html.='<td valign="top">';
@@ -208,6 +214,7 @@ if(!isset($_REQUEST['idestab'])){
     
         <br/>
         <fieldset style="border: 1px solid #CCCCCC; padding: 10px;">
+            <legend>&nbsp;Registre la guia</legend>
             <table>
                 <tr>
                     <td>Nro. de remesa: </td>
@@ -419,37 +426,38 @@ if(!isset($_REQUEST['idestab'])){
                     <td><textarea name="observaciones" rows="3" cols="50"></textarea></td>
                 </tr>
             </table>
+             <br/>
+            <!--input type="submit" id="btnRegistrarGuias" name="btnRegistrarGuias" value="Registrar Guia" class="button"/-->
+            <div>
+                <?php 
+                if($tipTar == 1){
+                    if(isset($ctrlTarifas[0]["idnumguia"])){
+                        ?>   
+                        <button id="btnRegistrarGuias" name="btnRegistrarGuias" value="btnRegistrarGuias" class="btn btn-primary btn-xl text-uppercase" type="submit">Registrar Guia</button>
+                        <input type="hidden" id="costo_manejo" name="costo_manejo" value="<?php echo $estab["costoManejo"]; ?>"/>
+                        <input type="hidden" id="id_guia" name="id_guia" value="<?php echo isset($ctrlTarifas[0]["idnumguia"])?$ctrlTarifas[0]["idnumguia"]:''; ?>"/>
+                        <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="1"/>
+                        <?php 
+                    }
+                }
+                elseif($tipTar == 2){
+                    ?> 
+                     <button id="btnRegistrarGuiasG" name="btnRegistrarGuiasG" value="btnRegistrarGuiasG" class="btn btn-primary btn-xl text-uppercase" type="submit">Registrar Guia</button>
+                    <input type="hidden" id="costo_manejo" name="costo_manejo" value="<?php echo $estab["costoManejo"]; ?>"/>
+                    <input type="hidden" id="idestab" name="idestab" value="<?php echo $idestab; ?>"/>
+                    <input type="hidden" id="iddestinatario" name="iddestinatario" value="<?php echo $iddestin; ?>"/>
+                    <input type="hidden" id="factor_conversion" name="factor_conversion" value="<?php echo $tarifaGeneral["factor_conversion"]; ?>"/>
+                    <input type="hidden" id="valor_tarifa" name="valor_tarifa" value="<?php echo $tarifaGeneral["valor_tarifa"]; ?>"/>
+                    <input type="hidden" id="valor_minima" name="valor_minima" value="<?php echo $tarifaGeneral["valor_minima"]; ?>"/>
+                    <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="2"/>
+                    <?php     
+                }    
+                ?> 
+                <br/><br/>
+            </div>    
         </fieldset>
 
-        <br/>
-        <!--input type="submit" id="btnRegistrarGuias" name="btnRegistrarGuias" value="Registrar Guia" class="button"/-->
-        <div>
-            <?php 
-            if($tipTar == 1){
-                if(isset($ctrlTarifas[0]["idnumguia"])){
-                    ?>   
-                    <button id="btnRegistrarGuias" name="btnRegistrarGuias" value="btnRegistrarGuias" class="btn btn-primary btn-xl text-uppercase" type="submit">Registrar Guia</button>
-                    <input type="hidden" id="costo_manejo" name="costo_manejo" value="<?php echo $estab["costoManejo"]; ?>"/>
-                    <input type="hidden" id="id_guia" name="id_guia" value="<?php echo isset($ctrlTarifas[0]["idnumguia"])?$ctrlTarifas[0]["idnumguia"]:''; ?>"/>
-                    <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="1"/>
-                    <?php 
-                }
-            }
-            elseif($tipTar == 2){
-                ?> 
-                 <button id="btnRegistrarGuiasG" name="btnRegistrarGuiasG" value="btnRegistrarGuiasG" class="btn btn-primary btn-xl text-uppercase" type="submit">Registrar Guia</button>
-                <input type="hidden" id="costo_manejo" name="costo_manejo" value="<?php echo $estab["costoManejo"]; ?>"/>
-                <input type="hidden" id="idestab" name="idestab" value="<?php echo $idestab; ?>"/>
-                <input type="hidden" id="iddestinatario" name="iddestinatario" value="<?php echo $iddestin; ?>"/>
-                <input type="hidden" id="factor_conversion" name="factor_conversion" value="<?php echo $tarifaGeneral["factor_conversion"]; ?>"/>
-                <input type="hidden" id="valor_tarifa" name="valor_tarifa" value="<?php echo $tarifaGeneral["valor_tarifa"]; ?>"/>
-                <input type="hidden" id="valor_minima" name="valor_minima" value="<?php echo $tarifaGeneral["valor_minima"]; ?>"/>
-                <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="2"/>
-                <?php     
-            }    
-            ?> 
-            <br/><br/>
-        </div>
+       
     </form>
 <?php
 }   

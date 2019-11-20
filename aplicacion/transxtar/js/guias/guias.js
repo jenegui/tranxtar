@@ -221,7 +221,9 @@
                         cache: false,
                         success: function (data) {
                             alert("La guia se registró exitoamente");
-                            form.submit();
+                            location.reload();
+                            //alert(data); 
+                            location.href = base_url + "guias/imprimirGuia/"+data;
                         }
                     });
                 }
@@ -334,7 +336,9 @@
                         cache: false,
                         success: function (data) {
                             alert("La guia se registró exitoamente");
-                            form.submit();
+                            location.reload();
+                            //alert(data); 
+                            location.href = base_url + "guias/imprimirGuia/"+data;
                         }
                     });
                 }
@@ -533,9 +537,11 @@
                 if(parseInt($('#tipo_tarifa').val())==2){
                // $("#pesocobrar").val(pesocobrar);
                     valorflete=$("#flete").val((flete).toFixed(2));
-                }  
+                    totalflete=(($('#valorDeclarado').val()*$('#costo_manejo').val())+parseInt($('#flete').val()))*parseInt($('#unidades').val());
+                }else{  
                 //alert("mmm"+$('#costo_manejo').val());
-                totalflete=(($('#valorDeclarado').val()*$('#costo_manejo').val())+parseInt($('#flete').val()))*parseInt($('#unidades').val());
+                    totalflete=(($('#valorDeclarado').val()*$('#costo_manejo').val())+parseInt($('#flete').val()));
+                }
                 $("#totalflete").val(totalflete);
                 
             });

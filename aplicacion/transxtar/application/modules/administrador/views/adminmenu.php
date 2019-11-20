@@ -21,6 +21,7 @@ $periodo = $this->session->userdata('ano_periodo') . $this->session->userdata('m
                 <li><a href="<?php echo site_url("administrador/Operarios"); ?>">Operarios Externos</a></li>
                 <li><a href="<?php echo site_url("administrador/reportexCiudad"); ?>">Reporte por ciudad</a></li>
                 <li><a href="<?php echo site_url("administrador/reporteHistorico"); ?>">Reporte hist&oacute;rico</a></li>
+                <li><a href="<?php echo site_url("runner"); ?>">Reportes</a></li>
                 <li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;</a></li>
             <?php } ?>
             <?php if ($this->session->userdata('tipo_usuario') == 2) { ?>

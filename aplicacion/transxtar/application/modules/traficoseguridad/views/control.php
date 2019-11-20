@@ -60,14 +60,14 @@
 <table id="tablaControlts" width="100%" style="font-size: 11px;" class="table">
 <thead>
 <tr>
-  <th>N.Guia</th>
+  <th>No. Guia</th>
+  <th>No. Remesa</th>
   <th>Nombre cliente</th>
   <th>Ciudad origen</th>
   <th>Fecha recogida</th>
   <th>Fecha entrega</th>
   <th>Nombre destinatario</th>
   <th>Ciudad destino</th>
-  <th>No. Placa int</th>
   <th>No. Placa ext</th>
   <th><?php echo $campo2; ?> </th>
   <th>Estatus de la carga</th>

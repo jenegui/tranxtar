@@ -138,15 +138,13 @@ class Guias extends MX_Controller {
         $fecharec = explode("/", $txtFecRecogida);
         $fecharecog = $fecharec[2] . '-' . $fecharec[1] . '-' . $fecharec[0];
 		$query=$this->control->actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro); 
-
-		
-		redirect('/guias/index', 'refresh');
+		echo $id_guia+1972-25+12+1556789;
+		//redirect('/guias/imprimir/$id_guia', 'refresh');
     }
 
     //Función para registar las guias de tarifa general
 	public function registrarGuiaG() {
-		echo "MMM";
-    	$this->load->model("control");
+		$this->load->model("control");
         foreach ($_POST as $nombre_campo => $valor) {
             //echo $nombre_campo ."=>". $valor;
             if(!isset($valor)){
@@ -164,7 +162,7 @@ class Guias extends MX_Controller {
 		$query=$this->control->insertarControlGuia($numremesa, $idestab, $fecharecog, $iddestinatario, $formaPago, $alto, $ancho, $largo, $unidades, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro); 
 
 		
-		redirect('/guias/index', 'refresh');
+		echo $id_guia+1972-25+12+1556789;;
     }
 	
 	 //Actualiza un combo de Municipios con base en un combo de departamentos
@@ -192,5 +190,24 @@ class Guias extends MX_Controller {
         }
     }
 	
+	//Función para imprimir guias
+	public function imprimirGuia($id_guia) {
+        $this->load->model("divipola");
+        $this->load->model("usuario");
+        $this->load->model("establecimiento");
+      	$idGuia=$id_guia-1972+25-12-1556789;
+      	$this->load->model("control");
+        $this->load->model("usuario");
+        $tipoUsuario = $this->session->userdata("tipo_usuario");
+        $nom_usuario = $this->session->userdata("nombre");
+        $data["tipo_usuario"] = $this->session->userdata("tipo_usuario");
+        $data["nom_usuario"] = $nom_usuario;
+        $data["controller"] = $this->session->userdata("controlador");
+        $data["menu"] = "administrador/adminmenu";
+        $data["view"] = "imprimir";
+        $data["guia"] = $this->control->obtenerGuiasId($idGuia);
+
+        $this->load->view("layout_1", $data);
+    }
 
 }//EOC

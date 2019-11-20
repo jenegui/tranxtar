@@ -49,14 +49,12 @@
 <table id="tablaDirectorio" width="100%" style="font-size: 11px;" class="table">
 <thead>
 <tr>
-  <th>N.Establ</th>
   <th>Nombre Establ</th>
   <th>Id establ</th>
   <th>Direcci&oacute;n</th>
   <th>Tel&eacute;fono</th>
   <th>Correo electr&oacute;nico</th>
   <th>Contacto</th>
-  <th>Depto</th>
   <th>Municipio</th>
   <th>Costo majeno</th>
   <th>Comercial</th>
@@ -70,8 +68,6 @@ for ($i=0; $i<count($fuentes); $i++){
     $class = (($i%2)==0)?"row1":"row2";
 ?>
 <tr>
-    <td>&nbsp;</td> 
-    <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 
     <td>&nbsp;</td> 

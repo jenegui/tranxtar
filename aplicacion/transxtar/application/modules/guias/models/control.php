@@ -103,7 +103,7 @@ class Control extends CI_Model {
         $this->db->where("id_control", $id_guia);
         $this->db->update("txtar_admin_control", $data);
         
-        echo $this->db->last_query();
+       // echo $this->db->last_query();
         $this->db->close();
     }
 
@@ -133,6 +133,94 @@ class Control extends CI_Model {
             'fecha_registro' => $fechaRegistro);
         $this->db->insert('txtar_admin_control', $data);
         $this->db->close();
+    }
+
+    function obtenerGuiasId($id_guia) {
+        $this->load->model("divipola");
+        $this->load->model("sede");
+        $this->load->model("subsede");
+        $control = array();
+        $sql = "SELECT C.id_control, C.nro_remesa, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.iddirecc, EST.idtelno,
+                        C.fecha_recogida, C.fecha_entrega, C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
+                        DEST.ciudad_destinatario, DEST.depto_destinatario,DEST.direccion_destinatario, DEST.telefono_destinatario,
+                       C.forma_pago, C.unidades, C.peso, C.pv_alto, C.pv_ancho, C.pv_largo, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, C.tipo_carga,
+                       C.id_usuario_operario, US.nom_usuario, US.nro_telefono, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones, C.estado_contable, C.estado_control,
+                       C.estado_recaudo, C.estado_carga, E.nom_estado,
+                       OP.nombre_operario,
+                    OP.nro_identificacion,
+                    OP.nro_placa as placa_ext,
+                    OP.telefono_operario, C.fecha_registro, C.observaciones
+                FROM txtar_admin_control C
+                INNER JOIN txtar_admin_establecimientos EST ON C.id_establecimientos=EST.id_establecimiento 
+                INNER JOIN txtar_admin_destinatarios DEST ON C.id_destinatario=DEST.id_destinatario
+                INNER JOIN txtar_param_estados E ON C.estado_carga= E.id_estado
+                LEFT JOIN txtar_param_operario OP ON C.id_operario = OP.id_operario  
+                LEFT JOIN txtar_admin_usuarios US ON C.id_usuario_operario = US.num_identificacion 
+                  ";
+        if ($id_guia != 0) {
+            $sql .= " WHERE C.id_control= $id_guia ";
+        }
+        $sql .= "ORDER BY C.id_control ";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $control["id_control"] = $row->id_control;
+                $control["nroRemesa"] = $row->nro_remesa;
+                $control["id_establecimiento"] = $row->id_establecimientos;
+                $control["id_establecimientos"] = $row->nit_establecimiento;
+                $control["iddirecc"] = $row->iddirecc;
+                $control["idtelno"] = $row->idtelno;
+                $control["idnomcom"] = $row->idnomcom;
+                $control["fecha_recogida"] = $row->fecha_recogida;
+                $control["fecha_entrega"] = $row->fecha_entrega;
+                $control["id_destinatario"] = $row->nro_identificacion;
+                $control["id_dest"] = $row->id_destinatario;
+                $control["nombre_destinatario"] = $row->nombre_destinatario;
+                $control["nroTelefono"] = $row->nro_telefono;
+                $control["ciudadDest"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
+                $control["deptoDest"] = $this->divipola->nombreDepartamento($row->depto_destinatario);
+                $control["direccion_destinatario"] = $row->direccion_destinatario;
+                $control["telefono_destinatario"] = $row->telefono_destinatario;
+                $control["forma_pago"] = $row->forma_pago;
+                $control["unidades"] = $row->unidades;
+                $control["peso"] = $row->peso;
+                $control["alto"] = round($row->pv_alto);
+                $control["ancho"] = round($row->pv_ancho);
+                $control["largo"] = round($row->pv_largo);
+                $control["peso_cobrar"] = $row->peso_cobrar;
+                $control["valor_declarado"] = $row->valor_declarado;
+                $control["flete"] = $row->flete;
+                $control["costo_manejo"] = $row->costo_manejo;
+                $control["total_fletes"] = $row->total_fletes;
+                $control["tipoCarga"] = $row->tipo_carga;
+                $control["costo_manejo"] = $row->costo_manejo;
+                $control["id_usuario_operario"] = $row->id_usuario_operario;
+                $control["nomUsuario"] = $row->nom_usuario;
+                $control["nro_placa"] = $row->nro_placa;
+                $control["nroTelefono"] = $row->nro_telefono;
+                $control["id_operario"] = $row->id_operario;
+                $control["id_usuario"] = $row->id_usuario;
+                $control["fecha_registro"] = $row->fecha_registro;
+                $control["observaciones"] = $row->observaciones;
+                $control["estado_contable"] = $row->estado_contable;
+                $control["estado_recaudo"] = $row->estado_recaudo;
+                $control["estado_carga"] = $row->estado_carga;
+                $control["estado_control"] = $row->estado_control;
+                $control["nom_estado"] = $row->nom_estado;
+                $control["nombreOperario"] = $row->nombre_operario;
+                $control["nro_identificacion"] = $row->nro_identificacion;
+                $control["telefono_operario"] = $row->telefono_operario;
+                $control["placa_ext"] = $row->placa_ext;
+                $control["telOperario"] = $row->telefono_operario;
+                $control["fechaRegistro"] = $row->fecha_registro;
+                $control["observaciones"] = $row->observaciones;
+                $i++;
+            }
+        }
+        //echo $sql;
+        $this->db->close();
+        return $control;
     }
     
 }//EOC

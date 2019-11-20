@@ -26,14 +26,13 @@ if (count($fuentes) > 0) {
         "aaData" => $datas);
     echo json_encode($results);*/
 } else {
-    $datas[] = array('NumEstabl' => "",
+    $datas[] = array(
         'NombreEstabl' => "",
         'idEstablecimiento' => "",
         'Dierccion' => "",
         'telefono' => "",
         'email' => "",
         'Contacto' => "",
-        'Departamento' => "",
         'Municipio' => "",
         'CostoManejo' => "",
         'Comercial' => "",
