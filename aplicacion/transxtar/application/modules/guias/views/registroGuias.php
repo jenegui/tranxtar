@@ -244,7 +244,18 @@ if(!isset($_REQUEST['idestab'])){
                     <td>Fecha de recogida: </td>
                     <td><input type="text" id="txtFecRecogida" name="txtFecRecogida" value="<?php echo date("d/m/Y"); ?>" class="textbox guia"/></td>
                 </tr>
-               
+                <?php
+                 if($idestab==63){ //63
+                ?> 
+               <tr>
+                    <td>Fecha de entrega: </td>
+                    <td>
+                        <input type="text" id="txtFecEntrega" name="txtFecEntrega" value="" class="textbox guia"/><br>
+                    </td>
+                </tr>
+                <?php
+                }
+                ?>
                 <tr>
                     <td>Ciudad destino: </td>
                     <td>
@@ -260,9 +271,20 @@ if(!isset($_REQUEST['idestab'])){
                     if ($tipTar == 2) {
                 ?>
                 <tr>
+                    <td>Tarifa: </td>
+                    <td>
+                        <select id="valor_tarifa" name="valor_tarifa" style="width:250px;" class="select normal">
+                            <option value="-">Seleccione...</option>
+                            <?php for ($i = 0; $i < count($IdTarifa); $i++) { ?>
+                                <option value="<?php echo $IdTarifa[$i]["valor_tarifa"]; ?>"><?php echo $IdTarifa[$i]["descripcion"]; ?></option> 
+                            <?php } ?>
+                        </select>
+                    </td>
+                </tr> 
+                <tr>
                     <td>Peso (Kgs): </td>
                     <td><input type="text" id="pesokg" name="pesokg" value="" size="10" class="textbox normal guia totalFlete"/></td>
-                </tr> 
+                </tr>
                <tr class="normal">
                     <td>Unidades: </td>
                     <td><input type="text" id="unidades" name="unidades" value="" size="10" class="textbox normal guia totalFlete"/></td>
@@ -447,7 +469,7 @@ if(!isset($_REQUEST['idestab'])){
                     <input type="hidden" id="idestab" name="idestab" value="<?php echo $idestab; ?>"/>
                     <input type="hidden" id="iddestinatario" name="iddestinatario" value="<?php echo $iddestin; ?>"/>
                     <input type="hidden" id="factor_conversion" name="factor_conversion" value="<?php echo $tarifaGeneral["factor_conversion"]; ?>"/>
-                    <input type="hidden" id="valor_tarifa" name="valor_tarifa" value="<?php echo $tarifaGeneral["valor_tarifa"]; ?>"/>
+                    <!--<input type="hidden" id="valor_tarifa" name="valor_tarifa" value="<?php //echo $tarifaGeneral["valor_tarifa"]; ?>"/>-->
                     <input type="hidden" id="valor_minima" name="valor_minima" value="<?php echo $tarifaGeneral["valor_minima"]; ?>"/>
                     <input type="hidden" id="tipo_tarifa" name="tipo_tarifa" value="2"/>
                     <?php     

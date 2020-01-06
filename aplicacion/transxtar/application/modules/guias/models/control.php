@@ -82,11 +82,12 @@ class Control extends CI_Model {
     }
 
     //Actualiza la guia con los datos del greistro de la guiA
-    function actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro) {
+    function actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $fechaentr, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro) {
        		 $data = array(
         	'nro_remesa' => $numremesa,
             'forma_pago' => $formaPago,
             'fecha_recogida' => $fecharecog,
+            'fecha_entrega' => $fechaentr,
             'valor_declarado' => $valorDeclarado,
             'flete' => $flete,
             'total_fletes' => $totalflete,
@@ -143,7 +144,7 @@ class Control extends CI_Model {
         $sql = "SELECT C.id_control, C.nro_remesa, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.iddirecc, EST.idtelno,
                         C.fecha_recogida, C.fecha_entrega, C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
                         DEST.ciudad_destinatario, DEST.depto_destinatario,DEST.direccion_destinatario, DEST.telefono_destinatario,
-                       C.forma_pago, C.unidades, C.peso, C.pv_alto, C.pv_ancho, C.pv_largo, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, C.tipo_carga,
+                       C.forma_pago, C.unidades, C.peso, C.pv_alto, C.pv_ancho, C.pv_largo, C.peso_cobrar, C.valor_declarado, C.flete, EST.costo_manejo, C.total_fletes, C.tipo_carga,
                        C.id_usuario_operario, US.nom_usuario, US.nro_telefono, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones, C.estado_contable, C.estado_control,
                        C.estado_recaudo, C.estado_carga, E.nom_estado,
                        OP.nombre_operario,
@@ -221,6 +222,34 @@ class Control extends CI_Model {
         //echo $sql;
         $this->db->close();
         return $control;
+    }
+
+    function obtenerValoresId($id_guia){
+        $valores = array();
+        $sql = "SELECT C.id_control, 
+                    CT.id_ctrl_tarifas_cantidad,
+                    TAR.referencia
+                FROM txtar_admin_control C
+                INNER JOIN txtar_admin_ctrl_tarifas CT ON C.id_control = CT.id_ctrl_tarifas_numguia
+                INNER JOIN txtar_admin_tarifas TAR ON CT.id_ctrl_tarifas_referencia=TAR.id_tarifa
+                  ";
+        if ($id_guia != 0) {
+            $sql .= " WHERE C.id_control= $id_guia ";
+        }
+        $sql .= "ORDER BY C.id_control ";
+        
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $valores[$i]["tarifas_cantidad"] = $row->id_ctrl_tarifas_cantidad;
+                $valores[$i]["referencia"] = $row->referencia;
+                $i++;
+            }
+        }
+        //echo $sql;
+        $this->db->close();
+        return $valores;
     }
     
 }//EOC

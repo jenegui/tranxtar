@@ -90,7 +90,7 @@ class Guias extends MX_Controller {
 		        $idusaurio = $this->session->userdata('id');
 		        $fechaRegistro = date("Y-m-d H:i:s");
 		        if(isset($_REQUEST['btnGuardarTarifasGuia'])){
-		        	$this->control->registrarGuia($ulimoIdGuia, 0, $_POST['idestab'], $_POST['iddestinatario'], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', $idusaurio, $fechaRegistro);
+		        	$this->control->registrarGuia($ulimoIdGuia, 0, $_POST['idestab'], $_POST['iddestinatario'], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, '', $idusaurio, $fechaRegistro);
 		        }
 		        if($_REQUEST["tipo_tarifa"]==2){
 		        $tipoTarifa=$_REQUEST["tipo_tarifa"];	
@@ -133,11 +133,29 @@ class Guias extends MX_Controller {
             $asignacion = "\$" . $nombre_campo . "='" . $valor1 . "';";
             eval($asignacion);
         }
+        (!isset($numremesa))?$numremesa='' : $numremesa=$numremesa;
+        (!isset($idoperario))?$idoperario='' : $idoperario=$idoperario;
+        (!isset($numplaca))?$numplaca='' : $numplaca=$numplaca;
+        (!isset($idoperarioext))?$idoperarioext='' : $idoperarioext=$idoperarioext;
+       
+        (!isset($estadoRecogida))?$estadoRecogida='' : $estadoRecogida=$estadoRecogida;
+        
+
+        if(!isset($txtFecEntrega)){
+        	$fechaentr='0000-00-00';
+        }else{
+        	$txtFecEntrega=$txtFecEntrega;
+        	$fecharen = explode("/", $txtFecEntrega);
+        	$fechaentr = $fecharen[2] . '-' . $fecharen[1] . '-' . $fecharen[0];
+        }
+        $estadocarga=1;
+        
         $idusaurio = $this->session->userdata('id');
         $fechaRegistro = date("Y-m-d H:i:s");
         $fecharec = explode("/", $txtFecRecogida);
-        $fecharecog = $fecharec[2] . '-' . $fecharec[1] . '-' . $fecharec[0];
-		$query=$this->control->actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro); 
+        $fecharecog = $fecharec[2] . '-' . $fecharec[1] . '-' . $fecharec[0]; 
+        
+		$query=$this->control->actualizarGuiaReferencia($id_guia, $numremesa, $formaPago, $fecharecog, $fechaentr, $valorDeclarado, $flete, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observaciones, $idusaurio, $fechaRegistro); 
 		echo $id_guia+1972-25+12+1556789;
 		//redirect('/guias/imprimir/$id_guia', 'refresh');
     }
@@ -196,6 +214,7 @@ class Guias extends MX_Controller {
         $this->load->model("usuario");
         $this->load->model("establecimiento");
       	$idGuia=$id_guia-1972+25-12-1556789;
+      	
       	$this->load->model("control");
         $this->load->model("usuario");
         $tipoUsuario = $this->session->userdata("tipo_usuario");
@@ -206,6 +225,7 @@ class Guias extends MX_Controller {
         $data["menu"] = "administrador/adminmenu";
         $data["view"] = "imprimir";
         $data["guia"] = $this->control->obtenerGuiasId($idGuia);
+        $data["valores"] = $this->control->obtenerValoresId($idGuia);
 
         $this->load->view("layout_1", $data);
     }

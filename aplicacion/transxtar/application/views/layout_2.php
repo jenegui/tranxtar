@@ -96,7 +96,8 @@ if ($controller == "miniencuesta") {
                                         },
                                         buttons: {
                                             print:      "Imprimir",
-                                            copy:       "Copiar"
+                                            copy:       "Copiar",
+                                            copyTitle: "Copiar al portapapeles"
                                             
                                         },
                                         aria: {
@@ -106,7 +107,7 @@ if ($controller == "miniencuesta") {
                                     },
                                     dom: 'Bfrtip',
                                     buttons: [
-                                        'copy', 'csv', 'excel', 'pdf', 'print'
+                                        'copy', 'csv', 'excel'
                                     ],
                                     sPaginationType: "full_numbers",
                                     aaSorting: [[0, "asc" ]],

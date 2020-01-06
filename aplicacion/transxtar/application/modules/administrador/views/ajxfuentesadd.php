@@ -82,6 +82,7 @@
             <select id="costomanejo" name="costomanejo" class="select guia totalFlete">
                 <option value="-">Seleccione...</option>
                 <option value="0">0%</option>
+                <option value="0.0025">0.25%</option>
                 <option value="0.005">0.5%</option>
                 <option value="0.01">1%</option>
                 <option value="0.015">1.5%</option>

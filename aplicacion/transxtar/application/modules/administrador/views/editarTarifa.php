@@ -66,7 +66,7 @@ $url = site_url();
                     cmbMpioTar: {
                         comboBox: "Seleccione un municipio."
                     },
-                    tipo_carga_ed: {
+                    tipo_tarifa_ed: {
                         comboBox: "Seleccione el tipo de carga."
                     },
                     valor_tarifa_ed: {
@@ -140,25 +140,23 @@ $url = site_url();
                     <td><input type="text" id="idnomcomest" name="idnomcomest" value="<?php echo $tarifa["nomciudad"]; ?>" size="25" class="textbox" disabled="disabled"/></td>
                 </tr>
                 <tr>
-                    <td>Tipo de carga: </td>
+                    <td>Tipo de tarifa: </td>
                     <td>
-                    <select id="tipo_carga_ed" name="tipo_carga_ed" class="select guia">
+                    <select id="tipo_tarifa_ed" name="tipo_tarifa_ed" class="select guia">
 
                         <?php
                         $selectd1 = '';
                         $selectd2 = '';
                         $selectd3 = '';
-                        if ($tarifa["tipo_carga"] == 1) {
+                        if ($tarifa["tipo_tarifa"] == 1) {
                             $selectd1 = 'selected="selected"';
-                        } elseif ($tarifa["tipo_carga"] == 2) {
+                        } elseif ($tarifa["tipo_tarifa"] == 2) {
                             $selectd2 = 'selected="selected"';
-                        } elseif ($tarifa["tipo_carga"] == 3) {
-                            $selectd3 = 'selected="selected"';
-                        }
+                        } 
                         ?>
-                        <option value="1" <?php echo $selectd1; ?>>Peso</option>
-                        <option value="2" <?php echo $selectd2; ?>>Volumen</option>
-                        <option value="3" <?php echo $selectd3; ?>>Paquete</option>
+                        <option value="1" <?php echo $selectd1; ?>>Referencia</option>
+                        <option value="2" <?php echo $selectd2; ?>>General</option>
+                        
                     </select>
                 </td>    
                 </tr>    
@@ -167,7 +165,7 @@ $url = site_url();
                     <td><input type="text" id="valor_tarifa_ed" name="valor_tarifa_ed" value="<?php echo $tarifa["valor_tarifa"]; ?>" size="25" class="textbox"/></td>
                 </tr>
                 <tr>
-                    <td>Factro de conversi&oaacute;n: </td>
+                    <td>Factro de conversi&oacute;n: </td>
                     <td><input type="text" id="factor_conversion_ed" name="factor_conversion_ed" value="<?php echo $tarifa["factor_conversion"]; ?>" size="25" class="textbox"/></td>
                 </tr>
                 <tr>
@@ -190,38 +188,7 @@ $url = site_url();
                     <td>Alto: </td>
                     <td><input type="text" id="alto_ed" name="alto_ed" value="<?php echo $tarifa["alto"]; ?>" size="25" class="textbox"/></td>
                 </tr>
-                
-                <!--tr>
-                    <td>Costo manejo</td>
-                    <td>
-                        <?php
-                        $selectd005 = '';
-                        $selectd1 = '';
-                        $selectd0015 = '';
-                        $selectd3 = '';
-                        $selectd5 = '';
-                        /*if ($tarifa["costo_manejo"] == 0.005) {
-                            $selectd005 = 'selected="selected"';
-                        } elseif ($tarifa["costo_manejo"] == 0.01) {
-                            $selectd1 = 'selected="selected"';
-                        } elseif ($tarifa["costo_manejo"] == 0.015) {
-                            $selectd0015 = 'selected="selected"';
-                        }elseif ($tarifa["costo_manejo"] == 0.03) {
-                            $selectd3 = 'selected="selected"';
-                        }elseif ($tarifa["costo_manejo"] == 5) {
-                            $selectd5 = 'selected="selected"';
-                        }*/
-                        ?>
-                        <select id="costomanejo_ed" name="costomanejo_ed" class="select guia totalFlete">
-                            <option value="-">Seleccione...</option>
-                            <option value="0.005" <?php //echo $selectd005; ?>>0.5%</option>
-                            <option value="0.01" <?php //echo $selectd1; ?>>1%</option>
-                            <option value="0.015" <?php// echo $selectd0015; ?>>1.5%</option>
-                            <option value="0.03" <?php //echo $selectd3; ?>>3%</option>
-                            <option value="0.05" <?php //echo $selectd5; ?>>5%</option>
-                        </select>
-                    </td>    
-                </tr-->     
+               
                 <tr>
                     <td>Referencia: </td>
                     <td><input type="text" id="referencia_ed" name="referencia_ed" value="<?php echo $tarifa["referencia"]; ?>" size="25" class="textbox"/></td>
@@ -239,6 +206,5 @@ $url = site_url();
         <br/><br/>
         <input type="hidden" id="IdTarifa" name="IdTarifa" value="<?php echo $tarifa["id_tarifa"]; ?>"/>
         <input type="hidden" id="IdEstablecimiento" name="IdEstablecimiento" value="<?php echo $tarifa["id_establecimientos"]; ?>"/>
-        <input type="hidden" id="costomanejo_ed" name="costomanejo_ed" value="0"/>
     </form>
 </div>

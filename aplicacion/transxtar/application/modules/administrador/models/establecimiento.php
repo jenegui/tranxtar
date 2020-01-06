@@ -183,13 +183,14 @@ class Establecimiento extends CI_Model {
 		$this->db->update('rmmh_admin_establecimientos', $data);
    	}
         
-        function actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones){
+        function actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $costomanejo, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones){
    		$data = array('nit_establecimiento' => $idnitest,
                             'idnomcom' => $idnomcomest,
    		              'iddirecc' => $iddireccest,
    		              'idtelno' => $idtelnoest,
    		              'idcorreo' => $idcorreoest,
-                              'nom_contacto' => $nom_contacto,
+                    'nom_contacto' => $nom_contacto,
+                    'costo_manejo' => $costomanejo,
    		              'fk_depto' => $cmbDeptoEst,
    		              'fk_mpio' => $cmbMpioEst,
    		              'estado_establecimiento' => $estado_establecimiento,

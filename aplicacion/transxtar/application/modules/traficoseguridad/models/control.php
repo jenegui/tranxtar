@@ -42,7 +42,7 @@ class Control extends CI_Model {
                 INNER JOIN txtar_param_estados E ON C.estado_carga= E.id_estado
                 LEFT JOIN txtar_param_operario OP ON C.id_operario = OP.id_operario  
                 LEFT JOIN txtar_admin_usuarios US ON C.id_usuario_operario = US.num_identificacion  
-                WHERE estado_carga NOT IN (6)
+                WHERE estado_carga NOT IN (6,9)
                 ORDER BY C.id_control ";
         $query = $this->db->query($sql);
 

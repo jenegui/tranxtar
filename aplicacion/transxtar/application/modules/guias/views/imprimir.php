@@ -41,6 +41,9 @@
             ?>   
         </div>
     </div>
+   
+     
+    
     <div class="row">       
         <div class="col-xs-1 col-sm-1 col-md-12 col-lg-12">
             <?php
@@ -55,13 +58,22 @@
             ?>
         </div>
     </div>
-    <!--div class="row">    
+     <?php
+     if($guia['id_establecimiento']==63){ //63
+    ?> 
+    <div class="row">    
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
-            //echo "<b>Tel&eacute;fono</b>: " . $guia['idtelno'];
-            ?>
+            $fechaEntr = strtotime($guia['fecha_entrega']);
+            echo "<b>Fecha de entrega</b>:";
+            echo date('d-m-Y',$fechaEntr);
+            ?>   
+            
         </div>
-    </div-->
+    </div>
+    <?php
+    }
+    ?>
     <div class="row">    
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-12">
             <?php
@@ -97,10 +109,17 @@
             ?>
         </div>     
     </div-->
-    <div class="row">
+   <div class="row">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
             <?php
-            echo "<b>Unidades</b>: " . $guia['unidades'];
+            if(count($valores)>0){
+                echo "<b>Unidades</b>:<br>";
+                for($i=0; $i<=count($valores)-1; $i++){
+                    echo $valores[$i]['referencia'].": ".$valores[$i]['tarifas_cantidad']."<br>";
+                }
+            }else{
+                echo "<b>Unidades</b>: " . $guia['unidades'];
+            }
             ?>
         </div>
     </div>
@@ -195,8 +214,9 @@
 <!-- Footer -->
     <div>
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-3 text-center pie">
-                
+            <div class="col-xs-12 col-sm-6 col-md-5 col-lg-3 text-justify pie">
+             <footer id="footer"><p align="justify">El remitente declara que esta mercancía no es contrabando, joyas, títulos valores, dinero ni de prohibición de transporte y su contenido es legal.
+De igual forma expresa que tuvo conocimiento del acuerdo de transporte que se encuentra publicado en la pagina www.transxtar.co, que regula el servicio acordado entre las partes, cuyo contenido clausurar aceptar expresamente con la suscripción de este documento, así mismo declara conocer nuestro aviso de privacidad y aceptar la política de protección de datos personales los cuales se encuentran en www.transxtar.co  para peticiones, quejas o recursos remitirse al correo info@transxtar.co a los telefonos 6961068/cel 3143596513</p></footer>    
 
             </div>
         </div>

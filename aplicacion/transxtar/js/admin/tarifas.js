@@ -46,7 +46,14 @@ jQuery(function () {
                 valor_tarifa: {
                     required: true
                 },
+                
                 valor_minima: {
+                    required: true
+                },
+                valor_maxima: {
+                    required: true
+                },
+                factor_conversion: {
                     required: true
                 },
                 peso: {
@@ -81,8 +88,15 @@ jQuery(function () {
                 valor_tarifa: {
                     required: "El campo valor tarifa es obligatorio."
                 },
+                 
                 valor_minima: {
                     required: "El campo valor minima es obligatorio."
+                }, 
+                valor_maxima: {
+                    required: "El campo valor máxima es obligatorio."
+                },
+                factor_conversion: {
+                    required: "El campo factor de conversión es obligatorio."
                 },
                 peso: {
                     required: "El campo peso es obligatorio."

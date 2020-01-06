@@ -102,6 +102,10 @@ $url = site_url();
                     <td><input type="text" id="valor_minima" name="valor_minima" value="" size="25" class="textbox"/></td>
                 </tr>
                 <tr>
+                    <td>Valor m&aacute;xima: </td>
+                    <td><input type="text" id="valor_maxima" name="valor_maxima" value="" size="25" class="textbox"/></td>
+                </tr>
+                <tr>
                     <td class="referencia">Peso: </td>
                     <td><input type="text" id="peso" name="peso" value="" size="25" class="textbox referencia"/></td>
                 </tr>
@@ -154,6 +158,7 @@ $url = site_url();
                 <th>Valor tarifa</th>
                 <th>Factor de conversi&oacute;n</th>
                 <th>Valor minima</th>
+                <th>Valor m&aacute;xima</th>
                 <th>Peso</th>
                 <th>Ancho</th>
                 <th>Largo</th>
@@ -174,6 +179,7 @@ $url = site_url();
                     <td><?php echo $tarifas[$i]['valor_tarifa']; ?></td>
                     <td><?php echo $tarifas[$i]['factor_conversion']; ?></td> 
                     <td><?php echo $tarifas[$i]['valor_minima']; ?></td> 
+                    <td><?php echo $tarifas[$i]['valor_maxima']; ?></td> 
                     <td><?php echo $tarifas[$i]['peso']; ?></td> 
                     <td><?php echo $tarifas[$i]['ancho']; ?></td> 
                     <td><?php echo $tarifas[$i]['largo']; ?></td> 

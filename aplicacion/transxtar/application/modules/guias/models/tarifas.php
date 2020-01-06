@@ -86,7 +86,7 @@ class Tarifas extends CI_Model {
         WHEN tipo_tarifa = 1 THEN 'Referencia'
         WHEN tipo_tarifa = 2 THEN 'General'
         END as tipoTarifa,
-        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, referencia, descripcion
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, valor_maxima, peso, ancho, alto, largo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE  id_establecimientos = $IdEstablecimiento
                 AND id_ciudad=$ciudadDest ";
@@ -102,6 +102,7 @@ class Tarifas extends CI_Model {
                 $tarifas[$i]["valor_tarifa"] = $row->valor_tarifa;
                 $tarifas[$i]["factor_conversion"] = $row->factor_conversion;
                 $tarifas[$i]["valor_minima"] = $row->valor_minima;
+                $tarifas[$i]["valor_maxima"] = $row->valor_maxima;
                 $tarifas[$i]["peso"] = $row->peso;
                 $tarifas[$i]["ancho"] = $row->ancho;
                 $tarifas[$i]["alto"] = $row->alto;
@@ -241,7 +242,7 @@ class Tarifas extends CI_Model {
         );
         $this->db->insert("txtar_admin_ctrl_tarifas", $data);
         $this->db->close();
-        //echo $this->db->last_query();
+       //echo $this->db->last_query();
     }
 
     //Función para obtener las tarifas registradas en la guias por establecimiento 

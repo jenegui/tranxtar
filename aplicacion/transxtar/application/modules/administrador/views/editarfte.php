@@ -157,6 +157,32 @@
                     <td><input type="text" id="nom_contacto" name="nom_contacto" value="<?php echo $establecimiento["nom_contacto"]; ?>" size="25" class="textbox"/></td>
                 </tr>
                 <tr>
+                    <td>Costo manejo</td>
+                    <td>
+                        <?php 
+                            ($establecimiento["costomanejo"]==0) ? $selected="selected='selected'" : $selected="";
+                            ($establecimiento["costomanejo"]==0.0025) ? $selected1="selected='selected'" : $selected1="";
+                            ($establecimiento["costomanejo"]==0.005) ? $selected2="selected='selected'" : $selected2="";
+                            ($establecimiento["costomanejo"]==0.01) ? $selected3="selected='selected'" : $selected3="";
+                            ($establecimiento["costomanejo"]==0.015) ? $selected4="selected='selected'" : $selected4="";
+                            ($establecimiento["costomanejo"]==0.03) ? $selected5="selected='selected'" : $selected5="";
+                            ($establecimiento["costomanejo"]==0.03) ? $selected5="selected='selected'" : $selected5="";
+                            ($establecimiento["costomanejo"]==0.05) ? $selected6="selected='selected'" : $selected6="";
+                            
+                        ?>
+                        <select id="costomanejo" name="costomanejo" class="select guia totalFlete">
+                            <option value="-">Seleccione...</option>
+                            <option value="0" <?php echo $selected; ?>>0%</option>
+                            <option value="0.0025" <?php echo $selected1; ?>>0.25%</option>
+                            <option value="0.005" <?php echo $selected2; ?>>0.5%</option>
+                            <option value="0.01" <?php echo $selected3; ?>>1%</option>
+                            <option value="0.015" <?php echo $selected4; ?>>1.5%</option>
+                            <option value="0.03" <?php echo $selected5; ?>>3%</option>
+                            <option value="0.05" <?php echo $selected6; ?>>5%</option>
+                        </select>
+                    </td>    
+                </tr> 
+                <tr>
                     <td>Departamento: </td>
                     <td><select id="cmbDeptoEst" name="cmbDeptoEst" class="select">
                             <option value="-">Seleccione el departamento...</option>

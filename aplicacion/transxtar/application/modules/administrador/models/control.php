@@ -11,7 +11,7 @@ class Control extends CI_Model {
         $this->load->library("session");
     }
 
-    function obtenerGuias($id_usuario) {
+    function obtenerGuias($id_usuario, $tipoReportes) {
         $this->load->model("divipola");
         $this->load->model("sede");
         $this->load->model("subsede");
@@ -19,7 +19,7 @@ class Control extends CI_Model {
         $sql = "SELECT C.id_control, C.nro_remesa, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.fk_mpio, C.fecha_recogida, C.fecha_entrega,
                         C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
     	               C.forma_pago, C.unidades, C.peso, C.peso_vol, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, C.tipo_carga,
-                       C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones,
+                       C.id_usuario_operario, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.fecha_actualizacion, C.observaciones,
                        DEST.ciudad_destinatario, DEST.depto_destinatario,
                        CASE WHEN C.estado_contable = 1 THEN 'Contabilizado'
             WHEN C.estado_contable = 0 THEN 'No contabilizado'
@@ -37,14 +37,19 @@ class Control extends CI_Model {
                 AND C.estado_carga= E.id_estado ";
         if ($this->session->userdata("tipo_usuario") == 5) {
             $sql .= " AND C.id_usuario_operario= $id_usuario ";
-            $sql .= " AND C.estado_carga NOT IN (6) ";
+            $sql .= " AND C.estado_carga NOT IN (6,9) ";
         } elseif ($this->session->userdata("tipo_usuario") == 3) {
             $sql .= " AND EST.id_comercial= $id_usuario ";
-             $sql .= " AND C.estado_carga NOT IN (6) ";
+             $sql .= " AND C.estado_carga NOT IN (6,9) ";
         } elseif ($this->session->userdata("tipo_usuario") == 8) {
             $sql .= " AND EST.nit_establecimiento= $id_usuario ";
+            if($tipoReportes==1){
+             $sql .= " AND C.estado_carga NOT IN (9) ";
+            }else{
+                 $sql .= " AND C.estado_carga NOT IN (6,9) ";
+            }
         }else{
-             $sql .= " AND C.estado_carga NOT IN (6) ";
+             $sql .= " AND C.estado_carga NOT IN (6,9) ";
         }
 
         $sql .= "ORDER BY C.id_control ";
@@ -62,6 +67,7 @@ class Control extends CI_Model {
                 $control[$i]["ciudadOrigen"] = $this->divipola->nombreMunicipio($row->fk_mpio);
                 $control[$i]["fecha_recogida"] = $row->fecha_recogida;
                 $control[$i]["fecha_entrega"] = $row->fecha_entrega;
+                $control[$i]["fecha_actualizacion"] = $row->fecha_actualizacion;
                 $control[$i]["id_destinatario"] = $row->nro_identificacion;
                 $control[$i]["nombre_destinatario"] = $row->nombre_destinatario;
                 $control[$i]["ciudadDest"] = $this->divipola->nombreMunicipio($row->ciudad_destinatario);
@@ -178,24 +184,29 @@ class Control extends CI_Model {
         $sql = "SELECT C.id_control, C.nro_remesa, C.id_establecimientos, EST.idnomcom, EST.nit_establecimiento, EST.iddirecc, EST.idtelno,
                         C.fecha_recogida, C.fecha_entrega, C.id_destinatario, DEST.nro_identificacion, DEST.nombre_destinatario,
                         DEST.ciudad_destinatario, DEST.depto_destinatario,DEST.direccion_destinatario, DEST.telefono_destinatario,
-    	               C.forma_pago, C.unidades, C.peso, C.pv_alto, C.pv_ancho, C.pv_largo, C.peso_cobrar, C.valor_declarado, C.flete, C.costo_manejo, C.total_fletes, C.tipo_carga,
+    	               C.forma_pago, C.unidades, C.peso, C.pv_alto, C.pv_ancho, C.pv_largo, C.peso_cobrar, C.valor_declarado, C.flete, EST.costo_manejo, C.total_fletes, C.tipo_carga,
                        C.id_usuario_operario, US.nom_usuario, US.nro_telefono, C.nro_placa, C.id_operario, C.id_usuario, C.fecha_registro, C.observaciones, C.estado_contable, C.estado_control,
                        C.estado_recaudo, C.estado_carga, E.nom_estado,
                        OP.nombre_operario,
                     OP.nro_identificacion,
                     OP.nro_placa as placa_ext,
-                    OP.telefono_operario, C.fecha_registro, C.observaciones
+                    OP.telefono_operario, C.fecha_registro, C.observaciones,
+                    CT.id_ctrl_tarifas_cantidad,
+                    TAR.referencia
                 FROM txtar_admin_control C
                 INNER JOIN txtar_admin_establecimientos EST ON C.id_establecimientos=EST.id_establecimiento 
                 INNER JOIN txtar_admin_destinatarios DEST ON C.id_destinatario=DEST.id_destinatario
                 INNER JOIN txtar_param_estados E ON C.estado_carga= E.id_estado
                 LEFT JOIN txtar_param_operario OP ON C.id_operario = OP.id_operario  
                 LEFT JOIN txtar_admin_usuarios US ON C.id_usuario_operario = US.num_identificacion 
+                LEFT JOIN txtar_admin_ctrl_tarifas CT ON C.id_control = CT.id_ctrl_tarifas_numguia
+                LEFT JOIN txtar_admin_tarifas TAR ON CT.id_ctrl_tarifas_referencia=TAR.id_tarifa
                   ";
         if ($id_guia != 0) {
             $sql .= " WHERE C.id_control= $id_guia ";
         }
         $sql .= "ORDER BY C.id_control ";
+        
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             $i = 0;
@@ -250,12 +261,42 @@ class Control extends CI_Model {
                 $control["telOperario"] = $row->telefono_operario;
                 $control["fechaRegistro"] = $row->fecha_registro;
                 $control["observaciones"] = $row->observaciones;
+                $control["tarifas_cantidad"] = $row->id_ctrl_tarifas_cantidad;
+                $control["referencia"] = $row->referencia;
                 $i++;
             }
         }
         //echo $sql;
         $this->db->close();
         return $control;
+    }
+
+    function obtenerValoresId($id_guia){
+        $valores = array();
+        $sql = "SELECT C.id_control, 
+                    CT.id_ctrl_tarifas_cantidad,
+                    TAR.referencia
+                FROM txtar_admin_control C
+                INNER JOIN txtar_admin_ctrl_tarifas CT ON C.id_control = CT.id_ctrl_tarifas_numguia
+                INNER JOIN txtar_admin_tarifas TAR ON CT.id_ctrl_tarifas_referencia=TAR.id_tarifa
+                  ";
+        if ($id_guia != 0) {
+            $sql .= " WHERE C.id_control= $id_guia ";
+        }
+        $sql .= "ORDER BY C.id_control ";
+        
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $valores[$i]["tarifas_cantidad"] = $row->id_ctrl_tarifas_cantidad;
+                $valores[$i]["referencia"] = $row->referencia;
+                $i++;
+            }
+        }
+        //echo $sql;
+        $this->db->close();
+        return $valores;
     }
 
     //Crea los registros de control cuando se realiza el cargue masivo del directorio

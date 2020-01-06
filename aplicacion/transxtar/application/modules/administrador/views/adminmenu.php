@@ -19,7 +19,7 @@ $periodo = $this->session->userdata('ano_periodo') . $this->session->userdata('m
                 <li><a href="<?php echo site_url("administrador/control"); ?>">Control de Guias</a></li>
                 <li><a href="<?php echo site_url("administrador/destinatarios"); ?>">Destinatarios</a></li>
                 <li><a href="<?php echo site_url("administrador/Operarios"); ?>">Operarios Externos</a></li>
-                <li><a href="<?php echo site_url("administrador/reportexCiudad"); ?>">Reporte por ciudad</a></li>
+                <li><a href="<?php echo site_url("administrador/reportexCiudad/0"); ?>">Reportes</a></li>
                 <li><a href="<?php echo site_url("administrador/reporteHistorico"); ?>">Reporte hist&oacute;rico</a></li>
                 <li><a href="<?php echo site_url("runner"); ?>">Reportes</a></li>
                 <li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;</a></li>
@@ -74,6 +74,7 @@ $periodo = $this->session->userdata('ano_periodo') . $this->session->userdata('m
                 <li><a href="<?php echo site_url("administrador/destinatarios"); ?>">Destinatarios</a></li>
                 <li><a href="<?php echo site_url("guias/guias"); ?>">Registrar Guias</a></li>
                 <li><a href="<?php echo site_url("administrador/control"); ?>">Control Guias</a></li>
+                <li><a href="<?php echo site_url("administrador/reportexCiudad/1"); ?>">Reportes</a></li>
 
                 <li><a href="<?php echo site_url("administrador/cerrarSesion"); ?>">Salir&nbsp;</a></li>
             <?php } ?> 

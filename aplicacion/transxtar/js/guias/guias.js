@@ -30,6 +30,12 @@
             dateFormat: 'dd/mm/yy', //Se especifica como deseamos representarla
             firstDay: 1
         });
+        $("#txtFecEntrega").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd/mm/yy', //Se especifica como deseamos representarla
+            firstDay: 1
+        });
 
         $.validator.addMethod("comboBox",function (value, element, param) {
         var idx = (param).toString(); 
@@ -251,8 +257,15 @@
                     },
                     idmpioDest: {
                         required: true,
-                        comboBox: '-',
+                        comboBox: '-'
                         //expresion: '(parseInt($("#iddestinatario").val()) > parseInt($("#idmpioDest").val())) || (parseInt($("#iddestinatario").val()) < parseInt($("#idmpioDest").val()))'
+                    },
+                    valor_tarifa: {
+                        comboBox: '-'
+                    },
+                    pesokg:{
+                        required: true,
+                        expresion: '(parseInt($("#iddestinatario").val()) > parseInt($("#idmpioDest").val())) || (parseInt($("#iddestinatario").val()) < parseInt($("#idmpioDest").val()))'
                     },
                     valorDeclarado: {
                         required: true
@@ -288,8 +301,14 @@
                     iddestinatario: {required: "Debe seleccionar un destinatario",
                     comboBox: "Debe seleccionar seleccionar un destinatario"
                     },
+                    valor_tarifa: {
+                        comboBox: "Seleccione una tarifa.",
+                         expresion:"Debe seleccionar una tarifa que esté en el rango del peso kg"
+                    },
+                    pesokg:{required: "Debe digitar el peso (Kgs)"
+                    },
                     idmpioDest: {required: "Debe seleccionar la ciudad de destinatario",
-                    comboBox: "Debe seleccionar seleccionar la ciudad de destinatario",
+                    comboBox: "Debe seleccionar seleccionar la ciudad de destinatario"
                     //expresion: "La ciudad destino no corresponde con destinatario"
                     },
                     valorDeclarado: {required: "Debe ingresar el valor declarado."
@@ -418,16 +437,25 @@
                         alert("Debe seleccionar al menos una tarifa y cantidad");
                          event.preventDefault();
                     }else{
-                        form.submit();  
+                        form.submit();
+                        $('input[type="submit"]').attr('disabled','disabled'); 
                         $.ajax({
                             type: "POST",
                             url: base_url + "guias/index",
                             data: $("#frmRegTarifasGuias").serialize(),
                             dataType: "html",
                             cache: false,
-                            success: function (data) {
+                            /*success: function (data) {
                                 alert("Registo exitoso");
-                                //$("#agregarEmpresa").dialog('close');
+                            }*/
+                            beforeSend:function(){
+                                launchpreloader();
+                            },
+                            complete:function(){
+                                stopPreloader();
+                            },
+                            success:function(result){
+                                 alert(result);
                             }
                         });
                     }

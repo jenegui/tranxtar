@@ -19,7 +19,7 @@ class Tarifas extends CI_Model {
         WHEN tipo_tarifa = 1 THEN 'Referencia'
         WHEN tipo_tarifa = 2 THEN 'General'
         END as tipoTarifa,
-        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, valor_maxima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE id_establecimientos=$nro_establecimiento
                 ORDER BY id_establecimientos";
@@ -35,6 +35,7 @@ class Tarifas extends CI_Model {
                 $tarifas[$i]["valor_tarifa"] = $row->valor_tarifa;
                 $tarifas[$i]["factor_conversion"] = $row->factor_conversion;
                 $tarifas[$i]["valor_minima"] = $row->valor_minima;
+                $tarifas[$i]["valor_maxima"] = $row->valor_maxima;
                 $tarifas[$i]["peso"] = $row->peso;
                 $tarifas[$i]["ancho"] = $row->ancho;
                 $tarifas[$i]["alto"] = $row->alto;
@@ -52,7 +53,7 @@ class Tarifas extends CI_Model {
     function obtenerTarifasId($id_tarifa) {
         $this->load->model("divipola");
         $tarifas = array();
-        $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
+        $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, valor_maxima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE id_tarifa=$id_tarifa
                 ORDER BY id_establecimientos";
@@ -67,6 +68,7 @@ class Tarifas extends CI_Model {
                 $tarifas["valor_tarifa"] = $row->valor_tarifa;
                 $tarifas["factor_conversion"] = $row->factor_conversion;
                 $tarifas["valor_minima"] = $row->valor_minima;
+                $tarifas["valor_maxima"] = $row->valor_maxima;
                 $tarifas["peso"] = $row->peso;
                 $tarifas["ancho"] = $row->ancho;
                 $tarifas["alto"] = $row->alto;
@@ -81,19 +83,20 @@ class Tarifas extends CI_Model {
     }
 
     //Función para obtener las tarifas por establecimiento y ciudad
-    function obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia) {
+    function obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia, $valor_tarifa) {
         $tarifas = array();
         $sql = "SELECT id_tarifa, id_establecimientos, id_ciudad, 
         CASE
         WHEN tipo_tarifa = 1 THEN 'Referencia'
         WHEN tipo_tarifa = 2 THEN 'General'
         END as tipoTarifa,
-        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
+        tipo_tarifa, valor_tarifa, factor_conversion, valor_minima, valor_maxima, peso, ancho, alto, largo, costo_manejo, referencia, descripcion
                 FROM txtar_admin_tarifas
                 WHERE  id_establecimientos = $IdEstablecimiento
                 AND  id_ciudad=$cmbMpioTar
                 AND tipo_tarifa=$tipo_tarifa
-                AND referencia='$referencia' ";
+                AND referencia='$referencia' 
+                AND valor_tarifa=$valor_tarifa ";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $row) {
@@ -103,6 +106,7 @@ class Tarifas extends CI_Model {
                 $tarifas["valor_tarifa"] = $row->valor_tarifa;
                 $tarifas["factor_conversion"] = $row->factor_conversion;
                 $tarifas["valor_minima"] = $row->valor_minima;
+                $tarifas["valor_maxima"] = $row->valor_maxima;
                 $tarifas["peso"] = $row->peso;
                 $tarifas["ancho"] = $row->ancho;
                 $tarifas["alto"] = $row->alto;
@@ -118,7 +122,7 @@ class Tarifas extends CI_Model {
         return $tarifas;
     } 
     //Función para registrar las tarifas
-    function registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $costomanejo, $referencia, $descripcion) {
+    function registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $valor_maxima, $peso, $ancho, $alto, $largo, $costomanejo, $referencia, $descripcion) {
                                
         $data = array(
             'id_establecimientos' => $IdEstablecimiento,
@@ -127,6 +131,7 @@ class Tarifas extends CI_Model {
             'valor_tarifa' => $valor_tarifa,
             'factor_conversion' => $factor_conversion,
             'valor_minima' => $valor_minima,
+            'valor_maxima' => $valor_maxima,
             'peso' => $peso,
             'ancho' => $ancho,
             'alto' => $alto,
@@ -140,7 +145,8 @@ class Tarifas extends CI_Model {
         //echo $this->db->last_query();
     }
     //Función para actualizar las tarifas
-    function actualizarTarifas($IdTarifa, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $costo_manejo, $referencia, $descripcion) {
+    function actualizarTarifas($IdTarifa, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $referencia, $descripcion) {
+                              
         $data = array(
             'tipo_tarifa' => $tipo_tarifa,
             'valor_tarifa' => $valor_tarifa,
@@ -151,12 +157,14 @@ class Tarifas extends CI_Model {
             'ancho' => $ancho,
             'alto' => $alto,
             'largo' => $largo,
-            'costo_manejo' => $costo_manejo,
             'referencia' => $referencia,
             'descripcion' => $descripcion
         );
         $this->db->where("id_tarifa", $IdTarifa);
         $this->db->update("txtar_admin_tarifas", $data);
+        //echo $this->db->last_query();
         $this->db->close();
+        
+    
     }
 }    

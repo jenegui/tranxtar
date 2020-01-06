@@ -225,7 +225,7 @@ class Administrador extends MX_Controller {
             eval($asignacion);
         }
        
-        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia);
+        $data["tarifa"] = $this->tarifas->obtenerDatosTarifasId($IdEstablecimiento,$cmbMpioTar, $tipo_tarifa, $referencia, $valor_tarifa);
 
         if(count($data["tarifa"]) > 0) {
             
@@ -233,7 +233,7 @@ class Administrador extends MX_Controller {
         }else{
            
             //Actualizar los datos del destinatario
-            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $peso, $ancho, $alto, $largo, $costomanejo, $referencia, $descripcion);
+            $this->tarifas->registrarTarifas($IdEstablecimiento, $cmbMpioTar, $tipo_tarifa, $valor_tarifa, $factor_conversion, $valor_minima, $valor_maxima, $peso, $ancho, $alto, $largo, $costomanejo, $referencia, $descripcion);
         }
         redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
     }
@@ -267,7 +267,7 @@ class Administrador extends MX_Controller {
             $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
             eval($asignacion);
         }
-        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_carga_ed, $valor_tarifa_ed, $factor_conversion_ed, $valor_minima_ed, $peso_ed, $ancho_ed, $alto_ed, $largo_ed, $costomanejo_ed, $referencia_ed, $descripcion_ed);
+        $this->tarifas->actualizarTarifas($IdTarifa, $tipo_tarifa_ed, $valor_tarifa_ed, $factor_conversion_ed, $valor_minima_ed, $peso_ed, $ancho_ed, $alto_ed, $largo_ed, $referencia_ed, $descripcion_ed);
         redirect("/administrador/editarFuente/$IdEstablecimiento", "refresh");
     }
 
@@ -308,7 +308,7 @@ class Administrador extends MX_Controller {
         } else {
             $id_usuario = 0;
         }
-        $data["control"] = $this->control->obtenerGuias($id_usuario);
+        $data["control"] = $this->control->obtenerGuias($id_usuario,0);
         //var_dump($data["control"])."-----";
         $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
         $data["links"] = $this->pagination->create_links();
@@ -316,7 +316,7 @@ class Administrador extends MX_Controller {
     }
 
     //Ejecuta la funcion del control de guias por ciudad
-    public function reportexCiudad() {
+    public function reportexCiudad($tipoReporte) {
         $this->load->model("control");
         $this->load->model("divipola");
         $this->load->model("tipodocs");
@@ -347,12 +347,12 @@ class Administrador extends MX_Controller {
         //Trabajo de paginacion
         $pagina = ($this->uri->segment(3)) ? $this->uri->segment(3) : 1; //Si esta definido un valor por get, utilice el valor, de lo contrario utilice cero (para el primer valor a mostrar).
         $desde = ($pagina - 1) * $config["per_page"];
-        if ($tipo_usuario == 5 || $tipo_usuario == 3) {
+        if ($tipo_usuario == 5 || $tipo_usuario == 3 || $tipo_usuario == 8) {
             $id_usuario = $this->session->userdata('num_identificacion');
         } else {
             $id_usuario = 0;
         }
-        $data["control"] = $this->control->obtenerGuias($id_usuario);
+        $data["control"] = $this->control->obtenerGuias($id_usuario, $tipoReporte);
         //var_dump($data["control"])."-----";
         $data["NoEstab"] = $this->directorio->obtenerUltmoEstablecimiento();
         $data["links"] = $this->pagination->create_links();
@@ -533,7 +533,7 @@ class Administrador extends MX_Controller {
         $fecharecog = $fecharec[2] . '-' . $fecharec[1] . '-' . $fecharec[0];
         $fechaent = explode("/", $txtFecEntrega);
         $fechaentr = $fechaent[2] . '-' . $fechaent[1] . '-' . $fechaent[0];
-        $observ = $observaciones . " Se modificaron los datos con el usuario  " . $idusaurio . ", el " . $fechaRegistro;
+        $observ = $observaciones;
         //Actualizar los datos del destinatario
         $this->control->actualizarDatosControl($id_control, $numremesa, $idestablecimiento, $fecharecog, $fechaentr, $iddestinatario, $formaPago, $pesokg, $alto, $ancho, $largo, $unidades, $pesocobrar, $valorDeclarado, $flete, $costomanejo, $totalflete, $tipocarga, $idoperario, $numplaca, $idoperarioext, $estadocarga, $estadoRecogida, $observ);
         //echo "¡Registro exitoso!.";                                       
@@ -1360,7 +1360,7 @@ class Administrador extends MX_Controller {
             $id_usuario = 0;
         }
 
-        $data["control"] = $this->control->obtenerGuias($id_usuario);
+        $data["control"] = $this->control->obtenerGuias($id_usuario,0);
          //var_dump($data["control"]);
         $this->load->view("ajxcontrol", $data);
     }
@@ -1670,7 +1670,7 @@ class Administrador extends MX_Controller {
         }
 
         //Actualizar los datos del establecimiento
-        $this->establecimiento->actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
+        $this->establecimiento->actualizarEstablecimiento($IdEstablecimiento, $idnomcomest, $idnitest, $iddireccest, $idtelnoest, $idcorreoest, $nom_contacto, $costomanejo, $cmbDeptoEst, $cmbMpioEst, $estado_establecimiento, $observaciones);
         //echo "<script>alert('¡Registro exitoso!.');</script>";
         redirect('/administrador/directorio', 'refresh');
     }
@@ -1727,7 +1727,8 @@ class Administrador extends MX_Controller {
         $data["menu"] = "adminmenu";
         $data["view"] = "imprimir";
         $data["guia"] = $this->control->obtenerGuiasId($id_guia);
-
+        $data["valores"] = $this->control->obtenerValoresId($id_guia);
+        
         $this->load->view("layout_1", $data);
     }
 
